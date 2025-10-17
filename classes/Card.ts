@@ -1,5 +1,6 @@
 import { AbilityFunction, StatusEffectType } from "../types/types";
 import { Ability } from "./Ability";
+import { DamageInstance } from "./DamageInstance";
 import { StatusEffect } from "./StatusEffect";
 
 export class Card {
@@ -12,6 +13,9 @@ export class Card {
     protected abilities: Ability[];
     protected statusEffects: { [s: string]: StatusEffect[] };
     protected passive: AbilityFunction;
+
+    protected chanceToFailCast: number;
+    protected player: 0 | 1 | 2;
 
     public constructor(
         health: number,
@@ -31,6 +35,8 @@ export class Card {
         this.abilities = abilities;
         this.statusEffects = {};
         this.passive = passive;
+        this.chanceToFailCast = 0;
+        this.player = 0;
     }
 
     public getHealth(): number {
@@ -61,24 +67,43 @@ export class Card {
         return this.passive;
     }
 
-    public addStatusEffect(type: StatusEffectType, proc: StatusEffect): void {
-        this.statusEffects[type].push(proc);
+    public setArmor(newArmor: number): void {
+        this.armor = newArmor;
+    }
+
+    public setChanceToFailCast(n: number): void {
+        this.chanceToFailCast = n;
+    }
+
+    public proc(proc: StatusEffect): void {
+        this.statusEffects[proc.getProcType()].push(proc);
+        if (this.statusEffects["Blast"].length >= 5) {
+            let d: number = 0;
+            for (let i: number = 0; i < this.statusEffects["Blast"].length; i++) {
+                d += this.statusEffects["Blast"][i].getDamageInstance().getBaseDamage() / 5;
+            }
+            const di: DamageInstance = new DamageInstance(
+                d,
+                {},
+                0,
+                0,
+                1,
+                this,
+                this.statusEffects["Blast"][0].getDamageInstance().getDealerCard(),
+            );
+            this.statusEffects["Blast"] = [];
+        }
     }
 
     public onTurn(): void {
-        const effects: StatusEffectType[] = Object.keys(this.statusEffects) as StatusEffectType[];
-        for (let i: number = 0; i < effects.length; i++) {
-            for (let j: number = this.statusEffects[effects[i]].length - 1; j >= 0; j--) {
-                this.statusEffects[effects[i]][j].nextTurn();
-                if (this.statusEffects[effects[i]][j].getDuration() <= 0) {
-                    this.statusEffects[effects[i]].splice(j, 1);
-                }
-            }
-        }
+        //
     }
 
     public gainShield(amount: number): void {
         this.shield += amount;
+        if (this.shield < 0) {
+            this.shield = 0;
+        }
     }
 
     public gainHealth(amount: number): void {
@@ -87,5 +112,26 @@ export class Card {
 
     public gainEnergy(amount: number): void {
         this.currentEnergy = Math.min(this.currentEnergy + amount, this.maxEnergy);
+    }
+
+    public damage(di: DamageInstance): void {
+        if (this.getShield() > 0) {
+            this.gainShield(-di.getFinalDamage());
+            return;
+        }
+
+        for (let i: number = 0; i < di.getStatusEffects().length; i++) {
+            this.proc(new StatusEffect(di.getDealerCard(), this, di, di.getStatusEffects()[i]));
+        }
+
+        this.gainHealth(-di.getFinalDamage());
+    }
+
+    public setPlayer(n: 0 | 1 | 2): void {
+        this.player = n;
+    }
+
+    public getPlayer(): 0 | 1 | 2 {
+        return this.player;
     }
 }

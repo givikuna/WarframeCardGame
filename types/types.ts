@@ -77,11 +77,15 @@ export type StatusEffectType =
     | "Tau"
     | "Disarmed"
     | "Invisible"
-    | "Invincible";
+    | "Invincible"
+    | "Blinded";
 
 export type AbilityFunction = (
     board: Board,
     currentLocation: number,
-    chosenCards: ReadonlyArray<Card>,
+    chosenCards: Card[],
     variable: number,
+    applicant: Card,
 ) => boolean;
+
+export type Nullable<T> = T | null;

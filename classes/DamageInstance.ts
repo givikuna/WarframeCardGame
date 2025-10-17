@@ -47,9 +47,11 @@ export class DamageInstance {
                 for (let j: number = 0; j < possibleStatusEffects.length; j++) {
                     if (
                         r <
-                        (dd[
+                        ((dd[
                             possibleStatusEffects[j] as keyof DamageDistributionDictionary
-                        ] as number)
+                        ] as number) /
+                            100.0) *
+                            this.totalDamage
                     ) {
                         statusEffects.push(damageTypeToStatus[possibleStatusEffects[j]]);
                         break;
@@ -90,6 +92,14 @@ export class DamageInstance {
                               (this.targetCard.getStatusEffects()["Corrosive"].length * 0.09) +
                           300)
                 : 0.5 * (2 + 0.25 * (this.targetCard.getStatusEffects()["Magnetic"].length - 1)));
+    }
+
+    public getBaseDamage(): number {
+        return this.totalDamage;
+    }
+
+    public getDealerCard(): Card {
+        return this.dealerCard;
     }
 
     public getStatusEffects(): ReadonlyArray<StatusEffectType> {

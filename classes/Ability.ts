@@ -1,4 +1,6 @@
 import { AbilityFunction } from "../types/types";
+import { Card } from "./Card";
+import { Board } from "./Board";
 
 export class Ability {
     protected readonly abilityFunction: AbilityFunction;
@@ -15,5 +17,15 @@ export class Ability {
 
     public getAbilityCost(): number {
         return this.abilityCost;
+    }
+
+    public apply(
+        board: Board,
+        currentLocation: number,
+        chosenCards: Card[],
+        variable: number,
+        applicant: Card,
+    ) {
+        this.abilityFunction(board, currentLocation, chosenCards, variable, applicant);
     }
 }
