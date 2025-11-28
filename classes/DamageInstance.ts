@@ -13,7 +13,7 @@ import {
 
 import { FactionDamageMultipliers, ProcDurationTable } from "../constants/constants";
 
-import { armorDR } from "./modules/armorDR";
+import { armorDR } from "../modules/armorDR";
 
 export class DamageInstance {
     protected damageDistribution: DamageDistributionDictionary;

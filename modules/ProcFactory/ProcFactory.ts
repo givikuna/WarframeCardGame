@@ -1,10 +1,10 @@
-import { Card } from "../../Card";
-import { DamageInstance } from "../../DamageInstance";
-import { StatusEffect } from "../../StatusEffect";
+import { Card } from "../../classes/Card";
+import { DamageInstance } from "../../classes/DamageInstance";
+import { StatusEffect } from "../../classes/StatusEffect";
 
-import { DamageDistributionDictionary, StatusEffectType } from "../../../types/types";
+import { DamageDistributionDictionary, StatusEffectType } from "../../types/types";
 
-import { DoTCritChanceTable, ProcDurationTable } from "../../../constants/constants";
+import { DoTCritChanceTable, ProcDurationTable } from "../../constants/constants";
 
 import { isDoT } from "../isDoT";
 

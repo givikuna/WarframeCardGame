@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "@babel/core": "^7.28.5",
+    "@babel/node": "^7.28.0",
+    "@babel/preset-env": "^7.28.5",
     "@givi-tsvariani/encodex": "^1.0.3"
-  }
+  },
+  "type": "module"
 }

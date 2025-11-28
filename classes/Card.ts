@@ -2,7 +2,7 @@ import { Board } from "./Board";
 import { DamageInstance } from "./DamageInstance";
 import { StatusEffect } from "./StatusEffect";
 import { Ability } from "./Ability";
-import { ProcFactory } from "./modules/ProcFactory/ProcFactory";
+import { ProcFactory } from "../modules/ProcFactory/ProcFactory";
 
 import {
     HealthType,
@@ -15,7 +15,7 @@ import {
 
 import { FactionDamageMultipliers, procMaxStacks } from "../constants/constants";
 
-import { noop } from "./modules/noop";
+import { noop } from "../modules/noop";
 
 export class Card {
     protected readonly name: string;
@@ -109,6 +109,10 @@ export class Card {
         this.board = board;
         this.locationOnBoard = locationOnBoard;
         this.player = player;
+    }
+
+    public getPlayer(): 0 | 1 | 2 {
+        return this.player;
     }
 
     public getName(): string {
@@ -281,7 +285,18 @@ export class Card {
         return this.health <= 0;
     }
 
-    public castAbility(abilityNumber: number): void {
-        //
+    public castAbility(abilityNumber: number, selectedCards: Card[]): void {
+        if (this.energy - this.abilities[abilityNumber - 1].getCost() >= 0) {
+            this.abilities[abilityNumber - 1].getAbilityFunction()(
+                this.board,
+                this.locationOnBoard,
+                selectedCards,
+                0,
+                this,
+            );
+            this.energy -= this.abilities[abilityNumber - 1].getCost();
+        } else {
+            return;
+        }
     }
 }

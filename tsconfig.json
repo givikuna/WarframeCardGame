@@ -1,0 +1,31 @@
+{
+    "presets": ["@babel/preset-env"],
+    "compilerOptions": {
+        "target": "ES2022",
+        "strict": true,
+        "module": "CommonJS",
+        "forceConsistentCasingInFileNames": true,
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "alwaysStrict": true,
+        "exactOptionalPropertyTypes": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+        "useUnknownInCatchVariables": true,
+        "allowUmdGlobalAccess": true,
+        "noImplicitThis": true,
+        "noImplicitOverride": true,
+        "strictBindCallApply": true,
+        "noFallthroughCasesInSwitch": true,
+        "resolveJsonModule": true,
+    },
+    "ts-node": {
+        "esm": true,
+    }
+}

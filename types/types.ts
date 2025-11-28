@@ -1,6 +1,7 @@
 import { Card } from "../classes/Card";
 import { Board } from "../classes/Board";
 import { StatusEffect } from "../classes/StatusEffect";
+import { Ability } from "../classes/Ability";
 
 export type DamageType =
     | "Impact"
@@ -115,7 +116,7 @@ export type AbilityFunction = (
     chosenCards: Card[],
     variable: number,
     applicant: Card,
-) => boolean;
+) => void;
 
 export type Nullable<T> = T | null;
 
@@ -141,6 +142,7 @@ export type HealthType =
     | "Scaldra"
     | "Techrot"
     | "Object"
+    | "Stalker"
     | "Wild";
 
 export type Faction =
@@ -181,3 +183,16 @@ export type Faction =
     | "Unaffiliated";
 
 export type DamageTable = { health: number; shield: number; overguard: number };
+
+export type CardStats = {
+    faction: Faction;
+    healthType: HealthType;
+    maxHealth: number;
+    maxShields: number;
+    baseArmor: number;
+    maxOverguard: number;
+    maxEnergy: number;
+    startingEnergy: number;
+};
+
+export type CardData = { name: string } & CardStats & { abilities: ReadonlyArray<Ability> };
