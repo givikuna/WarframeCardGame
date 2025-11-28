@@ -14,6 +14,7 @@ export class ProcFactory {
         inflicter: Card,
         inflicted: Card,
         di?: DamageInstance | number,
+        givenDuration?: number,
     ): StatusEffect {
         const dd: DamageDistributionDictionary = {};
         if (isDoT(name)) {
@@ -26,7 +27,7 @@ export class ProcFactory {
         }
         return new StatusEffect(
             name,
-            ProcDurationTable[name],
+            givenDuration ?? ProcDurationTable[name],
             inflicted,
             inflicter,
             di,

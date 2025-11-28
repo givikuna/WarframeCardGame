@@ -179,3 +179,5 @@ export type Faction =
     | "Operational Supply"
     | "Nightwave"
     | "Unaffiliated";
+
+export type DamageTable = { health: number; shield: number; overguard: number };

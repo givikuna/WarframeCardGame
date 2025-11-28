@@ -8,6 +8,7 @@ import {
     AttackType,
     DamageType,
     StatusEffectType,
+    DamageTable,
 } from "../types/types";
 
 import { FactionDamageMultipliers, ProcDurationTable } from "../constants/constants";
@@ -26,7 +27,7 @@ export class DamageInstance {
     protected ran1: boolean = false;
     protected ran2: boolean = false;
 
-    protected damage: { health: number; shield: number; overguard: number } = {
+    protected damage: DamageTable = {
         health: 0,
         shield: 0,
         overguard: 0,
@@ -135,7 +136,7 @@ export class DamageInstance {
         );
     }
 
-    public calculateDamage(): { health: number; shield: number; overguard: number } {
+    public calculateDamage(): DamageTable {
         if (this.ran2) return this.getDamage();
         this.ran2 = true;
 

@@ -14,6 +14,7 @@ export class StatusEffect {
     protected appliedBy: Card;
     protected dot: boolean;
     protected dotDMGFormula: Nullable<() => DamageInstance> = null;
+    protected direct: boolean = true;
 
     public constructor(
         name: StatusEffectType,
@@ -58,5 +59,23 @@ export class StatusEffect {
 
     public getInflictor(): Card {
         return this.appliedBy;
+    }
+
+    public makeDirect(): this {
+        this.direct = true;
+        return this;
+    }
+
+    public makeIndirect(): this {
+        this.direct = false;
+        return this;
+    }
+
+    public isDirect(): boolean {
+        return this.direct;
+    }
+
+    public getDI(): Nullable<DamageInstance | number> {
+        return this.di;
     }
 }

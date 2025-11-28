@@ -106,8 +106,8 @@ export const FactionDamageMultipliers: {
 export const ProcDurationTable: { [s: string]: number } = {
     Impact: 3,
     Puncture: 3,
-    Slash: 2,
-    Cold: 5,
+    Slash: 3,
+    Cold: 3,
     Electricity: 1,
     Heat: 2,
     Toxin: 2,
@@ -141,8 +141,8 @@ export const DoTMultiplicationTable: { [proc: string]: number } = {
     Slash: 0.35,
     Heat: 0.5,
     Toxin: 0.3,
-    Blast: 0.3,
-    Gas: 0.5,
+    Blast: 0.27,
+    Gas: 0.22,
 };
 
 export const DoTCritChanceTable: { [proc: string]: number } = {
@@ -152,4 +152,28 @@ export const DoTCritChanceTable: { [proc: string]: number } = {
     Toxin: 5,
     Blast: 5,
     Gas: 2,
+};
+
+export const procMaxStacks: { [proc: string]: number } = {
+    Impact: 5,
+    Puncture: Number.POSITIVE_INFINITY,
+    Slash: Number.POSITIVE_INFINITY,
+    Cold: 10,
+    Electricity: Number.POSITIVE_INFINITY,
+    Heat: Number.POSITIVE_INFINITY,
+    Toxin: Number.POSITIVE_INFINITY,
+    Blast: 5,
+    Corrosive: 10,
+    Gas: Number.POSITIVE_INFINITY,
+    Magnetic: 10,
+    Radiation: 10,
+    Viral: 10,
+    Void: 3,
+    Tau: 10,
+    Flying: Number.POSITIVE_INFINITY,
+    Disarmed: Number.POSITIVE_INFINITY,
+    Disabled: Number.POSITIVE_INFINITY,
+    Invisible: Number.POSITIVE_INFINITY,
+    Invincible: Number.POSITIVE_INFINITY,
+    Blinded: Number.POSITIVE_INFINITY,
 };

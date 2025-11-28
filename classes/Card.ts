@@ -1,10 +1,21 @@
-import { Ability } from "./Ability";
-
-import { HealthType, DamageType, Faction, ProcTable, StatusEffectType } from "../types/types";
-
-import { FactionDamageMultipliers } from "../constants/constants";
-import { StatusEffect } from "./StatusEffect";
+import { Board } from "./Board";
 import { DamageInstance } from "./DamageInstance";
+import { StatusEffect } from "./StatusEffect";
+import { Ability } from "./Ability";
+import { ProcFactory } from "./modules/ProcFactory/ProcFactory";
+
+import {
+    HealthType,
+    DamageType,
+    Faction,
+    ProcTable,
+    StatusEffectType,
+    DamageTable,
+} from "../types/types";
+
+import { FactionDamageMultipliers, procMaxStacks } from "../constants/constants";
+
+import { noop } from "./modules/noop";
 
 export class Card {
     protected readonly name: string;
@@ -31,6 +42,9 @@ export class Card {
     public readonly startingEnergy: number;
 
     protected readonly abilities: ReadonlyArray<Ability>;
+
+    protected readonly board: Board;
+    protected readonly locationOnBoard: number;
 
     protected chanceToFailCast: { [n: number]: number } = {}; // {abilityNumber: percent chance}
     protected readonly player: 0 | 1 | 2;
@@ -72,6 +86,9 @@ export class Card {
         startingEnergy: number,
         maxEnergy: number,
         abilities: Ability[],
+        board: Board,
+        locationOnBoard: number,
+        player: 0 | 1 | 2,
     ) {
         this.name = name;
         this.health = health;
@@ -86,10 +103,12 @@ export class Card {
         this.startingEnergy = startingEnergy;
         this.energy = startingEnergy;
         this.abilities = abilities;
-        this.player = 0;
         this.faction = faction;
         this.healthType = healthType;
         this.overshields = 0;
+        this.board = board;
+        this.locationOnBoard = locationOnBoard;
+        this.player = player;
     }
 
     public getName(): string {
@@ -175,15 +194,68 @@ export class Card {
     }
 
     public applyProc(proc: StatusEffect): void {
-        this.procs[proc.getProcType()]?.push(proc);
+        this.procs[proc.getProcType()]!.push(proc);
+        if (
+            proc.getProcType() !== "Blast" &&
+            this.procs[proc.getProcType()]!.length > procMaxStacks[proc.getProcType()]
+        ) {
+            this.procs[proc.getProcType()]! = this.procs[proc.getProcType()]!.filter(
+                (_proc: StatusEffect, i: number): boolean => i > 0,
+            );
+        }
+
+        if (proc.getProcType() == "Blast" && this.procs["Blast"]!.length == 4) {
+            this.applyDamage(proc.getDoT()!);
+            this.procs["Blast"] = [];
+        }
+
+        if (["Gas", "Electricity"].includes(proc.getProcType()) && proc.isDirect()) {
+            this.board
+                .getLocations()
+                [this.locationOnBoard - 1][
+                    this.player == 1 ? "getPlayerOneCards" : "getPlayerTwoCards"
+                ]()
+                .forEach((card: Card): void =>
+                    Math.random() <
+                    (proc.getProcType() == "Gas"
+                        ? 0.85
+                        : proc.getProcType() == "Electricity"
+                        ? 0.15
+                        : 0.01)
+                        ? card.applyProc(
+                              ProcFactory.manufacture(
+                                  proc.getProcType(),
+                                  proc.getInflictor(),
+                                  card,
+                                  proc.getDI()!,
+                              ).makeIndirect(),
+                          )
+                        : noop(),
+                );
+        }
     }
 
     public applyDamage(dmg: DamageInstance): void {
-        const dmgInfo: { health: number; shield: number; overguard: number } =
-            dmg.calculateDamage();
+        const dmgInfo: DamageTable = dmg.calculateDamage();
+
         dmg.calculateStatusEffects().forEach((statusEffect: StatusEffect): void =>
             this.applyProc(statusEffect),
         );
+        if (
+            this.procs["Magnetic"]!.length > 0 &&
+            ((this.overguard > 0 && this.overguard - dmgInfo.overguard <= 0) ||
+                (this.shields > 0 && this.shields - dmgInfo.shield <= 0))
+        ) {
+            this.procs["Electricity"]!.push(
+                ProcFactory.manufacture(
+                    "Electricity",
+                    this.procs["Magnetic"]![0].getInflictor(),
+                    this,
+                    10,
+                ),
+            );
+        }
+
         this.overguard -= dmgInfo.overguard;
         this.shields -= dmgInfo.shield;
         this.health -= dmgInfo.health;
@@ -198,7 +270,7 @@ export class Card {
                 this.procs[procType]!.forEach((proc: StatusEffect): void =>
                     this.applyDamage(proc.nextTurn().getDoT()!),
                 );
-                this.procs[procType]!.filter(
+                this.procs[procType]! = this.procs[procType]!.filter(
                     (proc: StatusEffect): boolean => proc.getDuration() > 0,
                 );
             },
