@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@givi-tsvariani/encodex": "^1.0.3"
+  }
+}

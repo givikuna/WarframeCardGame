@@ -1,112 +1,240 @@
-import { DamageDistributionDictionary, StatusEffectType } from "../types/types";
-import { damageTypeToStatus } from "../constants/constants";
+import * as Encodex from "@givi-tsvariani/encodex";
+
 import { Card } from "./Card";
+import { StatusEffect } from "./StatusEffect";
+
+import {
+    DamageDistributionDictionary,
+    AttackType,
+    DamageType,
+    StatusEffectType,
+} from "../types/types";
+
+import {
+    FactionDamageMultipliers,
+    ProcDurationTable,
+    damageTypeToStatus,
+} from "../constants/constants";
+import { armorDR } from "./modules/armorDR";
 
 export class DamageInstance {
-    protected totalDamage: number;
     protected damageDistribution: DamageDistributionDictionary;
-    protected statusChance: number;
     protected criticalChance: number;
     protected criticalDamageMultiplier: number;
-    protected appliedStatusEffects: ReadonlyArray<StatusEffectType>;
-    protected finalDamage: number;
-    protected targetCard: Card;
-    protected dealerCard: Card;
+    protected statusChance: number;
+    protected attackerCard: Card;
+    protected attackedCard: Card;
+    protected attackType: AttackType;
+
+    protected damage: { health: number; shield: number; overguard: number } = {
+        health: 0,
+        shield: 0,
+        overguard: 0,
+    };
 
     public constructor(
-        totalDamage: number = 0,
-        damageDistribution: DamageDistributionDictionary = {},
-        statusChance: number = 0,
-        criticalChance: number = 0,
-        criticalDamageMultiplier: number = 1,
-        targetCard: Card,
-        dealerCard: Card,
+        dd: DamageDistributionDictionary,
+        cc: number,
+        cdm: number,
+        sc: number,
+        attackerCard: Card,
+        attackedCard: Card,
+        at: AttackType,
     ) {
-        this.totalDamage = totalDamage;
-        this.damageDistribution = damageDistribution;
-        this.statusChance = statusChance;
-        this.criticalChance = criticalChance;
-        this.criticalDamageMultiplier = criticalDamageMultiplier;
-        this.targetCard = targetCard;
-        this.dealerCard = dealerCard;
+        this.damageDistribution = dd;
+        this.criticalChance = cc;
+        this.criticalDamageMultiplier = cdm;
+        this.statusChance = sc;
+        this.attackedCard = attackedCard;
+        this.attackerCard = attackerCard;
+        this.attackType = at;
+    }
 
-        this.appliedStatusEffects = ((
-            sc: number,
-            dd: DamageDistributionDictionary,
-        ): ReadonlyArray<StatusEffectType> => {
-            const statusApplies: boolean = Math.random() <= sc / 100.0;
-            if (!statusApplies) return [];
-            const statusChanceCount: number =
-                Math.floor(sc / 100.0) + (Math.random() <= (sc % 100) / 100.0 ? 1 : 0);
-            const statusEffects: StatusEffectType[] = [];
-            const possibleStatusEffects: ReadonlyArray<StatusEffectType> = [
-                ...Object.keys(dd),
-            ] as ReadonlyArray<StatusEffectType>;
-            for (let i: number = 0; i < statusChanceCount; i++) {
-                const r: number = Math.random() * this.totalDamage;
-                for (let j: number = 0; j < possibleStatusEffects.length; j++) {
-                    if (
-                        r <
-                        ((dd[
-                            possibleStatusEffects[j] as keyof DamageDistributionDictionary
-                        ] as number) /
-                            100.0) *
-                            this.totalDamage
-                    ) {
-                        statusEffects.push(damageTypeToStatus[possibleStatusEffects[j]]);
+    public getDDD(): DamageDistributionDictionary {
+        return this.damageDistribution;
+    }
+
+    public hasDamageType(s: DamageType): boolean {
+        return Object.keys(this.getDDD()).includes("s") && (this.getDDD as any)[s] > 0;
+    }
+
+    public calculateStatusEffects(): ReadonlyArray<StatusEffect> {
+        const proc_count: number = Math.floor(
+            Math.floor(this.statusChance / 100.0) + Math.random() <
+                (this.statusChance % 100) / 100.0
+                ? 1
+                : 0,
+        );
+        const procTypes: DamageType[] = [];
+        const usefulTable: ReadonlyArray<[DamageType, number]> = Object.keys(
+            this.damageDistribution,
+        )
+            .map((s: string): [string, number] => {
+                return [s, (this.damageDistribution as Record<string, number>)[s]];
+            })
+            .filter((s: [string, number]): boolean => s[1] !== 0) as ReadonlyArray<
+            [DamageType, number]
+        >;
+        const max_n: number = Encodex.Util.List.fold0(
+            (a: number, b: number): number => a + b,
+            usefulTable.map((s: [DamageType, number]): number => s[1]),
+        );
+        for (let i: number = 0; i < proc_count; i++) {
+            const n: number = Math.random() * (max_n + 1);
+            for (let j: number = 0; j < usefulTable.length; j++) {
+                if (n > usefulTable[j][1]) {
+                    if (j >= usefulTable.length) {
+                        procTypes.push(usefulTable[j][0]);
                         break;
+                    } else {
+                        continue;
                     }
+                } else {
+                    procTypes.push(usefulTable[j][0]);
+                    break;
                 }
             }
+        }
 
-            return statusEffects;
-        })(
-            this.statusChance + 10 * this.targetCard.getStatusEffects()["Tau"].length,
-            this.damageDistribution,
+        const procs: ReadonlyArray<StatusEffect> = (procTypes as ReadonlyArray<DamageType>).map(
+            (proc: DamageType): StatusEffect =>
+                new StatusEffect(
+                    proc as StatusEffectType,
+                    ProcDurationTable[proc as string],
+                    this.attackedCard,
+                    this.attackerCard,
+                    this,
+                ),
         );
 
-        this.finalDamage =
-            (this.targetCard.getStatusEffects()["Invisible"].length > 0 ? 7 : 1) *
-            ((crit: number, dmg: number, td: number): number =>
-                Math.random() <= crit / 100.0
-                    ? td * dmg +
-                      (crit < 100
-                          ? 0
-                          : Math.floor(crit / 100.0) +
-                            (Math.random() <= (crit % 100) / 100.0 ? 1 : 0) +
-                            (this.targetCard.getStatusEffects()["Invisible"].length > 0 ? 4 : 1))
-                    : td)(
-                this.criticalChance + 5 * this.targetCard.getStatusEffects()["Puncture"].length,
-                this.criticalDamageMultiplier,
-                this.totalDamage,
-            ) *
-            (this.targetCard.getShield() !== 0 ? 0.5 : 1) *
-            (this.targetCard.getShield() === 0
-                ? this.targetCard.getArmor() === 0
-                    ? 1
-                    : (this.targetCard.getArmor() -
-                          this.targetCard.getArmor() *
-                              (this.targetCard.getStatusEffects()["Corrosive"].length * 0.09)) /
-                      (this.targetCard.getArmor() -
-                          this.targetCard.getArmor() *
-                              (this.targetCard.getStatusEffects()["Corrosive"].length * 0.09) +
-                          300)
-                : 0.5 * (2 + 0.25 * (this.targetCard.getStatusEffects()["Magnetic"].length - 1)));
+        return procs;
     }
 
-    public getBaseDamage(): number {
-        return this.totalDamage;
+    public getActualCritChance(): number {
+        return (
+            this.criticalChance +
+            10 *
+                (Object.keys(this.attackedCard.getProcs()).includes("Puncture")
+                    ? this.attackedCard.getProcs()["Puncture"]!.length
+                    : 0)
+        );
     }
 
-    public getDealerCard(): Card {
-        return this.dealerCard;
+    public getActualCriticalMultiplier(): number {
+        return (
+            this.criticalDamageMultiplier +
+            0.05 *
+                (Object.keys(this.attackedCard.getProcs()).includes("Cold")
+                    ? this.attackedCard.getProcs()["Cold"]!.length
+                    : 0)
+        );
     }
 
-    public getStatusEffects(): ReadonlyArray<StatusEffectType> {
-        return this.appliedStatusEffects;
+    public calculateDamage(): { health: number; shield: number; overguard: number } {
+        let damageToHealth: number = 0;
+        let damageToShields: number = 0;
+        let damageToOverguard: number = 0;
+
+        Object.keys(this.getDDD()).map(
+            (s: string): number =>
+                (this.getDDD() as any)[s] *
+                FactionDamageMultipliers[this.attackedCard.getFaction()].filter(
+                    (el: [DamageType, 1.5 | 0.5]): boolean => (el[0] as string) === s,
+                )[0][1],
+        );
+
+        const criticalHit: boolean =
+            this.getActualCritChance() >= 100
+                ? true
+                : Math.random() * 100 <= this.getActualCritChance();
+
+        const critLevel: number =
+            (this.getActualCritChance() % 100) +
+            (Math.random() * 100 <= this.getActualCritChance() - 100 * this.getActualCritChance()
+                ? 1
+                : 0);
+
+        const finalCritMultiplier: number = criticalHit
+            ? critLevel - 1 + this.getActualCritChance()
+            : 0;
+
+        if (this.attackedCard.getOverguard() !== 0) {
+            damageToOverguard = Encodex.Util.List.fold0(
+                (a: number, b: number): number => a + b,
+                (Object.keys(this.getDDD()) as Array<DamageType>)
+                    .map((s: DamageType): [DamageType, number] => [s, (this.getDDD() as any)[s]])
+                    .map((s: [DamageType, number]): number =>
+                        s[0] == "Magnetic" || s[0] == "Void" ? s[1] * 1.5 : s[1],
+                    ),
+            );
+        } else if (this.attackedCard.getShields() !== 0) {
+            if (this.hasDamageType("Toxin")) {
+                damageToHealth = this.getDDD()["Toxin"]! * armorDR(this.attackedCard.getArmor());
+            }
+            damageToShields =
+                ((arr: Array<DamageType>): number =>
+                    arr.length === 0
+                        ? 0
+                        : ((m_arr: Array<DamageType>): number => {
+                              return (
+                                  (damageToShields = Encodex.Util.List.fold0(
+                                      (a: number, b: number): number => a + b,
+                                      m_arr.map(
+                                          (damageType: DamageType): number =>
+                                              (this.getDDD() as any)[damageType] *
+                                              ((
+                                                  [
+                                                      "Magnetic",
+                                                      "Electricity",
+                                                  ] satisfies ReadonlyArray<DamageType> as ReadonlyArray<string>
+                                              ).includes(damageType)
+                                                  ? 1.5
+                                                  : 1),
+                                      ),
+                                  )),
+                                  1
+                              );
+                          })(arr))(
+                    Encodex.Util.List.reject(
+                        (a: DamageType): boolean => a === "Toxin",
+                        Object.keys(this.getDDD()) as Array<DamageType>,
+                    ),
+                ) *
+                (Object.keys(this.attackedCard.getProcs()).includes("Magnetic")
+                    ? this.attackedCard.getProcs()["Magnetic"]!.length - 1 * 25 + 100
+                    : 1);
+        } else if (this.attackedCard.getHealth() !== 0) {
+            damageToHealth =
+                (Object.keys(this.getDDD()).includes("Slash" satisfies DamageType)
+                    ? (this.getDDD() as any)["Slash"]
+                    : 0) +
+                Encodex.Util.List.fold0(
+                    (a: number, b: number): number => a + b,
+                    Encodex.Util.List.reject(
+                        (a: string): boolean => a == ("Slash" satisfies DamageType),
+                        Object.keys(this.getDDD()),
+                    ).map((damageType: string): number => (this.getDDD() as any)[damageType]),
+                ) *
+                    (Object.keys(this.attackedCard.getProcs()).includes("Viral")
+                        ? this.attackedCard.getProcs()["Viral"]!.length - 1 * 25 + 100
+                        : 1) *
+                    armorDR(this.attackedCard.getArmor());
+        }
+
+        this.damage = {
+            health: damageToHealth * finalCritMultiplier,
+            shield: damageToShields * finalCritMultiplier,
+            overguard: damageToOverguard * finalCritMultiplier,
+        };
+
+        return {
+            health: damageToHealth * finalCritMultiplier,
+            shield: damageToShields * finalCritMultiplier,
+            overguard: damageToOverguard * finalCritMultiplier,
+        };
     }
 
-    public getFinalDamage(): number {
-        return this.finalDamage;
+    public getDamage(): { health: number; shield: number; overguard: number } {
+        return this.damage;
     }
 }
