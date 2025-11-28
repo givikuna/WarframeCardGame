@@ -64,7 +64,7 @@ export type StatusEffectCount = {
 
 export type StatusEffectType =
     | "Impact"
-    | "Disable"
+    | "Disabled"
     | "Puncture"
     | "Slash"
     | "Cold"
@@ -87,7 +87,7 @@ export type StatusEffectType =
 
 export type ProcTable = {
     Impact?: StatusEffect[];
-    Disable?: StatusEffect[];
+    Disabled?: StatusEffect[];
     Puncture?: StatusEffect[];
     Slash?: StatusEffect[];
     Cold?: StatusEffect[];
@@ -119,7 +119,13 @@ export type AbilityFunction = (
 
 export type Nullable<T> = T | null;
 
-export type Faction =
+export type AttackType = "Melee" | "Ranged" | "Explosive" | "DoT";
+
+export type WeaponSlot = "Primary" | "Secondary" | "Melee";
+
+export type Resource = "Energy" | "Shields" | "Cooldown" | "Health";
+
+export type HealthType =
     | "Tenno"
     | "Grineer"
     | "Kuva Grineer"
@@ -134,39 +140,42 @@ export type Faction =
     | "Zariman"
     | "Scaldra"
     | "Techrot"
-    | "Duviri"
-    | "Stalker"
     | "Object"
-    | "Unaffiliated";
+    | "Wild";
 
-export type Affiliation =
+export type Faction =
+    | "Tenno"
+    | "Grineer"
+    | "Corpus"
+    | "Infested"
+    | "Orokin"
+    | "Sentient"
+    | "Stalker"
+    | "Narmer"
+    | "The Murmur"
+    | "Scaldra"
+    | "Techrot"
     | "Steel Meridian"
     | "Arbiters of Hexis"
     | "Cephalon Suda"
     | "The Perrin Sequence"
     | "Red Veil"
     | "New Loka"
+    | "Duviri"
     | "Conclave"
     | "Cephalon Simaris"
     | "Ostron"
     | "The Quills"
     | "Solaris United"
-    | "Vox Solaris"
     | "Ventkids"
+    | "Vox Solaris"
     | "Entrati"
     | "Necraloid"
-    | "Kahl's Garrison"
+    | "The Hex"
     | "The Holdfasts"
     | "Cavia"
-    | "The Hex"
+    | "Kahl's Garrison"
     | "Nightcap"
-    | "Acolyte"
-    | "Deimos Infested Beast"
-    | "Warframe"
-    | "Operator";
-
-export type AttackType = "Melee" | "Ranged" | "Explosive" | "DoT";
-
-export type WeaponSlot = "Primary" | "Secondary" | "Melee";
-
-export type Resource = "Energy" | "Shields" | "Cooldown" | "Health";
+    | "Operational Supply"
+    | "Nightwave"
+    | "Unaffiliated";

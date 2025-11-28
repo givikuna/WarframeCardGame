@@ -1,13 +1,15 @@
 import { Ability } from "./Ability";
 
-import { Affiliation, DamageType, Faction, ProcTable } from "../types/types";
+import { HealthType, DamageType, Faction, ProcTable, StatusEffectType } from "../types/types";
 
 import { FactionDamageMultipliers } from "../constants/constants";
+import { StatusEffect } from "./StatusEffect";
+import { DamageInstance } from "./DamageInstance";
 
 export class Card {
     protected readonly name: string;
     protected readonly faction: Faction;
-    protected readonly affiliations: ReadonlyArray<Affiliation>;
+    protected readonly healthType: HealthType;
 
     protected health: number;
     protected readonly maxHealth: number;
@@ -33,12 +35,36 @@ export class Card {
     protected chanceToFailCast: { [n: number]: number } = {}; // {abilityNumber: percent chance}
     protected readonly player: 0 | 1 | 2;
 
-    protected procs: ProcTable = {};
+    protected procs: ProcTable = {
+        Impact: [],
+        Puncture: [],
+        Slash: [],
+        Cold: [],
+        Electricity: [],
+        Heat: [],
+        Toxin: [],
+        Blast: [],
+        Corrosive: [],
+        Gas: [],
+        Magnetic: [],
+        Radiation: [],
+        Viral: [],
+        Void: [],
+        Tau: [],
+        Flying: [],
+        Disarmed: [],
+        Disabled: [],
+        Invisible: [],
+        Invincible: [],
+        Blinded: [],
+    };
+
+    protected statuses: { [status: string]: boolean } = {};
 
     public constructor(
         name: string,
         faction: Faction,
-        affiliations: Affiliation[],
+        healthType: HealthType,
         health: number,
         shield: number,
         armor: number,
@@ -62,7 +88,7 @@ export class Card {
         this.abilities = abilities;
         this.player = 0;
         this.faction = faction;
-        this.affiliations = affiliations;
+        this.healthType = healthType;
         this.overshields = 0;
     }
 
@@ -74,8 +100,8 @@ export class Card {
         return this.faction;
     }
 
-    public getAffiliations(): ReadonlyArray<Affiliation> {
-        return [...this.affiliations];
+    public getAffiliations(): HealthType {
+        return this.healthType;
     }
 
     public getHealth(): number {
@@ -140,9 +166,50 @@ export class Card {
 
     public getDamageMultiplierForDamageType(damageType: DamageType): number {
         return ((arr: [DamageType, 0.5 | 1.5][]): number => (arr.length > 0 ? arr[0][1] : 1))(
-            FactionDamageMultipliers[this.getFaction()].filter(
-                (dmgInfo: [DamageType, 0.5 | 1.5]): boolean => dmgInfo[0] === damageType,
-            ),
+            [...FactionDamageMultipliers[this.getFaction()]]
+                .map((m_arr: Readonly<[DamageType, 1.5 | 0.5]>): [DamageType, 1.5 | 0.5] => [
+                    ...m_arr,
+                ])
+                .filter((dmgInfo: [DamageType, 0.5 | 1.5]): boolean => dmgInfo[0] === damageType),
         );
+    }
+
+    public applyProc(proc: StatusEffect): void {
+        this.procs[proc.getProcType()]?.push(proc);
+    }
+
+    public applyDamage(dmg: DamageInstance): void {
+        const dmgInfo: { health: number; shield: number; overguard: number } =
+            dmg.calculateDamage();
+        dmg.calculateStatusEffects().forEach((statusEffect: StatusEffect): void =>
+            this.applyProc(statusEffect),
+        );
+        this.overguard -= dmgInfo.overguard;
+        this.shields -= dmgInfo.shield;
+        this.health -= dmgInfo.health;
+        if (this.overguard <= 0) this.overguard = 0;
+        if (this.shields <= 0) this.shields = 0;
+        if (this.health <= 0) this.health = 0;
+    }
+
+    public nextTurn(): void {
+        (Object.keys(this.procs) as StatusEffectType[]).forEach(
+            (procType: StatusEffectType): void => {
+                this.procs[procType]!.forEach((proc: StatusEffect): void =>
+                    this.applyDamage(proc.nextTurn().getDoT()!),
+                );
+                this.procs[procType]!.filter(
+                    (proc: StatusEffect): boolean => proc.getDuration() > 0,
+                );
+            },
+        );
+    }
+
+    public isDead(): boolean {
+        return this.health <= 0;
+    }
+
+    public castAbility(abilityNumber: number): void {
+        //
     }
 }

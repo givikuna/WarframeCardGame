@@ -10,11 +10,8 @@ import {
     StatusEffectType,
 } from "../types/types";
 
-import {
-    FactionDamageMultipliers,
-    ProcDurationTable,
-    damageTypeToStatus,
-} from "../constants/constants";
+import { FactionDamageMultipliers, ProcDurationTable } from "../constants/constants";
+
 import { armorDR } from "./modules/armorDR";
 
 export class DamageInstance {
@@ -25,6 +22,9 @@ export class DamageInstance {
     protected attackerCard: Card;
     protected attackedCard: Card;
     protected attackType: AttackType;
+    protected calculatedProcs: ReadonlyArray<StatusEffect> = [];
+    protected ran1: boolean = false;
+    protected ran2: boolean = false;
 
     protected damage: { health: number; shield: number; overguard: number } = {
         health: 0,
@@ -59,6 +59,9 @@ export class DamageInstance {
     }
 
     public calculateStatusEffects(): ReadonlyArray<StatusEffect> {
+        if (this.ran1) return this.calculatedProcs;
+        this.ran1 = true;
+
         const proc_count: number = Math.floor(
             Math.floor(this.statusChance / 100.0) + Math.random() <
                 (this.statusChance % 100) / 100.0
@@ -107,6 +110,8 @@ export class DamageInstance {
                 ),
         );
 
+        this.calculatedProcs = procs;
+
         return procs;
     }
 
@@ -131,17 +136,22 @@ export class DamageInstance {
     }
 
     public calculateDamage(): { health: number; shield: number; overguard: number } {
+        if (this.ran2) return this.getDamage();
+        this.ran2 = true;
+
         let damageToHealth: number = 0;
         let damageToShields: number = 0;
         let damageToOverguard: number = 0;
 
-        Object.keys(this.getDDD()).map(
-            (s: string): number =>
-                (this.getDDD() as any)[s] *
-                FactionDamageMultipliers[this.attackedCard.getFaction()].filter(
-                    (el: [DamageType, 1.5 | 0.5]): boolean => (el[0] as string) === s,
-                )[0][1],
-        );
+        Object.keys(this.getDDD()).forEach((s: string): void => {
+            (this.getDDD() as any)[s] *= [
+                ...FactionDamageMultipliers[this.attackedCard.getFaction()],
+            ]
+                .map((m_arr: Readonly<[DamageType, 1.5 | 0.5]>): [DamageType, 1.5 | 0.5] => [
+                    ...m_arr,
+                ])
+                .filter((el: [DamageType, 1.5 | 0.5]): boolean => (el[0] as string) === s)[0][1];
+        });
 
         const criticalHit: boolean =
             this.getActualCritChance() >= 100

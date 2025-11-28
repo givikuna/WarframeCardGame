@@ -1,4 +1,4 @@
-import { DamageType, StatusEffectType, Faction } from "../types/types";
+import { DamageType, StatusEffectType } from "../types/types";
 
 export const damageTypeToStatus: { [damageType: string]: StatusEffectType } = {
     Impact: "Impact",
@@ -38,7 +38,7 @@ export const damageTypes: DamageType[] = [
 ];
 
 export const FactionDamageMultipliers: {
-    [faction: string]: [DamageType, 1.5 | 0.5][];
+    [faction: string]: ReadonlyArray<Readonly<[DamageType, 1.5 | 0.5]>>;
 } = {
     Tenno: [],
     Grineer: [
@@ -98,19 +98,18 @@ export const FactionDamageMultipliers: {
         ["Magnetic", 1.5],
         ["Cold", 0.5],
     ],
-    Duviri: [["Void", 1.5]],
     Stalker: [],
     Object: [],
-    Unaffiliated: [],
+    Wild: [],
 };
 
 export const ProcDurationTable: { [s: string]: number } = {
     Impact: 3,
     Puncture: 3,
-    Slash: 3,
+    Slash: 2,
     Cold: 5,
-    Electricity: 2,
-    Heat: 3,
+    Electricity: 1,
+    Heat: 2,
     Toxin: 2,
     Blast: 2,
     Corrosive: 4,
@@ -126,4 +125,31 @@ export const ProcDurationTable: { [s: string]: number } = {
     Invisible: Number.POSITIVE_INFINITY,
     Invincible: Number.POSITIVE_INFINITY,
     Blinded: Number.POSITIVE_INFINITY,
+};
+
+export const DoTProcs: ReadonlyArray<StatusEffectType> = [
+    "Slash",
+    "Electricity",
+    "Heat",
+    "Toxin",
+    "Blast",
+    "Gas",
+];
+
+export const DoTMultiplicationTable: { [proc: string]: number } = {
+    Electricity: 0.5,
+    Slash: 0.35,
+    Heat: 0.5,
+    Toxin: 0.3,
+    Blast: 0.3,
+    Gas: 0.5,
+};
+
+export const DoTCritChanceTable: { [proc: string]: number } = {
+    Electricity: 5,
+    Slash: 15,
+    Heat: 10,
+    Toxin: 5,
+    Blast: 5,
+    Gas: 2,
 };
