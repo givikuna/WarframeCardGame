@@ -1,4 +1,4 @@
-import { AbilityFunction, Resource } from "../types/types";
+import { AbilityFunction } from "../types/types";
 
 export class Ability {
     protected readonly name: string;

@@ -1,9 +1,9 @@
 {
     "presets": ["@babel/preset-env"],
     "compilerOptions": {
-        "target": "ES2022",
+        "target": "ES2020",
         "strict": true,
-        "module": "CommonJS",
+        "module": "es2020",
         "forceConsistentCasingInFileNames": true,
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,

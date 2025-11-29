@@ -1,4 +1,5 @@
 import { BoardLocation } from "./BoardLocation";
+import { Card } from "./Card";
 export class Board {
     protected locations: [BoardLocation, BoardLocation, BoardLocation];
 
@@ -20,5 +21,19 @@ export class Board {
 
     public getLocations(): [BoardLocation, BoardLocation, BoardLocation] {
         return this.locations;
+    }
+
+    public getAllCards(): ReadonlyArray<Card> {
+        return [
+            ...this.getLocations()[0].getAllCards(),
+            ...this.getLocations()[1].getAllCards(),
+            ...this.getLocations()[2].getAllCards(),
+        ];
+    }
+
+    public nextTurn(): void {
+        this.getAllCards().forEach((card: Card): void => {
+            card.nextTurn();
+        });
     }
 }

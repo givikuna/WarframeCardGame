@@ -7,6 +7,6 @@ export const stats: CardStats = {
     maxShields: 370,
     maxOverguard: 0,
     baseArmor: 315,
-    maxEnergy: 5,
-    startingEnergy: 3,
+    maxEnergy: 100,
+    startingEnergy: 100,
 };

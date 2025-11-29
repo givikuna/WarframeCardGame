@@ -40,6 +40,10 @@ export class StatusEffect {
 
     public nextTurn(): this {
         this.duration--;
+        if (this.dot) {
+            this.appliedTo.applyDamage(this.dotDMGFormula!());
+            console.log("dot");
+        }
         return this;
     }
 

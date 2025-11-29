@@ -32,4 +32,8 @@
         "Warframe",
         "Zariman"
     ],
+    "editor.inlineSuggest.enabled": false,
+        "github.copilot.enable": {
+        "*": false
+    }
 }

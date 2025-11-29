@@ -271,9 +271,10 @@ export class Card {
     public nextTurn(): void {
         (Object.keys(this.procs) as StatusEffectType[]).forEach(
             (procType: StatusEffectType): void => {
-                this.procs[procType]!.forEach((proc: StatusEffect): void =>
-                    this.applyDamage(proc.nextTurn().getDoT()!),
-                );
+                this.procs[procType]!.forEach((proc: StatusEffect): void => {
+                    proc.nextTurn();
+                });
+
                 this.procs[procType]! = this.procs[procType]!.filter(
                     (proc: StatusEffect): boolean => proc.getDuration() > 0,
                 );

@@ -3,7 +3,12 @@
     "@babel/core": "^7.28.5",
     "@babel/node": "^7.28.0",
     "@babel/preset-env": "^7.28.5",
-    "@givi-tsvariani/encodex": "^1.0.3"
+    "@givi-tsvariani/encodex": "^1.0.7"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  }
 }
