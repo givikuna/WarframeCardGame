@@ -260,9 +260,9 @@ export class Card {
             );
         }
 
-        this.overguard -= dmgInfo.overguard;
-        this.shields -= dmgInfo.shield;
-        this.health -= dmgInfo.health;
+        this.overguard -= Math.ceil(dmgInfo.overguard);
+        this.shields -= Math.ceil(dmgInfo.shield);
+        this.health -= Math.ceil(dmgInfo.health);
         if (this.overguard <= 0) this.overguard = 0;
         if (this.shields <= 0) this.shields = 0;
         if (this.health <= 0) this.health = 0;

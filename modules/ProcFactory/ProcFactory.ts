@@ -4,7 +4,11 @@ import { StatusEffect } from "../../classes/StatusEffect";
 
 import { DamageDistributionDictionary, StatusEffectType } from "../../types/types";
 
-import { DoTCritChanceTable, ProcDurationTable } from "../../constants/constants";
+import {
+    DoTCritChanceTable,
+    ProcDurationTable,
+    DoTMultiplicationTable,
+} from "../../constants/constants";
 
 import { isDoT } from "../isDoT";
 
@@ -17,14 +21,17 @@ export class ProcFactory {
         givenDuration?: number,
     ): StatusEffect {
         const dd: DamageDistributionDictionary = {};
+
         if (isDoT(name)) {
-            (dd as any)[name] =
-                typeof di == "number"
+            (dd as any)[name] = Math.ceil(
+                (typeof di == "number"
                     ? di
                     : di instanceof DamageInstance
                     ? ((di.getDDD() as any)[name] as number)
-                    : 100;
+                    : 75) * DoTMultiplicationTable[name],
+            );
         }
+
         return new StatusEffect(
             name,
             givenDuration ?? ProcDurationTable[name],

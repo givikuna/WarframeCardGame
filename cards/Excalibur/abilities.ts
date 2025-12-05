@@ -17,10 +17,10 @@ export const abilities: ReadonlyArray<Ability> = [
             const chosenCard: Card = chosenCards[0];
 
             const slashDashDamageInstance: DamageInstance = new DamageInstance(
-                { Slash: 150 },
-                26,
+                { Slash: 60 },
+                10,
                 2,
-                100,
+                0,
                 applicant,
                 chosenCard,
                 "Melee",
@@ -45,8 +45,8 @@ export const abilities: ReadonlyArray<Ability> = [
             const chosenCard: Card = chosenCards[0];
 
             const slashDashDamageInstance: DamageInstance = new DamageInstance(
-                { Slash: 0 },
-                26,
+                { Slash: 2 },
+                10,
                 2,
                 0,
                 applicant,

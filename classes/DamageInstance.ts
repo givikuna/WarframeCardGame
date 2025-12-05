@@ -161,7 +161,9 @@ export class DamageInstance {
         const criticalHit: boolean =
             this.getActualCritChance() >= 100
                 ? true
-                : Math.random() * 100 <= this.getActualCritChance();
+                : Math.abs(Math.random() + 0.0001) * 100 <= this.getActualCritChance();
+
+        console.log(criticalHit);
 
         const critLevel: number =
             Math.ceil(this.getActualCritChance() / 100) +
@@ -207,21 +209,26 @@ export class DamageInstance {
             damageToShields *= 0.5;
         } else if (this.attackedCard.getHealth() !== 0) {
             damageToHealth =
-                (Object.keys(this.getDDD()).includes("Slash" satisfies DamageType)
+                ((Object.keys(this.getDDD()).includes("Slash" satisfies DamageType)
                     ? (this.getDDD() as any)["Slash"]
                     : 0) +
-                Encodex.Util.List.fold0(
-                    (a: number, b: number): number => a + b,
-                    Encodex.Util.List.reject(
-                        (a: string): boolean => a == ("Slash" satisfies DamageType),
-                        Object.keys(this.getDDD()),
-                    ).map((damageType: string): number => (this.getDDD() as any)[damageType]),
-                ) *
-                    (Object.keys(this.attackedCard.getProcs()).includes("Viral")
-                        ? this.attackedCard.getProcs()["Viral"]!.length - 1 * 25 + 100
-                        : 1) *
-                    armorDR(this.attackedCard.getArmor());
+                    Encodex.Util.List.fold0(
+                        (a: number, b: number): number => a + b,
+                        Encodex.Util.List.reject(
+                            (a: string): boolean => a == ("Slash" satisfies DamageType),
+                            Object.keys(this.getDDD()),
+                        ).map((damageType: string): number => (this.getDDD() as any)[damageType]),
+                    )) *
+                (Object.keys(this.attackedCard.getProcs()).includes("Viral")
+                    ? this.attackedCard.getProcs()["Viral"]!.length - 1 * 25 + 100
+                    : 1) *
+                armorDR(this.attackedCard.getArmor());
         }
+        // console.log(damageToHealth + damageToShields + damageToOverguard);
+
+        damageToHealth = Math.ceil(damageToHealth);
+        damageToShields = Math.ceil(damageToShields);
+        damageToOverguard = Math.ceil(damageToOverguard);
 
         this.damage = {
             health: damageToHealth * finalCritMultiplier,
