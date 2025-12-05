@@ -1,8 +1,5 @@
 # Warframe Card Game — Status Effects
 
-> Copy-paste this file directly into your project.
-> Two sections below: **Elemental Status Effects** and **Functional Status Effects**.
-
 ---
 
 ## Elemental Status Effects

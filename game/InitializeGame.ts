@@ -35,4 +35,5 @@ for (let i: number = 0; i < 10; i++) {
             .getPlayerTwoCards()[0]
             .getHealth()}`,
     );
+    board.nextTurn();
 }

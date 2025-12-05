@@ -41,8 +41,9 @@ export class StatusEffect {
     public nextTurn(): this {
         this.duration--;
         if (this.dot) {
-            this.appliedTo.applyDamage(this.dotDMGFormula!());
-            console.log("dot");
+            const dmgInst: DamageInstance = this.dotDMGFormula!();
+            console.log(dmgInst.calculateDamage());
+            this.appliedTo.applyDamage(dmgInst);
         }
         return this;
     }

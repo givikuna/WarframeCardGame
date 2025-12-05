@@ -189,7 +189,7 @@ export class Card {
 
     public getDamageMultiplierForDamageType(damageType: DamageType): number {
         return ((arr: [DamageType, 0.5 | 1.5][]): number => (arr.length > 0 ? arr[0][1] : 1))(
-            [...FactionDamageMultipliers[this.getFaction()]]
+            [...FactionDamageMultipliers[this.healthType]]
                 .map((m_arr: Readonly<[DamageType, 1.5 | 0.5]>): [DamageType, 1.5 | 0.5] => [
                     ...m_arr,
                 ])
