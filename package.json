@@ -3,12 +3,18 @@
     "@babel/core": "^7.28.5",
     "@babel/node": "^7.28.0",
     "@babel/preset-env": "^7.28.5",
-    "@givi-tsvariani/encodex": "^1.0.7"
+    "@givi-tsvariani/encodex": "^1.0.7",
+    "webpack": "^5.103.0"
   },
   "type": "module",
   "devDependencies": {
+    "ts-loader": "^9.5.4",
     "ts-node": "^10.9.2",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "webpack-cli": "^6.0.1"
+  },
+  "scripts": {
+    "build": "webpack"
   }
 }

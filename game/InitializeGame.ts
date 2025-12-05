@@ -1,4 +1,4 @@
-import { CardFactory } from "../cards/CardFactory";
+import { CardFactory } from "../modules/CardFactory";
 import { Excalibur } from "../cards/Excalibur/Excalibur";
 import { Board } from "../classes/Board";
 
