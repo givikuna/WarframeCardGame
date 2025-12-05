@@ -1,4 +1,6 @@
 import { Encodex } from "@givi-tsvariani/encodex";
+import * as Ramda from "ramda";
+import * as _ from "underscore";
 
 import { Card } from "./Card";
 import { StatusEffect } from "./StatusEffect";
@@ -57,7 +59,7 @@ export class DamageInstance {
     }
 
     public hasDamageType(s: DamageType): boolean {
-        return Object.keys(this.getDDD()).includes("s") && (this.getDDD as any)[s] > 0;
+        return Object.keys(this.getDDD()).includes(s) && (this.getDDD() as any)[s] > 0;
     }
 
     public calculateStatusEffects(): ReadonlyArray<StatusEffect> {
@@ -163,8 +165,6 @@ export class DamageInstance {
                 ? true
                 : Math.abs(Math.random() + 0.0001) * 100 <= this.getActualCritChance();
 
-        console.log(criticalHit);
-
         const critLevel: number =
             Math.ceil(this.getActualCritChance() / 100) +
             (Math.random() * 100 <= this.getActualCritChance() - 100 * this.getActualCritChance()
@@ -208,38 +208,46 @@ export class DamageInstance {
 
             damageToShields *= 0.5;
         } else if (this.attackedCard.getHealth() !== 0) {
-            damageToHealth =
-                ((Object.keys(this.getDDD()).includes("Slash" satisfies DamageType)
-                    ? (this.getDDD() as any)["Slash"]
-                    : 0) +
-                    Encodex.Util.List.fold0(
-                        (a: number, b: number): number => a + b,
-                        Encodex.Util.List.reject(
-                            (a: string): boolean => a == ("Slash" satisfies DamageType),
-                            Object.keys(this.getDDD()),
-                        ).map((damageType: string): number => (this.getDDD() as any)[damageType]),
-                    )) *
-                (Object.keys(this.attackedCard.getProcs()).includes("Viral")
-                    ? this.attackedCard.getProcs()["Viral"]!.length - 1 * 25 + 100
-                    : 1) *
-                armorDR(this.attackedCard.getArmor());
-        }
-        // console.log(damageToHealth + damageToShields + damageToOverguard);
+            if (this.hasDamageType("Slash")) {
+                damageToHealth += (this.getDDD() as any)["Slash"];
+            }
 
-        damageToHealth = Math.ceil(damageToHealth);
-        damageToShields = Math.ceil(damageToShields);
-        damageToOverguard = Math.ceil(damageToOverguard);
+            if (Object.keys(this.getDDD()).length > 1)
+                damageToHealth +=
+                    _.chain(Object.keys(this.getDDD()) as DamageType[])
+                        .reject((dt: DamageType): boolean => dt === "Slash")
+                        .map(
+                            (dt: DamageType): number => (this.getDDD() as any)[dt] satisfies number,
+                        )
+                        .foldl(Ramda.add, 0)
+                        .value() * armorDR(this.attackedCard.getArmor());
+            else if (Object.keys(this.getDDD()).length === 1 && !this.hasDamageType("Slash"))
+                damageToHealth +=
+                    _.chain(Object.keys(this.getDDD()) as DamageType[])
+                        .map(
+                            (dt: DamageType): number => (this.getDDD() as any)[dt] satisfies number,
+                        )
+                        .foldl(Ramda.add, 0)
+                        .value() * armorDR(this.attackedCard.getArmor());
+
+            if (this.attackedCard.hasProc("Viral"))
+                damageToHealth *= this.attackedCard.getProcs()["Viral"]!.length - 1 * 25 + 100;
+        }
+
+        damageToHealth = Math.ceil(damageToHealth * finalCritMultiplier);
+        damageToShields = Math.ceil(damageToShields * finalCritMultiplier);
+        damageToOverguard = Math.ceil(damageToOverguard * finalCritMultiplier);
 
         this.damage = {
-            health: damageToHealth * finalCritMultiplier,
-            shield: damageToShields * finalCritMultiplier,
-            overguard: damageToOverguard * finalCritMultiplier,
+            health: damageToHealth,
+            shield: damageToShields,
+            overguard: damageToOverguard,
         };
 
         return {
-            health: damageToHealth * finalCritMultiplier,
-            shield: damageToShields * finalCritMultiplier,
-            overguard: damageToOverguard * finalCritMultiplier,
+            health: damageToHealth,
+            shield: damageToShields,
+            overguard: damageToOverguard,
         };
     }
 

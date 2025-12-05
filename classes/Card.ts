@@ -300,4 +300,8 @@ export class Card {
             return;
         }
     }
+
+    public hasProc(se: StatusEffectType): boolean {
+        return this.procs[se]!.length > 0;
+    }
 }
