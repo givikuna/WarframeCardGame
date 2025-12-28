@@ -2,7 +2,7 @@ import { Board } from "./Board";
 import { DamageInstance } from "./DamageInstance";
 import { StatusEffect } from "./StatusEffect";
 import { Ability } from "./Ability";
-import { ProcFactory } from "../modules/ProcFactory/ProcFactory";
+import { ProcFactory } from "../modules/factories/ProcFactory/ProcFactory";
 
 import {
     HealthType,
@@ -15,7 +15,7 @@ import {
 
 import { FactionDamageMultipliers, procMaxStacks } from "../constants/constants";
 
-import { noop } from "../modules/noop";
+import { noop } from "../modules/helpers/noop";
 
 export class Card {
     protected readonly name: string;
@@ -199,6 +199,7 @@ export class Card {
 
     public applyProc(proc: StatusEffect): void {
         this.procs[proc.getProcType()]!.push(proc);
+
         if (
             proc.getProcType() !== "Blast" &&
             this.procs[proc.getProcType()]!.length > procMaxStacks[proc.getProcType()]

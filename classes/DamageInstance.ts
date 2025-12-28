@@ -15,8 +15,8 @@ import {
 
 import { FactionDamageMultipliers } from "../constants/constants";
 
-import { armorDR } from "../modules/armorDR";
-import { ProcFactory } from "../modules/ProcFactory/ProcFactory";
+import { armorDR } from "../modules/helpers/armorDR";
+import { ProcFactory } from "../modules/factories/ProcFactory/ProcFactory";
 
 export class DamageInstance {
     protected damageDistribution: DamageDistributionDictionary;

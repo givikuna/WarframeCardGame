@@ -1,16 +1,16 @@
-import { Card } from "../../classes/Card";
-import { DamageInstance } from "../../classes/DamageInstance";
-import { StatusEffect } from "../../classes/StatusEffect";
+import { Card } from "../../../classes/Card";
+import { DamageInstance } from "../../../classes/DamageInstance";
+import { StatusEffect } from "../../../classes/StatusEffect";
 
-import { DamageDistributionDictionary, StatusEffectType } from "../../types/types";
+import { DamageDistributionDictionary, StatusEffectType } from "../../../types/types";
 
 import {
     DoTCritChanceTable,
     ProcDurationTable,
     DoTMultiplicationTable,
-} from "../../constants/constants";
+} from "../../../constants/constants";
 
-import { isDoT } from "../isDoT";
+import { isDoT } from "../../helpers/isDoT";
 
 export class ProcFactory {
     public static manufacture(

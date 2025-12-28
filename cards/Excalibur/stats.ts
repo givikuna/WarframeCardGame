@@ -9,4 +9,6 @@ export const stats: CardStats = {
     baseArmor: 315,
     maxEnergy: 8,
     startingEnergy: 4,
+    rarity: "Uncommon",
+    id: 1,
 };

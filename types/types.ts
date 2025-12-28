@@ -184,6 +184,17 @@ export type Faction =
 
 export type DamageTable = { health: number; shield: number; overguard: number };
 
+export type Rarity =
+    | "Common"
+    | "Uncommon"
+    | "Rare"
+    | "Legendary"
+    | "Riven"
+    | "Galvanized"
+    | "Requiem"
+    | "Archon"
+    | "Tome";
+
 export type CardStats = {
     faction: Faction;
     healthType: HealthType;
@@ -193,6 +204,8 @@ export type CardStats = {
     maxOverguard: number;
     maxEnergy: number;
     startingEnergy: number;
+    rarity: Rarity;
+    id: number;
 };
 
-export type CardData = { name: string } & CardStats & { abilities: ReadonlyArray<Ability> };
+export type CardData = { name: string; abilities: ReadonlyArray<Ability> } & CardStats;

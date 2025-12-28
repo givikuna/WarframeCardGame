@@ -1,4 +1,4 @@
-import { DamageType, StatusEffectType } from "../types/types";
+import { DamageType, Rarity, StatusEffectType } from "../types/types";
 
 export const damageTypeToStatus: { [damageType: string]: StatusEffectType } = {
     Impact: "Impact",
@@ -176,4 +176,16 @@ export const procMaxStacks: { [proc: string]: number } = {
     Invisible: Number.POSITIVE_INFINITY,
     Invincible: Number.POSITIVE_INFINITY,
     Blinded: Number.POSITIVE_INFINITY,
+};
+
+export const creditCostPerRarity: Record<Rarity, number> = {
+    Common: 100,
+    Uncommon: 200,
+    Rare: 400,
+    Legendary: 800,
+    Riven: 1200,
+    Galvanized: 1800,
+    Requiem: 2500,
+    Archon: 3500,
+    Tome: 5000,
 };

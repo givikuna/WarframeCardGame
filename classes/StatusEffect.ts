@@ -3,7 +3,7 @@ import { DamageInstance } from "./DamageInstance";
 
 import { StatusEffectType, Nullable } from "../types/types";
 
-import { isDoT } from "../modules/isDoT";
+import { isDoT } from "../modules/helpers/isDoT";
 
 export class StatusEffect {
     protected name: StatusEffectType;

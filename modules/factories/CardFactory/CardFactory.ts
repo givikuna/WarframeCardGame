@@ -1,7 +1,7 @@
-import { Ability } from "../classes/Ability";
-import { Board } from "../classes/Board";
-import { Card } from "../classes/Card";
-import { CardData } from "../types/types";
+import { Ability } from "../../../classes/Ability";
+import { Board } from "../../../classes/Board";
+import { Card } from "../../../classes/Card";
+import { CardData } from "../../../types/types";
 
 export class CardFactory {
     public static manufacture(
