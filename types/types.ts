@@ -209,3 +209,5 @@ export type CardStats = {
 };
 
 export type CardData = { name: string; abilities: ReadonlyArray<Ability> } & CardStats;
+
+export type TurnData = { turn: number; firstPlayer: 1 | 2 };
