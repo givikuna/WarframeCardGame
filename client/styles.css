@@ -1,0 +1,281 @@
+body {
+    background-color: #0b0b0b;
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -1;
+}
+
+h1, h2, h3, h4 {
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 300;
+    color: #f0f0f0;
+}
+
+.deck-builder-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.builder-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #333;
+    margin-bottom: 20px;
+}
+
+button {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #666;
+    color: #fff;
+    padding: 10px 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #d4af37; /* Orokin Gold */
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.save-btn.ready {
+    background: #d4af37;
+    color: #000;
+    font-weight: bold;
+    border: none;
+}
+
+.save-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.deck-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    width: 800px;
+    min-height: 400px;
+}
+
+.deck-slot {
+    height: 120px;
+    background: rgba(20, 20, 20, 0.9);
+    border: 1px solid #444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    font-size: 12px;
+    transition: border-color 0.2s;
+}
+
+.deck-slot:hover {
+    border-color: #d4af37;
+    box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.deck-slot.empty {
+    border-style: dashed;
+    opacity: 0.3;
+}
+
+.library-list {
+    width: 800px;
+    margin-top: 20px;
+}
+
+.card-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.library-card {
+    padding: 10px 15px;
+    background: #222;
+    border: 1px solid #333;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.library-card:hover {
+    background: #333;
+    border-color: #fff;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.warframe-inspector {
+    width: 600px;
+    background: #111;
+    border: 2px solid #444;
+    border-top: 4px solid #d4af37;
+    box-shadow: 0 0 30px rgba(0,0,0,0.9);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.inspector-header {
+    background: #1a1a1a;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+}
+
+.inspector-header h2 { margin: 0; color: #d4af37; }
+
+.inspector-body {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #222;
+    font-size: 14px;
+}
+.stat-label { color: #888; text-transform: uppercase; font-size: 12px; }
+.stat-value { color: #eee; font-weight: bold; }
+
+.stat-value.health { color: #ff5555; }
+.stat-value.shields { color: #55aaff; }
+.stat-value.overguard { color: #d869ff; }
+.stat-value.energy { color: #55ffaa; }
+
+.abilities-section h3 {
+    margin-top: 0;
+    font-size: 16px;
+    border-bottom: 1px solid #d4af37;
+    padding-bottom: 5px;
+}
+
+.ability-item {
+    margin-bottom: 15px;
+}
+.ability-top {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    color: #eee;
+    margin-bottom: 2px;
+}
+.ability-cost { color: #55ffaa; font-size: 12px; }
+.ability-desc { font-size: 12px; color: #aaa; line-height: 1.4; font-style: italic; }
+
+.inspector-footer {
+    padding: 15px 20px;
+    background: #0f0f0f;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.ability-item {
+    padding: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.ability-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: #d4af37;
+    transform: translateX(5px);
+}
+
+.ability-detail-view {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    animation: slideIn 0.3s ease-out; /* this is the cool effect do not touch */
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.detail-header {
+    border-bottom: 1px solid #d4af37;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.detail-title {
+    font-size: 20px;
+    color: #f0f0f0;
+    margin-bottom: 5px;
+}
+
+.detail-cost {
+    font-size: 14px;
+    color: #55ffaa;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.detail-body {
+    flex-grow: 1;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #ccc;
+    font-style: italic;
+}
+
+.back-btn {
+    background: transparent;
+    border: 1px solid #555;
+    padding: 5px 10px;
+    font-size: 12px;
+    color: #888;
+    align-self: flex-start;
+    margin-bottom: 10px;
+}
+
+.back-btn:hover {
+    color: #fff;
+    border-color: #fff;
+}

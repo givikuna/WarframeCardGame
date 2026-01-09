@@ -1,0 +1,234 @@
+/* Board Layout */
+.game-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #0b0b0b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-header {
+    margin-top: 20px;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 24px;
+}
+
+.battlefield-grid {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    height: 75vh;
+    width: 90%;
+    max-width: 1400px;
+}
+
+/* The 3 Locations */
+.location-column {
+    flex: 1;
+    border-left: 1px dashed #333;
+    border-right: 1px dashed #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.01);
+    position: relative;
+}
+
+.card-zone {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    min-height: 160px;
+    padding: 10px;
+}
+
+.enemy-zone { align-items: flex-start; }
+.player-zone { align-items: flex-end; }
+
+/* Zone Divider Line */
+.zone-divider {
+    height: 2px;
+    background: #222;
+    width: 100%;
+    margin: 10px 0;
+}
+
+/* Battle Card */
+.battle-card {
+    width: 110px;
+    height: 150px;
+    background: #1a1a1a;
+    border: 2px solid #444;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+
+.battle-card:hover {
+    transform: translateY(-5px);
+    z-index: 10;
+}
+
+.battle-card.player:hover {
+    border-color: #fff;
+}
+
+.battle-card.enemy:hover {
+    border-color: #ff4444;
+    cursor: crosshair;
+}
+
+.battle-card.selected {
+    border-color: #d4af37;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    transform: scale(1.05);
+}
+
+/* Card Visuals */
+.card-image-area {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 11px;
+    background: #222;
+    border-bottom: 1px solid #333;
+}
+
+/* Stats Container */
+.card-stats-bars {
+    padding: 6px;
+    background: #0f0f0f;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.stat-bar-track {
+    width: 100%;
+    height: 5px;
+    background: #222;
+}
+
+.stat-bar-fill {
+    height: 100%;
+    transition: width 0.3s ease-out;
+}
+
+.fill-overguard { background: #A020F0; box-shadow: 0 0 4px #A020F0; }
+.fill-shield { background: #00BFFF; }
+.fill-health { background: #FF0000; }
+
+.hp-text {
+    font-size: 10px;
+    color: #888;
+    text-align: center;
+    margin-top: 2px;
+}
+
+/* Animations */
+.floating-damage {
+    position: absolute;
+    font-size: 28px;
+    font-weight: 800;
+    pointer-events: none;
+    animation: floatUpFade 1s forwards;
+    text-shadow: 2px 2px 0 #000;
+    z-index: 100;
+    width: 100px;
+    text-align: center;
+}
+
+@keyframes floatUpFade {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -150%) scale(1.5); }
+}
+
+/* Player Hand */
+.player-hand-container {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 10px;
+    z-index: 100;
+}
+
+.hand-card-wrapper {
+    margin-left: -40px; /* overlap cards like a real hand */
+    transition: transform 0.2s, z-index 0.2s;
+    cursor: grab;
+    position: relative;
+}
+
+.hand-card-wrapper:first-child {
+    margin-left: 0;
+}
+
+.hand-card-wrapper:hover {
+    transform: translateY(-50px) scale(1.1);
+    z-index: 110;
+}
+
+.hand-card-wrapper:active {
+    cursor: grabbing;
+}
+
+/* --- ABILITY OVERLAY (Hover) --- */
+.ability-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 50;
+    padding: 2px;
+}
+
+/* Show overlay when hovering, BUT NOT if dragging */
+.battle-card:hover .ability-overlay {
+    opacity: 1;
+}
+
+.ability-btn {
+    background: #222;
+    border: 1px solid #d4af37;
+    color: #d4af37;
+    font-size: 9px;
+    padding: 6px 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.ability-btn:hover {
+    background: #d4af37;
+    color: #000;
+}
+
+/* - - - - */
+
+.location-column.drag-active .card-zone {
+    background: rgba(212, 175, 55, 0.05);
+    border: 2px dashed #d4af37;
+}

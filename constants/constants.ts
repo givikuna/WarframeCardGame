@@ -127,14 +127,7 @@ export const ProcDurationTable: { [s: string]: number } = {
     Blinded: Number.POSITIVE_INFINITY,
 };
 
-export const DoTProcs: ReadonlyArray<StatusEffectType> = [
-    "Slash",
-    "Electricity",
-    "Heat",
-    "Toxin",
-    "Blast",
-    "Gas",
-];
+export const DoTProcs: ReadonlyArray<StatusEffectType> = ["Slash", "Electricity", "Heat", "Toxin", "Blast", "Gas"];
 
 export const DoTMultiplicationTable: { [proc: string]: number } = {
     Electricity: 0.5,
@@ -189,3 +182,5 @@ export const creditCostPerRarity: Record<Rarity, number> = {
     Archon: 3500,
     Tome: 5000,
 };
+
+export const PHYSICAL_STATES = ["Flying", "Invisible", "Invincible", "Disarmed", "Disabled", "Blinded"];

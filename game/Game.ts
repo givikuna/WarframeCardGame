@@ -55,4 +55,10 @@ export class Game {
 
         return nextTurnData;
     }
+
+    /*
+    public playCard(player: 1 | 2, cardIndexInHand: number) {
+        //
+    }
+    */
 }

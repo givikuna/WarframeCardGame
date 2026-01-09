@@ -4,7 +4,7 @@ export const stats: CardStats = {
     faction: "Tenno",
     healthType: "Tenno",
     maxHealth: 370,
-    maxShields: 0,
+    maxShields: 370,
     maxOverguard: 0,
     baseArmor: 315,
     maxEnergy: 8,

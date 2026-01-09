@@ -6,27 +6,32 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export default {
-    entry: "./game/InitializeGame.ts",
+    entry: "./client/index.tsx",
     mode: "production",
     output: {
         filename: "bundle.js",
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(__dirname, "public/dist"),
+        publicPath: "/",
     },
     resolve: {
-        extensions: [".ts", ".js"],
+        extensions: [".ts", ".tsx", ".js"],
     },
     module: {
         rules: [
             {
-                test: /\.ts$/,
-                use: {
-                    loader: "ts-loader",
-                    options: {
-                        allowTsInNodeModules: true,
-                    },
-                },
-                exclude: /node_modules\/(?!@givi-tsvariani\/encodex)/,
+                test: /\.tsx?$/,
+                use: "ts-loader",
+                exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/,
+                use: ["style-loader", "css-loader"],
             },
         ],
+    },
+    devServer: {
+        static: { directory: path.join(__dirname, "public") },
+        historyApiFallback: true,
+        port: 8080,
     },
 };

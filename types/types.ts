@@ -120,7 +120,7 @@ export type AbilityFunction = (
 
 export type Nullable<T> = T | null;
 
-export type AttackType = "Melee" | "Ranged" | "Explosive" | "DoT";
+export type AttackType = "Melee" | "Ranged" | "Explosive" | "DoT" | "Projectile";
 
 export type WeaponSlot = "Primary" | "Secondary" | "Melee";
 
@@ -211,3 +211,10 @@ export type CardStats = {
 export type CardData = { name: string; abilities: ReadonlyArray<Ability> } & CardStats;
 
 export type TurnData = { turn: number; firstPlayer: 1 | 2 };
+
+export type DamagePreview = {
+    id: number;
+    targetId: string;
+    val: number;
+    color: string;
+};

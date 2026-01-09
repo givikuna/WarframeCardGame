@@ -1,13 +1,11 @@
 import { BoardLocation } from "./BoardLocation";
 import { Card } from "./Card";
+
 export class Board {
     protected locations: [BoardLocation, BoardLocation, BoardLocation];
 
     public constructor(
-        locations?:
-            | [BoardLocation]
-            | [BoardLocation, BoardLocation]
-            | [BoardLocation, BoardLocation, BoardLocation],
+        locations?: [BoardLocation] | [BoardLocation, BoardLocation] | [BoardLocation, BoardLocation, BoardLocation],
     ) {
         this.locations =
             locations == null || locations == undefined

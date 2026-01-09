@@ -45,9 +45,7 @@ export class StatusEffect {
     }
 
     public getDoT(): Nullable<DamageInstance> {
-        return this.dotDMGFormula == null || this.dotDMGFormula == undefined
-            ? null
-            : this.dotDMGFormula();
+        return this.dotDMGFormula == null || this.dotDMGFormula == undefined ? null : this.dotDMGFormula();
     }
 
     public getProcType(): StatusEffectType {
