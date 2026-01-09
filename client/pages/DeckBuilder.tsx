@@ -235,7 +235,7 @@ export default function DeckBuilder({ user }: { user: string }) {
                                                 >
                                                     <div className="ability-top">
                                                         <span>{ab.name}</span>
-                                                        <span className="ability-cost">{ab.cost} EN</span>
+                                                        <span className="ability-cost">{ab.cost} E</span>
                                                     </div>
                                                     <div className="ability-desc">{ab.description}</div>
                                                 </div>
