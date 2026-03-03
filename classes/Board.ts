@@ -1,37 +1,21 @@
-import { BoardLocation } from "./BoardLocation";
-import { Card } from "./Card";
+import { Player } from "./Player";
 
 export class Board {
-    protected locations: [BoardLocation, BoardLocation, BoardLocation];
+    private player1: Player;
+    private player2: Player;
 
-    public constructor(
-        locations?: [BoardLocation] | [BoardLocation, BoardLocation] | [BoardLocation, BoardLocation, BoardLocation],
-    ) {
-        this.locations =
-            locations == null || locations == undefined
-                ? [new BoardLocation(this), new BoardLocation(this), new BoardLocation(this)]
-                : locations.length === 3
-                ? locations
-                : locations.length === 2
-                ? [...locations, new BoardLocation(this)]
-                : [...locations, new BoardLocation(this), new BoardLocation(this)];
+    public constructor(player1: Player, player2: Player) {
+        this.player1 = player1;
+        this.player2 = player2;
     }
 
-    public getLocations(): [BoardLocation, BoardLocation, BoardLocation] {
-        return this.locations;
+    public getPlayer1(): Player {
+        return this.player1;
     }
 
-    public getAllCards(): ReadonlyArray<Card> {
-        return [
-            ...this.getLocations()[0].getAllCards(),
-            ...this.getLocations()[1].getAllCards(),
-            ...this.getLocations()[2].getAllCards(),
-        ];
+    public getPlayer2(): Player {
+        return this.player2;
     }
 
-    public nextTurn(): void {
-        this.getAllCards().forEach((card: Card): void => {
-            card.nextTurn();
-        });
-    }
+    // -- // -- //
 }

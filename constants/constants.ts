@@ -1,186 +1,100 @@
-import { DamageType, Rarity, StatusEffectType } from "../types/types";
+import { DamageType, HealthClass, StatusEffectType } from "../types/enums";
 
-export const damageTypeToStatus: { [damageType: string]: StatusEffectType } = {
-    Impact: "Impact",
-    Puncture: "Puncture",
-    Slash: "Slash",
-    Cold: "Cold",
-    Electricity: "Electricity",
-    Heat: "Heat",
-    Toxin: "Toxin",
-    Blast: "Blast",
-    Corrosive: "Corrosive",
-    Gas: "Gas",
-    Magnetic: "Magnetic",
-    Radiation: "Radiation",
-    Viral: "Viral",
-    Void: "Void",
-    Tau: "Tau",
+export const HealthClassDamageMultipliers: Record<HealthClass, ReadonlyArray<Readonly<[DamageType, 1.5 | 0.5]>>> = {
+    [HealthClass.Tenno]: [
+        [DamageType.Tau, 1.5],
+        [DamageType.Void, 0.5],
+    ],
+    [HealthClass.Grineer]: [
+        [DamageType.Impact, 1.5],
+        [DamageType.Corrosive, 1.5],
+    ],
+    [HealthClass.KuvaGrineer]: [
+        [DamageType.Impact, 1.5],
+        [DamageType.Corrosive, 1.5],
+        [DamageType.Heat, 0.5],
+    ],
+    [HealthClass.Corpus]: [
+        [DamageType.Puncture, 1.5],
+        [DamageType.Magnetic, 1.5],
+    ],
+    [HealthClass.CorpusAmalgam]: [
+        [DamageType.Magnetic, 1.5],
+        [DamageType.Electricity, 1.5],
+        [DamageType.Blast, 0.5],
+    ],
+    [HealthClass.Infested]: [
+        [DamageType.Slash, 1.5],
+        [DamageType.Heat, 1.5],
+    ],
+    [HealthClass.InfestedDeimos]: [
+        [DamageType.Blast, 1.5],
+        [DamageType.Gas, 1.5],
+    ],
+    [HealthClass.Orokin]: [
+        [DamageType.Puncture, 1.5],
+        [DamageType.Viral, 1.5],
+        [DamageType.Radiation, 0.5],
+    ],
+    [HealthClass.Sentient]: [
+        [DamageType.Cold, 1.5],
+        [DamageType.Radiation, 1.5],
+        [DamageType.Corrosive, 1.5],
+    ],
+    [HealthClass.Narmer]: [
+        [DamageType.Slash, 1.5],
+        [DamageType.Toxin, 1.5],
+        [DamageType.Magnetic, 0.5],
+    ],
+    [HealthClass.Zariman]: [
+        [DamageType.Void, 1.5],
+        [DamageType.Magnetic, 0.5],
+    ],
+    [HealthClass.TheMurmur]: [
+        [DamageType.Electricity, 1.5],
+        [DamageType.Radiation, 1.5],
+        [DamageType.Viral, 0.5],
+    ],
+    [HealthClass.Techrot]: [
+        [DamageType.Gas, 1.5],
+        [DamageType.Magnetic, 1.5],
+        [DamageType.Cold, 0.5],
+    ],
+    [HealthClass.Scaldra]: [
+        [DamageType.Impact, 1.5],
+        [DamageType.Corrosive, 1.5],
+        [DamageType.Gas, 0.5],
+    ],
+    [HealthClass.Stalker]: [[DamageType.Void, 0.5]],
+    [HealthClass.Anarchs]: [
+        [DamageType.Impact, 1.5],
+        [DamageType.Electricity, 1.5],
+        [DamageType.Radiation, 0.5],
+    ],
+    [HealthClass.Ostron]: [],
+    [HealthClass.Wild]: [],
+    [HealthClass.Object]: [],
 };
 
-export const damageTypes: DamageType[] = [
-    "Impact",
-    "Puncture",
-    "Slash",
-    "Cold",
-    "Electricity",
-    "Heat",
-    "Toxin",
-    "Blast",
-    "Corrosive",
-    "Gas",
-    "Magnetic",
-    "Radiation",
-    "Viral",
-    "Void",
-    "Tau",
-    "True",
-];
-
-export const FactionDamageMultipliers: {
-    [faction: string]: ReadonlyArray<Readonly<[DamageType, 1.5 | 0.5]>>;
-} = {
-    Tenno: [],
-    Grineer: [
-        ["Impact", 1.5],
-        ["Corrosive", 1.5],
-    ],
-    "Kuva Grineer": [
-        ["Impact", 1.5],
-        ["Corrosive", 1.5],
-        ["Heat", 0.5],
-    ],
-    Corpus: [
-        ["Puncture", 1.5],
-        ["Magnetic", 1.5],
-    ],
-    "Corpus Amalgam": [
-        ["Electricity", 1.5],
-        ["Magnetic", 1.5],
-        ["Blast", 0.5],
-    ],
-    Infested: [
-        ["Slash", 1.5],
-        ["Heat", 1.5],
-    ],
-    "Infested Deimos": [
-        ["Blast", 1.5],
-        ["Gas", 1.5],
-    ],
-    Orokin: [
-        ["Puncture", 1.5],
-        ["Viral", 1.5],
-        ["Radiation", 0.5],
-    ],
-    Sentient: [
-        ["Cold", 1.5],
-        ["Radiation", 1.5],
-        ["Corrosive", 0.5],
-    ],
-    Narmer: [
-        ["Slash", 1.5],
-        ["Toxin", 1.5],
-        ["Magnetic", 0.5],
-    ],
-    "The Murmur": [
-        ["Electricity", 1.5],
-        ["Radiation", 1.5],
-        ["Viral", 0.5],
-    ],
-    Zariman: [["Void", 1.5]],
-    Scaldra: [
-        ["Impact", 1.5],
-        ["Corrosive", 1.5],
-        ["Gas", 0.5],
-    ],
-    Techrot: [
-        ["Gas", 1.5],
-        ["Magnetic", 1.5],
-        ["Cold", 0.5],
-    ],
-    Stalker: [],
-    Object: [],
-    Wild: [],
+export const StatusEffectDurationTable: Record<StatusEffectType, number> = {
+    [StatusEffectType.Impact]: 0,
+    [StatusEffectType.Puncture]: 0,
+    [StatusEffectType.Slash]: 0,
+    [StatusEffectType.Cold]: 0,
+    [StatusEffectType.Electricity]: 0,
+    [StatusEffectType.Heat]: 0,
+    [StatusEffectType.Toxin]: 0,
+    [StatusEffectType.Blast]: 0,
+    [StatusEffectType.Corrosive]: 0,
+    [StatusEffectType.Gas]: 0,
+    [StatusEffectType.Magnetic]: 0,
+    [StatusEffectType.Radiation]: 0,
+    [StatusEffectType.Viral]: 0,
+    [StatusEffectType.Void]: 0,
+    [StatusEffectType.Tau]: 0,
+    [StatusEffectType.Flying]: 0,
+    [StatusEffectType.Invisible]: 0,
+    [StatusEffectType.Invincible]: 0,
+    [StatusEffectType.Taunting]: 0,
+    [StatusEffectType.Blinded]: 0,
 };
-
-export const ProcDurationTable: { [s: string]: number } = {
-    Impact: 3,
-    Puncture: 3,
-    Slash: 3,
-    Cold: 3,
-    Electricity: 1,
-    Heat: 2,
-    Toxin: 2,
-    Blast: 2,
-    Corrosive: 4,
-    Gas: 2,
-    Magnetic: 4,
-    Radiation: 3,
-    Viral: 2,
-    Void: 3,
-    Tau: 8,
-    Flying: Number.POSITIVE_INFINITY,
-    Disarmed: Number.POSITIVE_INFINITY,
-    Disabled: Number.POSITIVE_INFINITY,
-    Invisible: Number.POSITIVE_INFINITY,
-    Invincible: Number.POSITIVE_INFINITY,
-    Blinded: Number.POSITIVE_INFINITY,
-};
-
-export const DoTProcs: ReadonlyArray<StatusEffectType> = ["Slash", "Electricity", "Heat", "Toxin", "Blast", "Gas"];
-
-export const DoTMultiplicationTable: { [proc: string]: number } = {
-    Electricity: 0.5,
-    Slash: 0.35,
-    Heat: 0.5,
-    Toxin: 0.3,
-    Blast: 0.27,
-    Gas: 0.22,
-};
-
-export const DoTCritChanceTable: { [proc: string]: number } = {
-    Electricity: 5,
-    Slash: 15,
-    Heat: 10,
-    Toxin: 5,
-    Blast: 5,
-    Gas: 2,
-};
-
-export const procMaxStacks: { [proc: string]: number } = {
-    Impact: 5,
-    Puncture: Number.POSITIVE_INFINITY,
-    Slash: Number.POSITIVE_INFINITY,
-    Cold: 10,
-    Electricity: Number.POSITIVE_INFINITY,
-    Heat: Number.POSITIVE_INFINITY,
-    Toxin: Number.POSITIVE_INFINITY,
-    Blast: 5,
-    Corrosive: 10,
-    Gas: Number.POSITIVE_INFINITY,
-    Magnetic: 10,
-    Radiation: 10,
-    Viral: 10,
-    Void: 3,
-    Tau: 10,
-    Flying: Number.POSITIVE_INFINITY,
-    Disarmed: Number.POSITIVE_INFINITY,
-    Disabled: Number.POSITIVE_INFINITY,
-    Invisible: Number.POSITIVE_INFINITY,
-    Invincible: Number.POSITIVE_INFINITY,
-    Blinded: Number.POSITIVE_INFINITY,
-};
-
-export const creditCostPerRarity: Record<Rarity, number> = {
-    Common: 100,
-    Uncommon: 200,
-    Rare: 400,
-    Legendary: 800,
-    Riven: 1200,
-    Galvanized: 1800,
-    Requiem: 2500,
-    Archon: 3500,
-    Tome: 5000,
-};
-
-export const PHYSICAL_STATES = ["Flying", "Invisible", "Invincible", "Disarmed", "Disabled", "Blinded"];

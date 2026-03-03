@@ -1,80 +1,57 @@
 import { Card } from "./Card";
-import { DamageInstance } from "./DamageInstance";
 
-import { StatusEffectType, Nullable } from "../types/types";
-
-import { isDoT } from "../modules/helpers/isDoT";
+import { StatusEffectType } from "../types/enums";
 
 export class StatusEffect {
-    protected name: StatusEffectType;
-    protected di: Nullable<DamageInstance> = null;
-    protected DIexists: boolean = false;
-    protected duration: number; // number of turns
-    protected appliedTo: Card;
-    protected appliedBy: Card;
-    protected dot: boolean;
-    protected dotDMGFormula: Nullable<() => DamageInstance> = null;
-    protected direct: boolean = true;
+    private appliedTo: Card;
+    private appliedBy: Card;
 
-    public constructor(
-        name: StatusEffectType,
-        duration: number,
-        at: Card,
-        ab: Card,
-        di?: DamageInstance | number,
-        dotDMGFormula?: () => DamageInstance,
-    ) {
-        this.name = name;
+    private statusEffectType: StatusEffectType;
+
+    private duration: number;
+
+    public constructor(appliedTo: Card, appliedBy: Card, statusEffectType: StatusEffectType, duration: number) {
+        this.appliedTo = appliedTo;
+        this.appliedBy = appliedBy;
+
+        this.statusEffectType = statusEffectType;
+
         this.duration = duration;
-        this.appliedTo = at;
-        this.appliedBy = ab;
-        this.dot = isDoT(this.name);
-        if (this.dot && (di == null || di == undefined)) {
-            this.di = null;
-            this.DIexists = false;
-        }
-        if (dotDMGFormula !== null && dotDMGFormula !== undefined) {
-            this.dotDMGFormula = dotDMGFormula;
-        }
     }
 
-    public nextTurn(): this {
-        this.duration--;
-        if (this.dot) this.appliedTo.applyDamage(this.dotDMGFormula!());
-        return this;
+    // -- // --
+
+    public getAppliedTo(): Card {
+        return this.appliedTo;
     }
 
-    public getDoT(): Nullable<DamageInstance> {
-        return this.dotDMGFormula == null || this.dotDMGFormula == undefined ? null : this.dotDMGFormula();
+    public getAppliedBy(): Card {
+        return this.appliedBy;
     }
 
-    public getProcType(): StatusEffectType {
-        return this.name;
+    public getType(): StatusEffectType {
+        return this.statusEffectType;
     }
 
     public getDuration(): number {
         return this.duration;
     }
 
-    public getInflictor(): Card {
-        return this.appliedBy;
+    // -- // --
+
+    public tick(): void {
+        this.duration--;
+        switch (this.statusEffectType) {
+            case StatusEffectType.Impact:
+                break;
+            case StatusEffectType.Puncture:
+                break;
+            case StatusEffectType.Slash:
+            //
+            default:
+                break;
+        }
     }
 
-    public makeDirect(): this {
-        this.direct = true;
-        return this;
-    }
-
-    public makeIndirect(): this {
-        this.direct = false;
-        return this;
-    }
-
-    public isDirect(): boolean {
-        return this.direct;
-    }
-
-    public getDI(): Nullable<DamageInstance | number> {
-        return this.di;
-    }
+    // -- // --
 }
