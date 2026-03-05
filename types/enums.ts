@@ -134,3 +134,36 @@ export enum Faction {
     Tenno = "Tenno",
     TheCorrupted = "TheCorrupted",
 }
+
+export enum FactionSyndicate {
+    SteelMeridian = "SteelMeridian",
+    ArbitersOfHexis = "ArbitersOfHexis",
+    CephalonSuda = "CephalonSuda",
+    ThePerrinSequence = "ThePerrinSequence",
+    RedVeil = "RedVeil",
+    NewLoka = "NewLoka",
+}
+
+export enum FocusSchool {
+    Madura = "Madurai",
+    Vazarin = "Vazarin",
+    Naramon = "Naramon",
+    Unairu = "Unairu",
+    Zenurik = "Zenurik",
+}
+
+export enum Cephalon {
+    Apnar = "Apnar",
+    Cordylon = "Cordylon",
+    Cy = "Cy",
+    Daklo = "Daklo",
+    Jordas = "Jordas",
+    Loid = "Loid",
+    Melica = "Melica",
+    Ordis = "Ordis",
+    Otak = "Otak",
+    Samodeus = "Samodeus",
+    Sark = "Sark",
+    Simaris = "Simaris",
+    Vull = "Vull",
+}

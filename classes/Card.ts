@@ -10,6 +10,8 @@ export class Card {
     private uid: string;
     private iid: string;
 
+    private owner: 1 | 2;
+
     private maxHealth: number;
     private maxShields: number;
 
@@ -24,7 +26,9 @@ export class Card {
 
     private statusEffects: StatusEffect[] = [];
 
-    public constructor(card: CardDTO, cad: CardActionData, iid: string) {
+    private status: "Alive" | "Dead" = "Alive";
+
+    public constructor(card: CardDTO, cad: CardActionData, iid: string, owner: 1 | 2) {
         this.iid = iid;
 
         this.actions = cad;
@@ -39,6 +43,8 @@ export class Card {
         this.overguard = card.overguard;
 
         this.healthClass = HealthClass[card.healthClass];
+
+        this.owner = owner;
     }
 
     public getName(): string {
@@ -51,6 +57,10 @@ export class Card {
 
     public getIID(): string {
         return this.iid;
+    }
+
+    public getOwner(): 1 | 2 {
+        return this.owner;
     }
 
     public getMaxHealth(): number {
@@ -82,8 +92,24 @@ export class Card {
     }
 
     public getStatusEffects(): ReadonlyArray<StatusEffect> {
-        return this.statusEffects;
+        return [...this.statusEffects];
     }
 
     // -- // --
+
+    public takeDamage(dmgToHealth: number, dmgToShield: number, dmgToOverguard: number): void {
+        this.currentHealth -= dmgToHealth;
+        this.currentShields -= dmgToShield;
+        this.overguard -= dmgToOverguard;
+
+        this.status = "Dead";
+    }
+
+    public applyStatusEffect(se: StatusEffect): void {
+        this.statusEffects.push(se);
+    }
+
+    public isDead(): boolean {
+        return this.status === "Dead";
+    }
 }

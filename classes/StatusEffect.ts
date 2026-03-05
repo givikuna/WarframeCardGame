@@ -1,6 +1,9 @@
 import { Card } from "./Card";
 
 import { StatusEffectType } from "../types/enums";
+import { DamageInstance } from "./DamageInstance";
+import { Board } from "./Board";
+import { StatusEffectFactory } from "../factories/StatusEffectFactory";
 
 export class StatusEffect {
     private appliedTo: Card;
@@ -39,16 +42,45 @@ export class StatusEffect {
 
     // -- // --
 
-    public tick(): void {
+    public tick(board: Board): void {
         this.duration--;
         switch (this.statusEffectType) {
-            case StatusEffectType.Impact:
-                break;
-            case StatusEffectType.Puncture:
-                break;
             case StatusEffectType.Slash:
-            //
-            default:
+                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Slash: 15 }, 0, 10, 1.5).apply();
+                break;
+            case StatusEffectType.Electricity:
+                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Electricity: 8 }, 3, 5, 1.5).apply();
+                board[`getPlayer${this.getAppliedTo().getOwner()}`]()
+                    .getCards()
+                    .forEach((card: Card): void => {
+                        if (Math.random() < 0.10001)
+                            card.applyStatusEffect(
+                                StatusEffectFactory.manufacture(
+                                    this.getAppliedTo(),
+                                    this.getAppliedBy(),
+                                    StatusEffectType.Electricity,
+                                ),
+                            );
+                    });
+                break;
+            case StatusEffectType.Heat:
+                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Heat: 8 }, 10, 10, 1.7).apply();
+                break;
+            case StatusEffectType.Toxin:
+                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Toxin: 8 }, 0, 3, 1.65).apply();
+                break;
+            case StatusEffectType.Blast:
+                // TBA
+                break;
+            case StatusEffectType.Gas:
+                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Gas: 5 }, 2, 15, 1.85).apply();
+                board[`getPlayer${this.getAppliedTo().getOwner()}`]()
+                    .getCards()
+                    .forEach((card: Card): void => {
+                        new DamageInstance(card, this.getAppliedBy(), { Gas: 5 }, 7, 15, 1.85).apply();
+                    });
+                break;
+            default: // Impact, Puncture Corrosive, Magnetic, Radiation, Viral, Void, Tau
                 break;
         }
     }

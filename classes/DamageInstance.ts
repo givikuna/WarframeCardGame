@@ -8,6 +8,7 @@ import { DamageDistributionTable } from "../types/types";
 import { DamageType, StatusEffectType } from "../types/enums";
 
 import { HealthClassDamageMultipliers } from "../constants/constants";
+import { StatusEffectFactory } from "../factories/StatusEffectFactory";
 
 export class DamageInstance {
     private appliedTo: Card;
@@ -87,9 +88,12 @@ export class DamageInstance {
     //
 
     public apply(): void {
-        const critLevel: number =
-            (Math.random() < (this.getCriticalChance() % 100) / 100 ? 1 : 0) +
-            Math.floor(this.getCriticalChance() / 1000);
+        this.applyStatusEffects();
+
+        const critLevel: number = Math.floor(
+            (Math.random() < (this.getCriticalChance() % 100) / 10.0 ? 1 : 0) +
+                Math.floor(this.getCriticalChance() / 100.0),
+        );
 
         Object.keys(this.getDDD()).forEach((key: string): void => {
             let arr: Array<Readonly<[DamageType, 1.5 | 0.5]>> = HealthClassDamageMultipliers[
@@ -101,18 +105,100 @@ export class DamageInstance {
             this.ddd[key] *= this.getCriticalDamageMultiplier() * critLevel;
         });
 
-        const dmgToOverguard: number = ramda.sum(
-            Object.keys(this.getDDD()).map(
-                (x: string): number => this.ddd[x] * (x === "Magnetic" || x === "Void" ? 1.5 : 1),
-            ),
-        );
+        let [dmgToHealth, dmgToShields, dmgToOverguard]: [number, number, number] =
+            this.calculateDamageNumbers(critLevel);
 
-        const dmgToShields: number = ramda.sum(
-            Object.keys(this.getDDD()).map(
-                (x: string): number => this.ddd[x] * (x === "Magnetic" || x === "Electricity" ? 1.5 : 1),
-            ),
-        );
+        if (
+            dmgToShields === this.getAppliedTo().getCurrentShields() &&
+            this.getAppliedTo()
+                .getStatusEffects()
+                .filter((s: StatusEffect): boolean => s.getType() === StatusEffectType.Magnetic).length > 0
+        ) {
+            this.getAppliedTo().applyStatusEffect(
+                StatusEffectFactory.manufacture(this.getAppliedTo(), this.getAppliedBy(), StatusEffectType.Electricity),
+            );
+        }
 
-        //
+        this.getAppliedTo().takeDamage(dmgToHealth, dmgToShields, dmgToOverguard);
+    }
+
+    private applyStatusEffects(): void {
+        const statusEffectCount: number =
+            Math.floor(this.getStatusChance() / 100) + Math.random() < (this.getStatusChance() % 100) / 100.0 ? 1 : 0;
+
+        for (let i: number = 0; i < statusEffectCount; i++) {
+            const rand: number = Math.floor(Math.random() * 100);
+            const sum: number = ramda.sum(
+                Object.keys(this.ddd)
+                    .filter((x: string): boolean => x === "True")
+                    .map((x: string): number => this.ddd[x]),
+            );
+
+            let amalgamSum: number = 0;
+
+            Object.keys(this.ddd)
+                .filter((x: string): boolean => x === "True")
+                .forEach((x: string): void => {
+                    amalgamSum += Math.floor((this.ddd[x] / sum) * 100);
+                    if (amalgamSum >= rand) {
+                        this.getAppliedTo().applyStatusEffect(
+                            StatusEffectFactory.manufacture(
+                                this.getAppliedTo(),
+                                this.getAppliedBy(),
+                                StatusEffectType[x],
+                            ),
+                        );
+                    }
+                });
+        }
+    }
+
+    private calculateDamageNumbers(critLevel: number): [number, number, number] {
+        const dmgToOverguard: number =
+            ramda.sum(
+                Object.keys(this.ddd).map(
+                    (x: string): number => this.ddd[x] * (x === "Magnetic" || x === "Void" ? 1.5 : 1),
+                ),
+            ) *
+            (1 +
+                0.08 *
+                    this.getAppliedTo()
+                        .getStatusEffects()
+                        .filter((x: StatusEffect): boolean => x.getType() === StatusEffectType.Magnetic).length);
+
+        const dmgToShields: number =
+            this.getAppliedTo().getOverguard() === 0
+                ? ramda.sum(
+                      Object.keys(this.ddd)
+                          .filter((x: string): boolean => x !== "Toxin")
+                          .map(
+                              (x: string): number => this.ddd[x] * (x === "Magnetic" || x === "Electricity" ? 1.5 : 1),
+                          ),
+                  ) *
+                  (1 +
+                      0.08 *
+                          this.getAppliedTo()
+                              .getStatusEffects()
+                              .filter((x: StatusEffect): boolean => x.getType() === StatusEffectType.Magnetic).length)
+                : 0;
+
+        const dmgToHealth: number =
+            ramda.sum(
+                (this.getAppliedTo().getOverguard() === 0
+                    ? this.getAppliedTo().getCurrentShields() === 0
+                        ? Object.keys(this.ddd)
+                        : Object.keys(this.ddd).filter((x: string): boolean => x === "Toxin")
+                    : Object.keys(this.ddd)
+                ).map((x: string): number => this.ddd[x]),
+            ) *
+            (1 +
+                0.08 *
+                    this.getAppliedTo()
+                        .getStatusEffects()
+                        .filter((x: StatusEffect): boolean => x.getType() === StatusEffectType.Viral).length);
+
+        return [dmgToHealth, dmgToShields, dmgToOverguard]
+            .map((x: number): number => x * this.getCriticalDamageMultiplier() * critLevel)
+            .map(Math.floor) as [number, number, number];
     }
 }
