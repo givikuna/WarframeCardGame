@@ -1,4 +1,4 @@
-import { DamageType, HealthClass, Rarity, StatusEffectType } from "../types/enums";
+import { DamageType, FactionSyndicate, HealthClass, Rarity, StatusEffectType, SyndicateEffect } from "../types/enums";
 
 export const HealthClassDamageMultipliers: Record<HealthClass, ReadonlyArray<Readonly<[DamageType, 1.5 | 0.5]>>> = {
     [HealthClass.Tenno]: [
@@ -109,4 +109,22 @@ export const CreditCostPerRarity: Record<Rarity, number> = {
     [Rarity.Requiem]: 2500,
     [Rarity.Archon]: 3500,
     [Rarity.Tome]: 5000,
+};
+
+export const FactionSyndicateToEffect: Record<FactionSyndicate, SyndicateEffect> = {
+    [FactionSyndicate.ArbitersOfHexis]: SyndicateEffect.Truth,
+    [FactionSyndicate.SteelMeridian]: SyndicateEffect.Justice,
+    [FactionSyndicate.CephalonSuda]: SyndicateEffect.Entropy,
+    [FactionSyndicate.ThePerrinSequence]: SyndicateEffect.Sequence,
+    [FactionSyndicate.RedVeil]: SyndicateEffect.Blight,
+    [FactionSyndicate.NewLoka]: SyndicateEffect.Purity,
+};
+
+export const DamageTypePerSyndicateEffect: Record<SyndicateEffect, DamageType> = {
+    [SyndicateEffect.Truth]: DamageType.Gas,
+    [SyndicateEffect.Justice]: DamageType.Blast,
+    [SyndicateEffect.Entropy]: DamageType.Magnetic,
+    [SyndicateEffect.Sequence]: DamageType.Radiation,
+    [SyndicateEffect.Blight]: DamageType.Viral,
+    [SyndicateEffect.Purity]: DamageType.Corrosive,
 };

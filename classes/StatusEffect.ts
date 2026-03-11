@@ -3,19 +3,26 @@ import { Player } from "./Player";
 import { Card } from "./Card";
 import { DamageInstance } from "./DamageInstance";
 
+import { Effect } from "../interfaces/Effect";
+
 import { StatusEffectFactory } from "../factories/StatusEffectFactory";
 
 import { StatusEffectType } from "../types/enums";
 
 export class StatusEffect {
     private appliedTo: Card;
-    private appliedBy: Card;
+    private appliedBy: Card | Effect;
 
     private statusEffectType: StatusEffectType;
 
     private duration: number;
 
-    public constructor(appliedTo: Card, appliedBy: Card, statusEffectType: StatusEffectType, duration: number) {
+    public constructor(
+        appliedTo: Card,
+        appliedBy: Card | Effect,
+        statusEffectType: StatusEffectType,
+        duration: number,
+    ) {
         this.appliedTo = appliedTo;
         this.appliedBy = appliedBy;
 
@@ -30,7 +37,7 @@ export class StatusEffect {
         return this.appliedTo;
     }
 
-    public getAppliedBy(): Card {
+    public getAppliedBy(): Card | Effect {
         return this.appliedBy;
     }
 

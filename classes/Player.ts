@@ -2,7 +2,6 @@ import { Board } from "./Board";
 import { Card } from "./Card";
 import { Operator } from "./Operator";
 import { Deck } from "./Deck";
-import { PlayerFaction } from "./PlayerFaction";
 
 export class Player {
     private playerNumber: 1 | 2;
@@ -57,7 +56,7 @@ export class Player {
         const b: number = this.getDamageDealt();
 
         if (a % 1000 !== b % 1000) {
-            PlayerFaction.init(this.getDeck().getFaction()).syndicateEffect();
+            // apply syndicate effect
         }
     }
 

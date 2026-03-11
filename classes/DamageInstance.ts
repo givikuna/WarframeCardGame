@@ -4,6 +4,8 @@ import { StatusEffect } from "./StatusEffect";
 
 import * as ramda from "ramda";
 
+import { Effect } from "../interfaces/Effect";
+
 import { StatusEffectFactory } from "../factories/StatusEffectFactory";
 
 import { DamageDistributionTable } from "../types/types";
@@ -14,7 +16,7 @@ import { HealthClassDamageMultipliers } from "../constants/constants";
 
 export class DamageInstance {
     private appliedTo: Card;
-    private appliedBy: Card;
+    private appliedBy: Card | Effect;
 
     private ddd: DamageDistributionTable;
     private statusChance: number;
@@ -23,7 +25,7 @@ export class DamageInstance {
 
     public constructor(
         appliedTo: Card,
-        appliedBy: Card,
+        appliedBy: Card | Effect,
         ddd: DamageDistributionTable,
         statusChance: number,
         criticalChance: number,
@@ -38,13 +40,24 @@ export class DamageInstance {
         this.criticalDamageMultiplier = criticalDamageMultiplier;
     }
 
+    public static init(
+        appliedTo: Card,
+        appliedBy: Card | Effect,
+        ddd: DamageDistributionTable,
+        statusChance: number,
+        criticalChance: number,
+        criticalDamageMultiplier: number,
+    ): DamageInstance {
+        return new DamageInstance(appliedTo, appliedBy, ddd, statusChance, criticalChance, criticalDamageMultiplier);
+    }
+
     //
 
     public getAppliedTo(): Card {
         return this.appliedTo;
     }
 
-    public getAppliedBy(): Card {
+    public getAppliedBy(): Card | Effect {
         return this.appliedBy;
     }
 

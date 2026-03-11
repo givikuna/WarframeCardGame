@@ -1,4 +1,5 @@
 import { Board } from "../classes/Board";
+import { FocusSchool } from "../types/enums";
 
 export class Game {
     private board: Board;
@@ -28,6 +29,10 @@ export class Game {
             .getDeck()
             .getCards()
             .filter((uid: string): boolean => uid === card)[0];
+    }
+
+    public focusAbility(_player: 1 | 2, _focusSchool: FocusSchool, _ability: 1 | 2 | 3): void {
+        //
     }
 
     protected endGame(): void {

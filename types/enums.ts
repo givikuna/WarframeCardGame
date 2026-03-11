@@ -169,3 +169,12 @@ export enum Cephalon {
     Simaris = "Simaris",
     Vull = "Vull",
 }
+
+export enum SyndicateEffect {
+    Justice = "Justice",
+    Truth = "Truth",
+    Entropy = "Entropy",
+    Sequence = "Sequence",
+    Blight = "Blight",
+    Purity = "Purity",
+}

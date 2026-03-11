@@ -1,9 +1,11 @@
+import { PlayerFaction } from "./PlayerFaction";
+
 import { Cephalon, FactionSyndicate, FocusSchool } from "../types/enums";
 
 export class Deck {
     private cards: string[];
     private focusSchool: FocusSchool;
-    private factionSyndicate: FactionSyndicate;
+    private factionSyndicate: PlayerFaction;
     private cephalon: Cephalon;
 
     public constructor(
@@ -14,7 +16,7 @@ export class Deck {
     ) {
         this.cards = cards;
         this.focusSchool = focusSchool;
-        this.factionSyndicate = factionSyndicate;
+        this.factionSyndicate = new PlayerFaction(factionSyndicate);
         this.cephalon = cephalon;
     }
 
@@ -26,7 +28,7 @@ export class Deck {
         return this.focusSchool;
     }
 
-    public getFaction(): FactionSyndicate {
+    public getFaction(): PlayerFaction {
         return this.factionSyndicate;
     }
 
