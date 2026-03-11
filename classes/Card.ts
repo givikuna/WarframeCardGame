@@ -35,13 +35,11 @@ export class Card {
 
     private status: "Alive" | "Dead" = "Alive";
 
-    public constructor(card: ICard, cad: CardActionData[], iid: string, owner: 1 | 2) {
+    public constructor(card: ICard, iid: string, owner: 1 | 2) {
         this.iid = iid;
 
-        this.actions = cad;
-
         [this.name, this.uid, this.maxHealth, this.maxShields, this.maxHealth, this.maxShields] = Object.keys(card)
-            .filter((s: string): boolean => !["overguard", "healthClass", "cardClass", "rarity"].includes(s))
+            .filter((s: string): boolean => !["overguard", "healthClass", "cardClass", "rarity", "actions"].includes(s))
             .map((key: string): any => card[key]);
 
         this.currentHealth = this.maxHealth;
@@ -54,6 +52,8 @@ export class Card {
         this.cardClass = CardClass[card.cardClass];
 
         this.rarity = Rarity[card.rarity];
+
+        this.actions = card.actions;
 
         this.owner = owner;
     }

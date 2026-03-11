@@ -29,4 +29,8 @@ export class Game {
             .getCards()
             .filter((uid: string): boolean => uid === card)[0];
     }
+
+    protected endGame(): void {
+        //
+    }
 }

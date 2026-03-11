@@ -1,3 +1,4 @@
+/*
 import { Action } from "../../classes/Action";
 import { ICard } from "../../interfaces/ICard";
 
@@ -13,3 +14,4 @@ export const Excalibur: ICard = {
     rarity: "Common",
     actions: [{action: ]
 };
+*/
