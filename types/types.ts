@@ -6,7 +6,7 @@ import { ActionType } from "./enums";
 
 export type ActionFunction = (player: Player, board: Board, actionType: ActionType) => void;
 
-export type CardActionData = { onPlay: Action; onTurn: Action };
+export type CardActionData = { action: Action };
 
 export type DamageDistributionTable = {
     Impact?: number;

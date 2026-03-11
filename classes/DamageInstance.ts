@@ -1,14 +1,16 @@
+import { Player } from "./Player";
 import { Card } from "./Card";
 import { StatusEffect } from "./StatusEffect";
 
 import * as ramda from "ramda";
+
+import { StatusEffectFactory } from "../factories/StatusEffectFactory";
 
 import { DamageDistributionTable } from "../types/types";
 
 import { DamageType, StatusEffectType } from "../types/enums";
 
 import { HealthClassDamageMultipliers } from "../constants/constants";
-import { StatusEffectFactory } from "../factories/StatusEffectFactory";
 
 export class DamageInstance {
     private appliedTo: Card;
@@ -87,7 +89,7 @@ export class DamageInstance {
 
     //
 
-    public apply(): void {
+    public apply(player: Player): void {
         this.applyStatusEffects();
 
         const critLevel: number = Math.floor(
@@ -120,6 +122,8 @@ export class DamageInstance {
         }
 
         this.getAppliedTo().takeDamage(dmgToHealth, dmgToShields, dmgToOverguard);
+
+        player.dealtDamage(ramda.sum([dmgToHealth, dmgToShields, dmgToOverguard]));
     }
 
     private applyStatusEffects(): void {

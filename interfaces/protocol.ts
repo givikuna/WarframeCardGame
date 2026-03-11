@@ -1,5 +1,6 @@
-import { DamageDistributionTable } from "../types/types";
 import { DamageTaken } from "./DamageTaken";
+
+import { DamageDistributionTable } from "../types/types";
 
 export interface CardDTO {
     name: string;
@@ -8,8 +9,6 @@ export interface CardDTO {
     maxHealth: number;
     maxShields: number;
     overguard: number;
-
-    healthClass: string;
 }
 
 export interface DamageInstanceDTO extends DamageTaken {

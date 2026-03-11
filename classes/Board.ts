@@ -18,4 +18,9 @@ export class Board {
     }
 
     // -- // -- //
+
+    public tick(): void {
+        this.getPlayer1().tick(this);
+        this.getPlayer2().tick(this);
+    }
 }

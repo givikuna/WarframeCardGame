@@ -9,11 +9,13 @@ export enum CardClass {
 export enum AttackType {
     Melee = "Melee",
     Ranged = "Ranged",
+    NonProjectileRanged = "NonProjectileRanged",
 }
 
 export enum ActionType {
     OnPlay = "OnPlay",
     PerTurn = "PerTurn",
+    Ongoing = "Ongoing",
 }
 
 export enum DamageType {

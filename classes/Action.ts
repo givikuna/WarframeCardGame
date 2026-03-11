@@ -1,3 +1,6 @@
+import { Board } from "./Board";
+import { Player } from "./Player";
+
 import { ActionFunction } from "../types/types";
 
 import { ActionType } from "../types/enums";
@@ -48,8 +51,7 @@ export class Action {
 
     // -- // -- //
 
-    public act(): void {
-        // TBA
-        this.actionFunction;
+    public act(player: Player, board: Board): void {
+        this.actionFunction(player, board, this.getActionType());
     }
 }

@@ -1,9 +1,12 @@
 import { StatusEffect } from "./StatusEffect";
+import { Board } from "./Board";
 
-import { CardDTO } from "../interfaces/protocol";
+import { ICard } from "../interfaces/ICard";
 
 import { CardActionData } from "../types/types";
-import { HealthClass } from "../types/enums";
+
+import { ActionType, CardClass, HealthClass, Rarity } from "../types/enums";
+import { Player } from "./Player";
 
 export class Card {
     private name: string;
@@ -22,19 +25,23 @@ export class Card {
 
     private healthClass: HealthClass;
 
-    private actions: CardActionData;
+    private cardClass: CardClass;
+
+    private rarity: Rarity;
+
+    private actions: ReadonlyArray<CardActionData>;
 
     private statusEffects: StatusEffect[] = [];
 
     private status: "Alive" | "Dead" = "Alive";
 
-    public constructor(card: CardDTO, cad: CardActionData, iid: string, owner: 1 | 2) {
+    public constructor(card: ICard, cad: CardActionData[], iid: string, owner: 1 | 2) {
         this.iid = iid;
 
         this.actions = cad;
 
         [this.name, this.uid, this.maxHealth, this.maxShields, this.maxHealth, this.maxShields] = Object.keys(card)
-            .filter((s: string): boolean => s != "overguard")
+            .filter((s: string): boolean => !["overguard", "healthClass", "cardClass", "rarity"].includes(s))
             .map((key: string): any => card[key]);
 
         this.currentHealth = this.maxHealth;
@@ -43,6 +50,10 @@ export class Card {
         this.overguard = card.overguard;
 
         this.healthClass = HealthClass[card.healthClass];
+
+        this.cardClass = CardClass[card.cardClass];
+
+        this.rarity = Rarity[card.rarity];
 
         this.owner = owner;
     }
@@ -87,12 +98,20 @@ export class Card {
         return this.healthClass;
     }
 
-    public getActions(): CardActionData {
-        return this.actions;
+    public getActions(): ReadonlyArray<CardActionData> {
+        return [...this.actions];
     }
 
     public getStatusEffects(): ReadonlyArray<StatusEffect> {
         return [...this.statusEffects];
+    }
+
+    public getCardClass(): CardClass {
+        return this.cardClass;
+    }
+
+    public getRarity(): Rarity {
+        return this.rarity;
     }
 
     // -- // --
@@ -111,5 +130,13 @@ export class Card {
 
     public isDead(): boolean {
         return this.status === "Dead";
+    }
+
+    public tick(player: Player, board: Board): void {
+        this.getActions().forEach((x: CardActionData): void => {
+            if (x.action.getActionType() === ActionType.PerTurn) x.action.act(player, board);
+        });
+
+        this.getStatusEffects().forEach((s: StatusEffect): void => s.tick(player, board));
     }
 }
