@@ -1,7 +1,7 @@
 import { Board } from "./Board";
-import { Card } from "./Card";
-import { Operator } from "./Operator";
 import { Deck } from "./Deck";
+import { Operator } from "./Operator";
+import { Card } from "./Card";
 
 export class Player {
     private playerNumber: 1 | 2;

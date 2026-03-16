@@ -1,5 +1,4 @@
 import { Card } from "./Card";
-
 import { PlayerFaction } from "./PlayerFaction";
 
 import { Cephalon, FactionSyndicate, FocusSchool } from "../types/enums";

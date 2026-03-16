@@ -1,10 +1,10 @@
-import { PlayerAPI } from "../db/players/PlayerAPI";
-
-import { DeckFactory } from "./DeckFactory";
-
 import { Game } from "../game/Game";
 import { Player } from "../classes/Player";
 import { Operator } from "../classes/Operator";
+
+import { PlayerAPI } from "../db/players/PlayerAPI";
+
+import { DeckFactory } from "./DeckFactory";
 
 import { defaultPlayerData } from "../constants/defaults";
 

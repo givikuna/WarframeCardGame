@@ -4,9 +4,9 @@ import { StatusEffect } from "./StatusEffect";
 
 import * as ramda from "ramda";
 
-import { Effect } from "../interfaces/Effect";
-
 import { StatusEffectFactory } from "../factories/StatusEffectFactory";
+
+import { Effect } from "../interfaces/Effect";
 
 import { DamageDistributionTable } from "../types/types";
 

@@ -1,5 +1,6 @@
 import { Board } from "../classes/Board";
 import { Card } from "../classes/Card";
+
 import { FocusSchool } from "../types/enums";
 
 export class Game {

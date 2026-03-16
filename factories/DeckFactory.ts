@@ -1,15 +1,15 @@
+import { Game } from "../game/Game";
 import { Deck } from "../classes/Deck";
+import { Card } from "../classes/Card";
 
 import { DeckAPI } from "../db/decks/DeckAPI";
 
 import { IDeckData } from "../interfaces/storage/IDeckData";
+import { CardFactory } from "./CardFactory";
 
 import { FocusSchool, FactionSyndicate, Cephalon } from "../types/enums";
 
 import { defaultDeckData } from "../constants/defaults";
-import { Card } from "../classes/Card";
-import { CardFactory } from "./CardFactory";
-import { Game } from "../game/Game";
 
 export class DeckFactory {
     public static manufacture(uid: string, playerNumber: 1 | 2, game: Game): Deck {

@@ -3,9 +3,9 @@ import { Player } from "./Player";
 import { Card } from "./Card";
 import { DamageInstance } from "./DamageInstance";
 
-import { Effect } from "../interfaces/Effect";
-
 import { StatusEffectFactory } from "../factories/StatusEffectFactory";
+
+import { Effect } from "../interfaces/Effect";
 
 import { StatusEffectType } from "../types/enums";
 

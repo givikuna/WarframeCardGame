@@ -1,12 +1,14 @@
-import { StatusEffect } from "./StatusEffect";
+import { Player } from "./Player";
 import { Board } from "./Board";
+import { StatusEffect } from "./StatusEffect";
+
+import { noop } from "underscore";
 
 import { ICard } from "../interfaces/ICard";
 
 import { CardActionData } from "../types/types";
 
 import { ActionType, CardClass, HealthClass, Rarity } from "../types/enums";
-import { Player } from "./Player";
 
 export class Card {
     private name: string;
@@ -133,9 +135,9 @@ export class Card {
     }
 
     public tick(player: Player, board: Board): void {
-        this.getActions().forEach((x: CardActionData): void => {
-            if (x.action.getActionType() === ActionType.PerTurn) x.action.act(player, board);
-        });
+        this.getActions().forEach((x: CardActionData): void =>
+            x.action.getActionType() === ActionType.PerTurn ? x.action.act(player, board) : noop(),
+        );
 
         this.getStatusEffects().forEach((s: StatusEffect): void => s.tick(player, board));
     }
