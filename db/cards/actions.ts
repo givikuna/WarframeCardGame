@@ -1,4 +1,4 @@
-import { Action } from "../classes/Action";
+import { Action } from "../../classes/Action";
 
 export const actions: { [uid: string]: Action } = {
     //
