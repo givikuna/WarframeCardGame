@@ -1,8 +1,6 @@
-import { ICardData } from "./ICardData";
-
 export interface IDeckData {
     uid: string;
-    cards: ICardData;
+    cards: string[];
     focusSchool: string;
     factionSyndicate: string;
     cephalon: string;

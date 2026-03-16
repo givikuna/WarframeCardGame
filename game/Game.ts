@@ -1,10 +1,13 @@
 import { Board } from "../classes/Board";
+import { Card } from "../classes/Card";
 import { FocusSchool } from "../types/enums";
 
 export class Game {
     private board: Board;
 
     private turn: number = 0;
+
+    // private iidCounter: number = 1;
 
     public constructor(board: Board) {
         this.board = board;
@@ -23,12 +26,17 @@ export class Game {
         this.getBoard().tick();
     }
 
-    public playCard(player: 1 | 2, card: string): void {
+    public playCard(player: 1 | 2, cardIID: string): void {
         this.getBoard()
             [`getPlayer${player}`]()
             .getDeck()
             .getCards()
-            .filter((uid: string): boolean => uid === card)[0];
+            .filter((card: Card): boolean => card.getIID() === cardIID)[0];
+    }
+
+    public createCardIID(__cardUID: string, __player: 1 | 2) {
+        // TBA
+        return "";
     }
 
     public focusAbility(_player: 1 | 2, _focusSchool: FocusSchool, _ability: 1 | 2 | 3): void {

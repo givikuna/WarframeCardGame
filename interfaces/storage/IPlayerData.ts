@@ -1,4 +1,4 @@
 export interface IPlayerData {
     uid: string;
-    deck: string;
+    decks: [string, string, string];
 }

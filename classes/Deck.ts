@@ -1,15 +1,17 @@
+import { Card } from "./Card";
+
 import { PlayerFaction } from "./PlayerFaction";
 
 import { Cephalon, FactionSyndicate, FocusSchool } from "../types/enums";
 
 export class Deck {
-    private cards: string[];
+    private cards: Card[];
     private focusSchool: FocusSchool;
     private factionSyndicate: PlayerFaction;
     private cephalon: Cephalon;
 
     public constructor(
-        cards: string[],
+        cards: Card[],
         focusSchool: FocusSchool,
         factionSyndicate: FactionSyndicate,
         cephalon: Cephalon,
@@ -20,8 +22,8 @@ export class Deck {
         this.cephalon = cephalon;
     }
 
-    public getCards(): ReadonlyArray<string> {
-        return [...this.cards].map(String);
+    public getCards(): ReadonlyArray<Card> {
+        return [...this.cards];
     }
 
     public getFocusSchool(): FocusSchool {
