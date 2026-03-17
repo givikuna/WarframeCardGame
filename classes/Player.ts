@@ -4,6 +4,7 @@ import { Operator } from "./Operator";
 import { Card } from "./Card";
 
 export class Player {
+    private playerName: string;
     private playerNumber: 1 | 2;
     private uid: string;
     private playedCards: Card[] = [];
@@ -15,11 +16,16 @@ export class Player {
 
     private credits: number = 200;
 
-    public constructor(playerNumber: 1 | 2, uid: string, operator: Operator, deck: Deck) {
+    public constructor(playerName: string, playerNumber: 1 | 2, uid: string, operator: Operator, deck: Deck) {
+        this.playerName = playerName;
         this.playerNumber = playerNumber;
         this.uid = uid;
         this.operator = operator;
         this.deck = deck;
+    }
+
+    public getPlayerName(): string {
+        return this.playerName;
     }
 
     public getPlayerNumber(): 1 | 2 {

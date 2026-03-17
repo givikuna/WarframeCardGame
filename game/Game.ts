@@ -35,11 +35,6 @@ export class Game {
             .filter((card: Card): boolean => card.getIID() === cardIID)[0];
     }
 
-    public createCardIID(__cardUID: string, __player: 1 | 2) {
-        // TBA
-        return "";
-    }
-
     public focusAbility(_player: 1 | 2, _focusSchool: FocusSchool, _ability: 1 | 2 | 3): void {
         //
     }
