@@ -1,6 +1,12 @@
 import { IDeckData } from "../interfaces/storage/IDeckData";
 import { IPlayerData } from "../interfaces/storage/IPlayerData";
 
+export const defaultPlayerData: IPlayerData = {
+    name: "Pablo",
+    uid: "PA00001",
+    decks: ["DA0000001", "DA0000002", "DA0000002"],
+};
+
 export const defaultDeckData: IDeckData = {
     uid: "DA0000001",
     cards: [],
@@ -9,7 +15,4 @@ export const defaultDeckData: IDeckData = {
     cephalon: "Ordis",
 };
 
-export const defaultPlayerData: IPlayerData = {
-    uid: "PA00001",
-    decks: ["DA0000001", "DA0000002", "DA0000002"],
-};
+export const defaultPlayerID: string = "PA00001";

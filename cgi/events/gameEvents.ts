@@ -1,6 +1,8 @@
+/*
 import * as socketIO from "socket.io";
 
 import { GameManager } from "../managers/GameManager";
+
 
 export const registerGameEvents: (socket: socketIO.Socket, io: socketIO.Server, gameManager: GameManager) => void = (
     socket: socketIO.Socket,
@@ -21,3 +23,5 @@ export const registerGameEvents: (socket: socketIO.Socket, io: socketIO.Server, 
         });
     });
 };
+
+*/

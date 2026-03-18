@@ -17,11 +17,6 @@ export class Board {
         return this.player2;
     }
 
-    public createCardIID(__cardUID: string, __player: 1 | 2) {
-        // TBA
-        return "";
-    }
-
     // -- // -- //
 
     public tick(): void {
