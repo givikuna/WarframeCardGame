@@ -130,6 +130,10 @@ export class Card {
         this.takeDamage(0, 0, -overguardToGain);
     }
 
+    public getOvershields(): number {
+        return this.currentShields - this.maxShields;
+    }
+
     public takeDamage(dmgToHealth: number, dmgToShield: number, dmgToOverguard: number): void {
         this.currentHealth -= dmgToHealth;
         this.currentShields -= dmgToShield;
