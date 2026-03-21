@@ -1,6 +1,6 @@
 Scaldra Flayer:
 
-Health: 50
+Health: 300
 Shield: 0
 Overguard: 0
 Class: Win Condition
