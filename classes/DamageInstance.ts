@@ -118,6 +118,8 @@ export class DamageInstance {
             this.ddd[key] *= arr.length === 0 ? 1 : arr[0][1];
 
             this.ddd[key] *= this.getCriticalDamageMultiplier() * critLevel;
+
+            this.ddd[key] *= 1 + this.appliedTo.numberOfStacksOf(StatusEffectType.Corrosive)*.05;
         });
 
         let [dmgToHealth, dmgToShields, dmgToOverguard]: [number, number, number] =
