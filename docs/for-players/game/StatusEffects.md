@@ -10,7 +10,7 @@ Electricity: has a 15% chance to spread to each other enemy card. Deals 8 electr
 Heat: deals 8 heat damage per turn. Adds a +0.5% chance to fail to do an action per stack. Lasts 3 turns.
 Toxin: deals 8 toxin damage per turn. Lasts 2 turns.
 Blast: At 5 stacks will deal 5 blast damage to each card at this location and all blast status effects get removed. Lasts 5 turns. Once duration runs out will explode with 6 blast damage being dealt to all enemies at this location..
-Corrosive: cards affected by this will take +8% damage per stack.
+Corrosive: cards affected by this will take +5% damage per stack.
 Gas: deals 5 gas damage to all cards at this location. Lasts 2 turns.
 Magnetic: cards affected by this take +8% damage per stack to shields and overguard. Breaking of overguard or shields while affected by magnetic'll apply an electricity status effect. Lasts 3 turns.
 Radiation: gives +5% chance per stack to cause the card to attack its own side.
