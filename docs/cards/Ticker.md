@@ -11,7 +11,7 @@ Rarity: Legendary
 Actions:
 
 Ticker's Immediate Compensation (OnPlay):
-Gives player 200 credits upon being played.
+Gives player 550 credits upon being played.
 
 The Bond Trader (OnTurn):
 Gives 50 credits per turn.
