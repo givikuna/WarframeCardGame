@@ -4,7 +4,7 @@ A number of them are applied through damage with a specific damage type and stat
 
 Impact: each stack gives +5% chance to fail to do an action. +1.5% chance to die instantly on an attack if no shields. Lasts 2 turns.
 Puncture: each stack gives +5% critical chance to each attack. Lasts 3 turns.
-Slash: deals 15 slash damage per turn. Lasts 2 turns.
+Slash: deals 20 slash damage per turn. Lasts 2 turns.
 Cold: each stack increases critical damage by +0.1x and +2.5% chance to fail to do an action. At 10 stacks or higher the card'll be unable to do an action at all. Lasts 5 turns.
 Electricity: has a 15% chance to spread to each other enemy card. Deals 8 electricity damage per turn. Lasts 2 turns.
 Heat: deals 8 heat damage per turn. Lasts 3 turns.
