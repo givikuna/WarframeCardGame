@@ -40,6 +40,8 @@ export class Game {
     public nextTurn(): void {
         if (!this.initialized) return;
 
+        this.turn++;
+
         // get cards that were played this turn and place them down
         this.getBoard()!.tick();
 
