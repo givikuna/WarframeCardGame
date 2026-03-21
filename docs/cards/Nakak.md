@@ -11,4 +11,4 @@ Rarity: Common
 Actions:
 
 Nakak Pearls (OnTurn):
-Will heal every tank +3 health each turn.
+Will heal every tank +7 health each turn.

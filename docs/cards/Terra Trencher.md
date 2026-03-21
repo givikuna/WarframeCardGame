@@ -11,7 +11,7 @@ Rarity: Riven
 Actions:
 
 Dual Kreskas (OnPlay):
-Deals 200 Damage to the Operator upon being played
+Deals 250 Damage to the Operator upon being played
 
 Trencher's Jetpack (OnTurn):
 Deals 1 Damage to the Operator per turn

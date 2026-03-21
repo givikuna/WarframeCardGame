@@ -42,6 +42,8 @@ Cephalon Vull is one of the Cephalons in Conclave Cephalon Capture mode. Vull is
 
 Selecting a Cephalon gives a modifier that will be applied for the entire game:
 
+/////////////////////////////////////////////////////////////////////////////
+
 The following effects are associated with each Cephalon:
 
 Apnar:

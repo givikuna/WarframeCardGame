@@ -1,8 +1,8 @@
-Grineer Lancer:
+Kuva Lancer:
 
-Health: 350
+Health: 500
 Shield: 0
-Overguard: 250
+Overguard: 275
 Class: Attacker
 Faction: Grineer
 Health Class: Grineer
