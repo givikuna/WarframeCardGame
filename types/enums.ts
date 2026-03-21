@@ -14,7 +14,7 @@ export enum AttackType {
 
 export enum ActionType {
     OnPlay = "OnPlay",
-    PerTurn = "PerTurn",
+    OnTurn = "OnTurn",
     Ongoing = "Ongoing",
 }
 
@@ -111,7 +111,6 @@ export enum Faction {
     Duviri = "Duviri",
     Zariman = "Zariman",
     Anarch = "Anarch",
-    PrimeGrineer = "PrimeGrineer",
     SteelMeridian = "SteelMeridian",
     ArbitersOfHexis = "ArbitersOfHexis",
     CephalonSuda = "CephalonSuda",
@@ -160,13 +159,10 @@ export enum Cephalon {
     Cy = "Cy",
     Daklo = "Daklo",
     Jordas = "Jordas",
-    Loid = "Loid",
     Melica = "Melica",
     Ordis = "Ordis",
-    Otak = "Otak",
     Samodeus = "Samodeus",
     Sark = "Sark",
-    Simaris = "Simaris",
     Vull = "Vull",
 }
 

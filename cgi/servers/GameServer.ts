@@ -11,6 +11,8 @@ export class GameServer {
     private cm: ConnectionManager;
     private io: SocketIO.Server;
 
+    private waitingPlayerSocketID: string | null = null;
+
     public constructor(io: SocketIO.Server) {
         this.lm = LobbyManager.init();
         this.gm = GameManager.init();
@@ -23,14 +25,18 @@ export class GameServer {
         this.io.on(
             "connection",
             (
-                _socket: SocketIO.Socket<
+                socket: SocketIO.Socket<
                     SocketIO.DefaultEventsMap,
                     SocketIO.DefaultEventsMap,
                     SocketIO.DefaultEventsMap,
                     any
                 >,
             ): void => {
-                _.noop();
+                console.log(`Player connected as: ${socket.id}`);
+
+                if (this.waitingPlayerSocketID === null) {
+                    this.waitingPlayerSocketID = socket.id;
+                }
             },
         );
     }

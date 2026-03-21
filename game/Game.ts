@@ -42,6 +42,8 @@ export class Game {
 
         // get cards that were played this turn and place them down
         this.getBoard()!.tick();
+
+        //
     }
 
     public playCard(player: 1 | 2, cardIID: string): void {

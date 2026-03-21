@@ -136,7 +136,7 @@ export class Card {
 
     public tick(player: Player, board: Board): void {
         this.getActions().forEach((x: CardActionData): void =>
-            x.action.getActionType() === ActionType.PerTurn ? x.action.act(player, board) : noop(),
+            x.action.getActionType() === ActionType.OnTurn ? x.action.act(player, board) : noop(),
         );
 
         this.getStatusEffects().forEach((s: StatusEffect): void => s.tick(player, board));

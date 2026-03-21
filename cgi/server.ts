@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as http from "http";
 import * as socket_io from "socket.io";
+
 import { GameServer } from "./servers/GameServer";
 
 const app: express.Application = express.default();
@@ -9,7 +10,6 @@ const io: socket_io.Server = new socket_io.Server(httpServer, {});
 
 const PORT: number = 8080;
 
-// Instantiate the master manager and pass in the socket server
 const gameServer = new GameServer(io);
 gameServer.startListening();
 
