@@ -11,7 +11,7 @@ Rarity: Riven
 Actions:
 
 Riven Bang (OnPlay):
-After being played, The Sergeant will become invisible for 3 turns
+After being played, The Sergeant will become invisible for 2 turns
 
 Lanka (OnTurn):
 Every turn, the sergeant deals 50 damage to the Operator.
