@@ -8,35 +8,29 @@ import { ICard } from "../../../interfaces/ICard";
 import { ActionType, CardClass, Faction, HealthClass, Rarity } from "../../../types/enums";
 import { TargetingFunction } from "../../../types/types";
 
-export const Nakak: ICard = {
-    name: "Nakak",
-    uid: "CNA001",
+export const DeimosCharger: ICard = {
+    name: "Deimos Charger",
+    uid: "CDE001",
 
-    maxHealth: 100,
+    maxHealth: 300,
     maxShields: 0,
-    overguard: 0,
+    overguard: 50,
 
-    cardClass: CardClass.Support,
-    faction: Faction.Ostron,
-    healthClass: HealthClass.Ostron,
-    rarity: Rarity.Common,
+    cardClass: CardClass.WinCondition,
+    faction: Faction.InfestedDeimos,
+    healthClass: HealthClass.InfestedDeimos,
+    rarity: Rarity.Uncommon,
 
     actions: [
         {
             action: new Action(
-                "Nakak",
-                "A01CNA001",
+                "Deimos Charge",
+                "A01CDE001",
                 "I001",
                 ActionType.OnTurn,
-                "Will heal every tank +7 health each turn.",
+                "Every turn the Charger will deal 15 damage to the Operator",
                 (_tf: TargetingFunction, _card: Card, player: Player, board: Board, _actionType: ActionType): void => {
-                    board[`getPlayer${player.getPlayerNumber()}`]()
-                        .getCards()
-                        .forEach((a: Card): void => {
-                            if (a.getCardClass() == CardClass.Tank) {
-                                a.heal(7);
-                            }
-                        });
+                    board[`getPlayer${player.getPlayerNumber()}`]().getOperator().takeDamage(15);
                 },
             ),
         },

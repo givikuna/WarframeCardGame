@@ -13,7 +13,7 @@ export const Charger: ICard = {
     name: "Charger",
     uid: "CCH001",
 
-    maxHealth: 100,
+    maxHealth: 150,
     maxShields: 0,
     overguard: 0,
 
@@ -25,11 +25,11 @@ export const Charger: ICard = {
     actions: [
         {
             action: new Action(
-                "Charger",
+                "Charge",
                 "A01CCH001",
                 "I001",
                 ActionType.OnTurn,
-                "Deals damage to operator",
+                "Every turn the Charger will deal 5 damage to the Operator",
                 (
                     _targetingFunction: TargetingFunction,
                     _card: Card,

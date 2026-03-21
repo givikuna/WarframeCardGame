@@ -1,6 +1,6 @@
 Charger:
 
-Health: 100
+Health: 150
 Shield: 0
 Overguard: 0
 Class: Win Condition
