@@ -1,3 +1,9 @@
+export enum HealthLayer {
+    Health = "Health",
+    Shield = "Shield",
+    Overguard = "Overguard",
+}
+
 export enum CardClass {
     Tank = "Tank",
     Attacker = "Attacker",

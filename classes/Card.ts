@@ -118,12 +118,30 @@ export class Card {
 
     // -- // --
 
+    public heal(healthToGain: number): void {
+        this.takeDamage(-healthToGain, 0, 0);
+    }
+
+    public giveShield(shieldToGain: number): void {
+        this.takeDamage(0, -shieldToGain, 0);
+    }
+
+    public giveOverguard(overguardToGain: number): void {
+        this.takeDamage(0, 0, -overguardToGain);
+    }
+
     public takeDamage(dmgToHealth: number, dmgToShield: number, dmgToOverguard: number): void {
         this.currentHealth -= dmgToHealth;
         this.currentShields -= dmgToShield;
         this.overguard -= dmgToOverguard;
 
-        this.status = "Dead";
+        this.kill();
+    }
+
+    public kill() {
+        if (this.currentHealth === 0) {
+            this.status = "Dead";
+        }
     }
 
     public applyStatusEffect(se: StatusEffect): void {
