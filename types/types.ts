@@ -1,10 +1,11 @@
 import { Board } from "../classes/Board";
 import { Player } from "../classes/Player";
+import { Card } from "../classes/Card";
 import { Action } from "../classes/Action";
 
 import { ActionType } from "./enums";
 
-export type ActionFunction = (player: Player, board: Board, actionType: ActionType) => void;
+export type ActionFunction = (card: Card, player: Player, board: Board, actionType: ActionType) => void;
 
 export type CardActionData = { action: Action };
 
