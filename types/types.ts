@@ -5,7 +5,17 @@ import { Action } from "../classes/Action";
 
 import { ActionType } from "./enums";
 
-export type ActionFunction = (card: Card, player: Player, board: Board, actionType: ActionType) => void;
+export type Nullable<T> = T | null;
+
+export type TargetingFunction = (card?: Card, player?: Player, board?: Board) => Card | undefined;
+
+export type ActionFunction = (
+    targetingFunction: TargetingFunction,
+    card: Card,
+    player: Player,
+    board: Board,
+    actionType: ActionType,
+) => void;
 
 export type CardActionData = { action: Action };
 

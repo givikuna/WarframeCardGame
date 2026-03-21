@@ -3,6 +3,8 @@ import { Deck } from "./Deck";
 import { Operator } from "./Operator";
 import { Card } from "./Card";
 
+import { StatusEffectType } from "../types/enums";
+
 export class Player {
     private playerName: string;
     private playerNumber: 1 | 2;
@@ -64,6 +66,10 @@ export class Player {
         if (a % 1000 !== b % 1000) {
             // apply syndicate effect
         }
+    }
+
+    public getTauntingCards(): ReadonlyArray<Card> {
+        return this.getCards().filter((card: Card): boolean => card.hasStatusEffect(StatusEffectType.Taunting));
     }
 
     public tick(board: Board): void {

@@ -8,9 +8,10 @@ import { noop } from "underscore";
 
 import { ICard } from "../interfaces/ICard";
 
-import { CardActionData } from "../types/types";
+import { CardActionData, TargetingFunction } from "../types/types";
 
 import { ActionType, CardClass, HealthClass, Rarity, StatusEffectType } from "../types/enums";
+import { Operator } from "./Operator";
 
 export class Card {
     private name: string;
@@ -175,6 +176,22 @@ export class Card {
                       this.numberOfStacksOf(StatusEffectType.Cold) * 2.5,
                       this.numberOfStacksOf(StatusEffectType.Heat) * 0.5,
                   ]);
+    }
+
+    public chooseTarget(targetingFunction: TargetingFunction, player: Player, board: Board): Card | Operator {
+        const enemyPlayer: Player = board[`getPlayer${player.getPlayerNumber() === 1 ? 2 : 1}`]();
+        const enemyPlayerCards: ReadonlyArray<Card> = enemyPlayer.getCards();
+        const enemyPlayerTauntingCards: ReadonlyArray<Card> = enemyPlayer.getTauntingCards();
+
+        if (enemyPlayerCards.length === 0) {
+            return enemyPlayer.getOperator();
+        }
+
+        if (enemyPlayerTauntingCards.length > 0) {
+            return enemyPlayerTauntingCards[0];
+        }
+
+        return targetingFunction() ?? enemyPlayerCards[0];
     }
 
     public tick(player: Player, board: Board): void {
