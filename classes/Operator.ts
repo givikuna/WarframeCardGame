@@ -5,7 +5,7 @@ export class Operator {
 
     private constructor() {}
 
-    public static new() {
+    public static new(): Operator {
         return new Operator();
     }
 
@@ -13,7 +13,11 @@ export class Operator {
         return this.health;
     }
 
-    public takeDamage(x: number, dt: DamageType) {
+    public takeDamage(x: number, dt: DamageType = DamageType.True): void {
         this.health -= x * (dt === DamageType.Void ? 1.5 : 1);
+    }
+
+    public heal(x: number): void {
+        this.takeDamage(-x);
     }
 }

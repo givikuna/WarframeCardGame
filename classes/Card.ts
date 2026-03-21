@@ -1,3 +1,5 @@
+import * as ramda from "ramda";
+
 import { Player } from "./Player";
 import { Board } from "./Board";
 import { StatusEffect } from "./StatusEffect";
@@ -8,7 +10,7 @@ import { ICard } from "../interfaces/ICard";
 
 import { CardActionData } from "../types/types";
 
-import { ActionType, CardClass, HealthClass, Rarity } from "../types/enums";
+import { ActionType, CardClass, HealthClass, Rarity, StatusEffectType } from "../types/enums";
 
 export class Card {
     private name: string;
@@ -156,9 +158,30 @@ export class Card {
         return this.status === "Dead";
     }
 
+    public numberOfStacksOf(se: StatusEffectType): number {
+        return this.getStatusEffects().filter((x: StatusEffect): boolean => x.getType() === se).length;
+    }
+
+    public hasStatusEffect(se: StatusEffectType): boolean {
+        return this.numberOfStacksOf(se) > 0;
+    }
+
+    public canAct(): boolean {
+        return this.hasStatusEffect(StatusEffectType.Disabled) || this.numberOfStacksOf(StatusEffectType.Cold) === 10
+            ? false
+            : Math.random() * 100 >=
+                  ramda.sum([
+                      this.numberOfStacksOf(StatusEffectType.Impact) * 5,
+                      this.numberOfStacksOf(StatusEffectType.Cold) * 2.5,
+                      this.numberOfStacksOf(StatusEffectType.Heat) * 0.5,
+                  ]);
+    }
+
     public tick(player: Player, board: Board): void {
         this.getActions().forEach((x: CardActionData): void =>
-            x.action.getActionType() === ActionType.OnTurn ? x.action.act(this, player, board) : noop(),
+            x.action.getActionType() === ActionType.OnTurn && this.canAct()
+                ? x.action.act(this, player, board)
+                : noop(),
         );
 
         this.getStatusEffects().forEach((s: StatusEffect): void => s.tick(player, board));

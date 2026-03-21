@@ -64,6 +64,7 @@ export enum StatusEffectType {
     Invincible = "Invincible",
     Taunting = "Taunting",
     Blinded = "Blinded",
+    Disabled = "Disabled",
 }
 
 export enum Rarity {

@@ -12,7 +12,6 @@
     "ts-toolbelt": "^9.6.0",
     "underscore": "^1.13.7"
   },
-  "type": "module",
   "devDependencies": {
     "@babel/core": "^7.28.5",
     "@babel/node": "^7.28.0",
@@ -30,6 +29,7 @@
     "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1"
   },
+  "type": "module",
   "scripts": {
     "build": "webpack",
     "run": "npm run build && npx tsx server/index.ts"
