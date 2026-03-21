@@ -40,7 +40,6 @@ export const Charger: ICard = {
                         .getOperator()
                         .takeDamage(50, DamageType.True);
                 },
-                () => undefined,
             ),
         },
     ],
