@@ -1,5 +1,6 @@
 import { Board } from "./Board";
 import { Player } from "./Player";
+import { Card } from "./Card";
 
 import { ActionFunction } from "../types/types";
 
@@ -23,7 +24,7 @@ export class Action {
     ) {
         this.name = name;
         this.uid = uid;
-        this.iid = iid;
+        this.iid = iid + uid;
         this.actionType = actionType;
         this.description = description;
         this.actionFunction = actionFunction;
@@ -51,7 +52,7 @@ export class Action {
 
     // -- // -- //
 
-    public act(player: Player, board: Board): void {
-        this.actionFunction(player, board, this.getActionType());
+    public act(card: Card, player: Player, board: Board): void {
+        this.actionFunction(card, player, board, this.getActionType());
     }
 }
