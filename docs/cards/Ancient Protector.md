@@ -1,4 +1,4 @@
-Ancient Healer:
+Ancient Protector:
 
 Health: 300
 Shield: 0

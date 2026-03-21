@@ -21,5 +21,6 @@ Flying: cards afflicted by this cannot be attacked by melee attacks.
 Invisible: cards afflicted by this cannot be targeted.
 Invincible: cards afflicted by this cannot take damage.
 Taunting: cards afflicted by this will always be attacked over anything else unless the attack states otherwise. If a different card is affected by Void while a card is taunting the card afflicted by void will still take damage first.
+Disabled: cards afflicted with this cannot do any actions.
 
 Status effects stack infinitely.

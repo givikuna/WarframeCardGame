@@ -1,14 +1,3 @@
-Sprag
-
-1000 health
-300 overguard
-
-attacker
-
-deals 20 impact damage to all enemy cards each turn
-
-Requiem
-
 Sprag:
 
 Health: 1000

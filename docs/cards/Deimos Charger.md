@@ -1,4 +1,4 @@
-Charger:
+Deimos Charger:
 
 Health: 125
 Shield: 0
