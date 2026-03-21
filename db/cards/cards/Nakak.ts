@@ -20,6 +20,7 @@ export const Nakak: ICard = {
     faction: Faction.Ostron,
     healthClass: HealthClass.Ostron,
     rarity: Rarity.Common,
+
     actions: [
         {
             action: new Action(

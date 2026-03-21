@@ -72,6 +72,10 @@ export class Player {
         return this.getCards().filter((card: Card): boolean => card.hasStatusEffect(StatusEffectType.Taunting));
     }
 
+    public giveCredits(n: number): void {
+        this.credits += n;
+    }
+
     public tick(board: Board): void {
         this.credits += 100;
         this.getCards().forEach((c: Card): void => c.tick(this, board));

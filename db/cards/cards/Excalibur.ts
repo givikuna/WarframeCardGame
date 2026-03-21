@@ -21,6 +21,7 @@ export const Excalibur: ICard = {
     faction: Faction.Tenno,
     healthClass: HealthClass.Tenno,
     rarity: Rarity.Common,
+
     actions: [
         {
             action: new Action(

@@ -21,6 +21,7 @@ export const Charger: ICard = {
     faction: Faction.Infested,
     healthClass: HealthClass.Infested,
     rarity: Rarity.Common,
+
     actions: [
         {
             action: new Action(
