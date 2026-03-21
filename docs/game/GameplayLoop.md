@@ -24,4 +24,4 @@ On the 11th turn and beyond players'll earn 175 credits.
 
 30th turn and beyond players'll earn 400 credits.
 
-40th turn and beyond players'll earn 100 credits per turn.
+40th turn and beyond players'll earn 1000 credits per turn.
