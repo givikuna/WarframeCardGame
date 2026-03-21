@@ -5,6 +5,8 @@ import { Action } from "../../../classes/Action";
 
 import { ICard } from "../../../interfaces/ICard";
 
+import { TargetingFunction } from "../../../types/types";
+
 import { ActionType, CardClass, DamageType, Faction, HealthClass, Rarity } from "../../../types/enums";
 
 export const Charger: ICard = {
@@ -27,9 +29,18 @@ export const Charger: ICard = {
                 "I001",
                 ActionType.OnTurn,
                 "Deals damage to operator",
-                (card: Card, player: Player, board: Board, _actionType: ActionType): void => {
-                    board[`getPlayer${player.getPlayerNumber() === 1 ? 2 : 1}`]().getOperator().takeDamage(50,DamageType.True);
+                (
+                    _targetingFunction: TargetingFunction,
+                    _card: Card,
+                    player: Player,
+                    board: Board,
+                    _actionType: ActionType,
+                ): void => {
+                    board[`getPlayer${player.getPlayerNumber() === 1 ? 2 : 1}`]()
+                        .getOperator()
+                        .takeDamage(50, DamageType.True);
                 },
+                () => undefined,
             ),
         },
     ],

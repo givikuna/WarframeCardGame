@@ -7,6 +7,7 @@ import { ICard } from "../../../interfaces/ICard";
 
 import { ActionType, CardClass, Faction, HealthClass, Rarity } from "../../../types/enums";
 import { DamageInstance } from "../../../classes/DamageInstance";
+import { TargetingFunction } from "../../../types/types";
 
 export const Excalibur: ICard = {
     name: "Excalibur",
@@ -28,15 +29,10 @@ export const Excalibur: ICard = {
                 "I001",
                 ActionType.OnTurn,
                 "Deals damage",
-                (card: Card, player: Player, board: Board, _actionType: ActionType): void => {
-                    DamageInstance.init(
-                        board[`getPlayer${player.getPlayerNumber() === 1 ? 2 : 1}`]().getCards()[0],
-                        card,
-                        { Slash: 25 },
-                        27,
-                        13,
-                        1.5,
-                    ).apply(player);
+                (tf: TargetingFunction, card: Card, player: Player, board: Board, _actionType: ActionType): void => {
+                    DamageInstance.init(card.chooseTarget(tf, player, board), card, { Slash: 25 }, 27, 13, 1.5).apply(
+                        player,
+                    );
                 },
             ),
         },

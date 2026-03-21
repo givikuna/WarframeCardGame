@@ -6,6 +6,7 @@ import { Action } from "../../../classes/Action";
 import { ICard } from "../../../interfaces/ICard";
 
 import { ActionType, CardClass, Faction, HealthClass, Rarity } from "../../../types/enums";
+import { TargetingFunction } from "../../../types/types";
 
 export const Nakak: ICard = {
     name: "Nakak",
@@ -27,12 +28,14 @@ export const Nakak: ICard = {
                 "I001",
                 ActionType.OnTurn,
                 "Heals every allied tank",
-                (card: Card, player: Player, board: Board, _actionType: ActionType): void => {
-                    board[`getPlayer${player.getPlayerNumber()}`]().getCards().forEach(a => {
-                        if(a.getCardClass() == CardClass.Tank){
-                            a.heal(7);
-                        }
-                    });
+                (_tf: TargetingFunction, _card: Card, player: Player, board: Board, _actionType: ActionType): void => {
+                    board[`getPlayer${player.getPlayerNumber()}`]()
+                        .getCards()
+                        .forEach((a: Card): void => {
+                            if (a.getCardClass() == CardClass.Tank) {
+                                a.heal(7);
+                            }
+                        });
                 },
             ),
         },

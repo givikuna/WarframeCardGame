@@ -13,9 +13,10 @@ import { DamageDistributionTable } from "../types/types";
 import { DamageType, StatusEffectType } from "../types/enums";
 
 import { HealthClassDamageMultipliers } from "../constants/constants";
+import { Operator } from "./Operator";
 
 export class DamageInstance {
-    private appliedTo: Card;
+    private appliedTo: Card | Operator;
     private appliedBy: Card | Effect;
 
     private ddd: DamageDistributionTable;
@@ -24,7 +25,7 @@ export class DamageInstance {
     private criticalDamageMultiplier: number;
 
     public constructor(
-        appliedTo: Card,
+        appliedTo: Card | Operator,
         appliedBy: Card | Effect,
         ddd: DamageDistributionTable,
         statusChance: number,
@@ -41,7 +42,7 @@ export class DamageInstance {
     }
 
     public static init(
-        appliedTo: Card,
+        appliedTo: Card | Operator,
         appliedBy: Card | Effect,
         ddd: DamageDistributionTable,
         statusChance: number,
@@ -53,7 +54,11 @@ export class DamageInstance {
 
     //
 
-    public getAppliedTo(): Card {
+    public getAppliedToCard(): Card {
+        return this.appliedTo as Card;
+    }
+
+    public getAppliedTo(): Card | Operator {
         return this.appliedTo;
     }
 
@@ -69,7 +74,7 @@ export class DamageInstance {
         return (
             this.statusChance +
             10 *
-                this.getAppliedTo()
+                (this.getAppliedTo() as Card)
                     .getStatusEffects()
                     .filter((statusEffect: StatusEffect): boolean => statusEffect.getType() === StatusEffectType.Tau)
                     .length
@@ -80,7 +85,7 @@ export class DamageInstance {
         return (
             this.criticalChance +
             5 *
-                this.getAppliedTo()
+                (this.getAppliedTo() as Card)
                     .getStatusEffects()
                     .filter(
                         (statusEffect: StatusEffect): boolean => statusEffect.getType() === StatusEffectType.Puncture,
@@ -92,7 +97,7 @@ export class DamageInstance {
         return (
             this.criticalDamageMultiplier +
             0.1 *
-                this.getAppliedTo()
+                (this.getAppliedTo() as Card)
                     .getStatusEffects()
                     .filter(
                         (statusEffect: StatusEffect): boolean => statusEffect.getType() === StatusEffectType.Puncture,
@@ -103,6 +108,10 @@ export class DamageInstance {
     //
 
     public apply(player: Player): void {
+        if (this.appliedTo instanceof Operator) {
+            this.appliedTo.takeDamage(this.ddd[Object.keys(this.ddd)[0]], Object.keys(this.ddd)[0] as DamageType);
+        }
+
         this.applyStatusEffects();
 
         const critLevel: number = Math.floor(
@@ -112,7 +121,7 @@ export class DamageInstance {
 
         Object.keys(this.getDDD()).forEach((key: string): void => {
             let arr: Array<Readonly<[DamageType, 1.5 | 0.5]>> = HealthClassDamageMultipliers[
-                this.getAppliedTo().getHealthClass()
+                this.getAppliedToCard().getHealthClass()
             ].filter((x: Readonly<[DamageType, 1.5 | 0.5]>): boolean => x[0] === DamageType[key]);
 
             this.ddd[key] *= arr.length === 0 ? 1 : arr[0][1];
@@ -126,17 +135,21 @@ export class DamageInstance {
             this.calculateDamageNumbers(critLevel);
 
         if (
-            dmgToShields === this.getAppliedTo().getCurrentShields() &&
-            this.getAppliedTo()
+            dmgToShields === this.getAppliedToCard().getCurrentShields() &&
+            this.getAppliedToCard()
                 .getStatusEffects()
                 .filter((s: StatusEffect): boolean => s.getType() === StatusEffectType.Magnetic).length > 0
         ) {
-            this.getAppliedTo().applyStatusEffect(
-                StatusEffectFactory.manufacture(this.getAppliedTo(), this.getAppliedBy(), StatusEffectType.Electricity),
+            this.getAppliedToCard().applyStatusEffect(
+                StatusEffectFactory.manufacture(
+                    this.getAppliedToCard(),
+                    this.getAppliedBy(),
+                    StatusEffectType.Electricity,
+                ),
             );
         }
 
-        this.getAppliedTo().takeDamage(dmgToHealth, dmgToShields, dmgToOverguard);
+        this.getAppliedToCard().takeDamage(dmgToHealth, dmgToShields, dmgToOverguard);
 
         player.dealtDamage(ramda.sum([dmgToHealth, dmgToShields, dmgToOverguard]));
     }
@@ -160,9 +173,9 @@ export class DamageInstance {
                 .forEach((x: string): void => {
                     amalgamSum += Math.floor((this.ddd[x] / sum) * 100);
                     if (amalgamSum >= rand) {
-                        this.getAppliedTo().applyStatusEffect(
+                        this.getAppliedToCard().applyStatusEffect(
                             StatusEffectFactory.manufacture(
-                                this.getAppliedTo(),
+                                this.getAppliedToCard(),
                                 this.getAppliedBy(),
                                 StatusEffectType[x],
                             ),
@@ -181,12 +194,12 @@ export class DamageInstance {
             ) *
             (1 +
                 0.08 *
-                    this.getAppliedTo()
+                    this.getAppliedToCard()
                         .getStatusEffects()
                         .filter((x: StatusEffect): boolean => x.getType() === StatusEffectType.Magnetic).length);
 
         const dmgToShields: number =
-            this.getAppliedTo().getOverguard() === 0
+            this.getAppliedToCard().getOverguard() === 0
                 ? ramda.sum(
                       Object.keys(this.ddd)
                           .filter((x: string): boolean => x !== "Toxin")
@@ -196,15 +209,15 @@ export class DamageInstance {
                   ) *
                   (1 +
                       0.08 *
-                          this.getAppliedTo()
+                          this.getAppliedToCard()
                               .getStatusEffects()
                               .filter((x: StatusEffect): boolean => x.getType() === StatusEffectType.Magnetic).length)
                 : 0;
 
         const dmgToHealth: number =
             ramda.sum(
-                (this.getAppliedTo().getOverguard() === 0
-                    ? this.getAppliedTo().getCurrentShields() === 0
+                (this.getAppliedToCard().getOverguard() === 0
+                    ? this.getAppliedToCard().getCurrentShields() === 0
                         ? Object.keys(this.ddd)
                         : Object.keys(this.ddd).filter((x: string): boolean => x === "Toxin")
                     : Object.keys(this.ddd)
@@ -212,7 +225,7 @@ export class DamageInstance {
             ) *
             (1 +
                 0.08 *
-                    this.getAppliedTo()
+                    this.getAppliedToCard()
                         .getStatusEffects()
                         .filter((x: StatusEffect): boolean => x.getType() === StatusEffectType.Viral).length);
 
