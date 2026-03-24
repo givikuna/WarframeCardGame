@@ -44,7 +44,7 @@ export class FactionSyndicateEffect implements Effect {
                     100,
                     0,
                     1,
-                );
+                ).apply(by, board);
             });
 
         const cardHealthRestore: () => void = (): void =>

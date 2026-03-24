@@ -1,4 +1,6 @@
+import { Board } from "./Board";
 import { Player } from "./Player";
+import { Operator } from "./Operator";
 import { Card } from "./Card";
 import { StatusEffect } from "./StatusEffect";
 
@@ -10,10 +12,11 @@ import { Effect } from "../interfaces/Effect";
 
 import { DamageDistributionTable } from "../types/types";
 
-import { DamageType, StatusEffectType } from "../types/enums";
+import { Cephalon, DamageType, StatusEffectType } from "../types/enums";
 
 import { HealthClassDamageMultipliers } from "../constants/constants";
-import { Operator } from "./Operator";
+
+import { noop } from "underscore";
 
 export class DamageInstance {
     private appliedTo: Card | Operator;
@@ -117,7 +120,7 @@ export class DamageInstance {
 
     //
 
-    public apply(player: Player): void {
+    public apply(attackingPlayer: Player, board: Board): void {
         if (this.appliedTo instanceof Operator) {
             this.appliedTo.takeDamage(this.ddd[Object.keys(this.ddd)[0]], Object.keys(this.ddd)[0] as DamageType);
         }
@@ -161,7 +164,17 @@ export class DamageInstance {
 
         this.getAppliedToCard().takeDamage(dmgToHealth, dmgToShields, dmgToOverguard);
 
-        player.dealtDamage(ramda.sum([dmgToHealth, dmgToShields, dmgToOverguard]));
+        attackingPlayer.dealtDamage(ramda.sum([dmgToHealth, dmgToShields, dmgToOverguard]));
+
+        if (this.getAppliedToCard().isDead()) {
+            [1, 2]
+                .map((n: number): Player => board[`getPlayer${n}`]())
+                .forEach((p: Player): void =>
+                    p.getDeck().getCephalon() === Cephalon.Apnar
+                        ? p.getOperator().takeDamage(35, DamageType.True)
+                        : noop(),
+                );
+        }
     }
 
     private applyStatusEffects(): void {
