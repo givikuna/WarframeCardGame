@@ -11,4 +11,4 @@ Rarity: Common
 Actions:
 
 Charge (OnTurn):
-Every turn the Charger will deal 5 damage to the Operator
+Every turn the Charger will deal 10 damage to the Operator

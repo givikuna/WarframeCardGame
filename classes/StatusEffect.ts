@@ -55,7 +55,9 @@ export class StatusEffect {
         this.duration--;
         switch (this.statusEffectType) {
             case StatusEffectType.Slash:
-                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Slash: 15 }, 0, 10, 1.5).apply(player);
+                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Slash: 15 }, 0, 10, 1.5).apply(
+                    player,
+                );
                 break;
             case StatusEffectType.Electricity:
                 new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Electricity: 8 }, 3, 5, 1.5).apply(
@@ -75,16 +77,22 @@ export class StatusEffect {
                     });
                 break;
             case StatusEffectType.Heat:
-                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Heat: 8 }, 10, 10, 1.7).apply(player);
+                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Heat: 8 }, 10, 10, 1.7).apply(
+                    player,
+                );
                 break;
             case StatusEffectType.Toxin:
-                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Toxin: 8 }, 0, 3, 1.65).apply(player);
+                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Toxin: 8 }, 0, 3, 1.65).apply(
+                    player,
+                );
                 break;
             case StatusEffectType.Blast:
                 // TBA
                 break;
             case StatusEffectType.Gas:
-                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Gas: 5 }, 2, 15, 1.85).apply(player);
+                new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Gas: 5 }, 2, 15, 1.85).apply(
+                    player,
+                );
                 board[`getPlayer${this.getAppliedTo().getOwner()}`]()
                     .getCards()
                     .forEach((card: Card): void => {

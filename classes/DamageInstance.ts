@@ -49,7 +49,14 @@ export class DamageInstance {
         criticalChance: number,
         criticalDamageMultiplier: number,
     ): DamageInstance {
-        return new DamageInstance(appliedTo, appliedBy, ddd, statusChance, criticalChance, criticalDamageMultiplier);
+        return new DamageInstance(
+            appliedTo,
+            appliedBy,
+            ddd,
+            statusChance,
+            criticalChance,
+            criticalDamageMultiplier,
+        );
     }
 
     //
@@ -76,8 +83,9 @@ export class DamageInstance {
             10 *
                 (this.getAppliedTo() as Card)
                     .getStatusEffects()
-                    .filter((statusEffect: StatusEffect): boolean => statusEffect.getType() === StatusEffectType.Tau)
-                    .length
+                    .filter(
+                        (statusEffect: StatusEffect): boolean => statusEffect.getType() === StatusEffectType.Tau,
+                    ).length
         );
     }
 
@@ -88,7 +96,8 @@ export class DamageInstance {
                 (this.getAppliedTo() as Card)
                     .getStatusEffects()
                     .filter(
-                        (statusEffect: StatusEffect): boolean => statusEffect.getType() === StatusEffectType.Puncture,
+                        (statusEffect: StatusEffect): boolean =>
+                            statusEffect.getType() === StatusEffectType.Puncture,
                     ).length
         );
     }
@@ -100,7 +109,8 @@ export class DamageInstance {
                 (this.getAppliedTo() as Card)
                     .getStatusEffects()
                     .filter(
-                        (statusEffect: StatusEffect): boolean => statusEffect.getType() === StatusEffectType.Puncture,
+                        (statusEffect: StatusEffect): boolean =>
+                            statusEffect.getType() === StatusEffectType.Puncture,
                     ).length
         );
     }
@@ -156,7 +166,9 @@ export class DamageInstance {
 
     private applyStatusEffects(): void {
         const statusEffectCount: number =
-            Math.floor(this.getStatusChance() / 100) + Math.random() < (this.getStatusChance() % 100) / 100.0 ? 1 : 0;
+            Math.floor(this.getStatusChance() / 100) + Math.random() < (this.getStatusChance() % 100) / 100.0
+                ? 1
+                : 0;
 
         for (let i: number = 0; i < statusEffectCount; i++) {
             const rand: number = Math.floor(Math.random() * 100);
@@ -204,14 +216,16 @@ export class DamageInstance {
                       Object.keys(this.ddd)
                           .filter((x: string): boolean => x !== "Toxin")
                           .map(
-                              (x: string): number => this.ddd[x] * (x === "Magnetic" || x === "Electricity" ? 1.5 : 1),
+                              (x: string): number =>
+                                  this.ddd[x] * (x === "Magnetic" || x === "Electricity" ? 1.5 : 1),
                           ),
                   ) *
                   (1 +
                       0.08 *
                           this.getAppliedToCard()
                               .getStatusEffects()
-                              .filter((x: StatusEffect): boolean => x.getType() === StatusEffectType.Magnetic).length)
+                              .filter((x: StatusEffect): boolean => x.getType() === StatusEffectType.Magnetic)
+                              .length)
                 : 0;
 
         const dmgToHealth: number =

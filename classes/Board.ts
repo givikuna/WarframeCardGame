@@ -28,8 +28,6 @@ export class Board {
 
         // Tick Focus School Abilities
 
-        // Tick Syndicate Effect
-
         p1.tick(this);
         p2.tick(this);
 

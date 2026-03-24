@@ -1,5 +1,6 @@
 import { Board } from "../classes/Board";
 import { Player } from "../classes/Player";
+import { Operator } from "../classes/Operator";
 import { Card } from "../classes/Card";
 import { Action } from "../classes/Action";
 
@@ -7,7 +8,7 @@ import { ActionType } from "./enums";
 
 export type Nullable<T> = T | null;
 
-export type TargetingFunction = (card?: Card, player?: Player, board?: Board) => Card | undefined;
+export type TargetingFunction = (card: Card, player: Player, board: Board) => Card | Operator | undefined;
 
 export type ActionFunction = (
     targetingFunction: TargetingFunction,

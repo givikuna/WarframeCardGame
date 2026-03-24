@@ -11,7 +11,7 @@ Rarity: Rare
 Actions:
 
 Slash Dash (OnTurn):
-Excalibur Umbra chooses an enemy card to target and will attack it dealing with slash damage every turn.
+Excalibur Prime chooses an enemy card to target and will attack it dealing with slash damage every turn.
 Damage: 27 Slash
 Status Chance: 27%
 Critical Chance: 13%

@@ -11,4 +11,4 @@ Rarity: Uncommon
 Actions:
 
 Deimos Charge (OnTurn):
-Every turn the Charger will deal 15 damage to the Operator
+Every turn the Charger will deal 20 damage to the Operator

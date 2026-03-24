@@ -2,12 +2,15 @@ import { Board } from "../../../classes/Board";
 import { Player } from "../../../classes/Player";
 import { Card } from "../../../classes/Card";
 import { Action } from "../../../classes/Action";
+import { DamageInstance } from "../../../classes/DamageInstance";
 
 import { ICard } from "../../../interfaces/ICard";
 
 import { TargetingFunction } from "../../../types/types";
 
-import { ActionType, CardClass, DamageType, Faction, HealthClass, Rarity } from "../../../types/enums";
+import { ActionType, CardClass, Faction, HealthClass, Rarity } from "../../../types/enums";
+
+import { targetOperator } from "../targeting/targetingFunctions";
 
 export const Charger: ICard = {
     name: "Charger",
@@ -29,18 +32,19 @@ export const Charger: ICard = {
                 "A01CCH001",
                 "I001",
                 ActionType.OnTurn,
-                "Every turn the Charger will deal 5 damage to the Operator",
+                "Every turn the Charger will deal 10 True damage to the Operator",
                 (
-                    _targetingFunction: TargetingFunction,
-                    _card: Card,
+                    tf: TargetingFunction,
+                    card: Card,
                     player: Player,
                     board: Board,
                     _actionType: ActionType,
                 ): void => {
-                    board[`getPlayer${player.getPlayerNumber() === 1 ? 2 : 1}`]()
-                        .getOperator()
-                        .takeDamage(50, DamageType.True);
+                    DamageInstance.init(card.chooseTarget(tf, player, board), card, { True: 10 }, 0, 0, 1.5).apply(
+                        player,
+                    );
                 },
+                targetOperator,
             ),
         },
     ],

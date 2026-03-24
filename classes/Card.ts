@@ -47,7 +47,10 @@ export class Card {
         this.iid = iid;
 
         [this.name, this.uid, this.maxHealth, this.maxShields, this.maxHealth, this.maxShields] = Object.keys(card)
-            .filter((s: string): boolean => !["overguard", "healthClass", "cardClass", "rarity", "actions"].includes(s))
+            .filter(
+                (s: string): boolean =>
+                    !["overguard", "healthClass", "cardClass", "rarity", "actions"].includes(s),
+            )
             .map((key: string): any => card[key]);
 
         this.currentHealth = this.maxHealth;
@@ -177,7 +180,8 @@ export class Card {
     }
 
     public canAct(): boolean {
-        return this.hasStatusEffect(StatusEffectType.Disabled) || this.numberOfStacksOf(StatusEffectType.Cold) === 10
+        return this.hasStatusEffect(StatusEffectType.Disabled) ||
+            this.numberOfStacksOf(StatusEffectType.Cold) === 10
             ? false
             : Math.random() * 100 >=
                   ramda.sum([
@@ -200,7 +204,7 @@ export class Card {
             return enemyPlayerTauntingCards[0];
         }
 
-        return targetingFunction() ?? enemyPlayerCards[0];
+        return targetingFunction(this, player, board) ?? enemyPlayerCards[0];
     }
 
     public tick(player: Player, board: Board): void {

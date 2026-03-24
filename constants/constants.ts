@@ -1,6 +1,16 @@
-import { DamageType, FactionSyndicate, HealthClass, Rarity, StatusEffectType, SyndicateEffect } from "../types/enums";
+import {
+    DamageType,
+    FactionSyndicate,
+    HealthClass,
+    Rarity,
+    StatusEffectType,
+    SyndicateEffect,
+} from "../types/enums";
 
-export const HealthClassDamageMultipliers: Record<HealthClass, ReadonlyArray<Readonly<[DamageType, 1.5 | 0.5]>>> = {
+export const HealthClassDamageMultipliers: Record<
+    HealthClass,
+    ReadonlyArray<Readonly<[DamageType, 1.5 | 0.5]>>
+> = {
     [HealthClass.Tenno]: [
         [DamageType.Tau, 1.5],
         [DamageType.Void, 0.5],
@@ -97,6 +107,7 @@ export const StatusEffectDurationTable: Record<StatusEffectType, number> = {
     [StatusEffectType.Invincible]: 0,
     [StatusEffectType.Taunting]: 0,
     [StatusEffectType.Blinded]: 0,
+    [StatusEffectType.Disabled]: 0,
 };
 
 export const CreditCostPerRarity: Record<Rarity, number> = {
