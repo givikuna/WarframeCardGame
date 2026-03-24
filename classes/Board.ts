@@ -19,8 +19,20 @@ export class Board {
 
     // -- // -- //
 
-    public tick(): void {
-        this.getPlayer1().tick(this);
-        this.getPlayer2().tick(this);
+    public tick(priority: number, creditsToGive: number): void {
+        const p1: Player = this[`getPlayer${priority}`]();
+        const p2: Player = this[`getPlayer${priority === 1 ? 2 : 1}`]();
+
+        p1.giveCredits(creditsToGive);
+        p2.giveCredits(creditsToGive);
+
+        // Tick Focus School Abilities
+
+        // Tick Syndicate Effect
+
+        p1.tick(this);
+        p2.tick(this);
+
+        // Tick Cephalon Ability (if any)
     }
 }

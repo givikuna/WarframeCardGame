@@ -18,6 +18,8 @@ export class Player {
 
     private credits: number = 200;
 
+    private syndicateAbilityReady: boolean = false;
+
     public constructor(playerName: string, playerNumber: 1 | 2, uid: string, operator: Operator, deck: Deck) {
         this.playerName = playerName;
         this.playerNumber = playerNumber;
@@ -64,7 +66,8 @@ export class Player {
         const b: number = this.getDamageDealt();
 
         if (a % 1000 !== b % 1000) {
-            // apply syndicate effect
+            this.damageDealt -= 1000 * Math.floor(this.damageDealt / 1000);
+            this.syndicateAbilityReady = true;
         }
     }
 
@@ -77,7 +80,9 @@ export class Player {
     }
 
     public tick(board: Board): void {
-        this.credits += 100;
         this.getCards().forEach((c: Card): void => c.tick(this, board));
+        if (this.syndicateAbilityReady) {
+            this.getDeck().getFaction().applySyndicateEffect(board, this);
+        }
     }
 }

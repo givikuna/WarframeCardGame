@@ -12,6 +12,7 @@ import { CardActionData, TargetingFunction } from "../types/types";
 
 import { ActionType, CardClass, HealthClass, Rarity, StatusEffectType } from "../types/enums";
 import { Operator } from "./Operator";
+import { Action } from "./Action";
 
 export class Card {
     private name: string;
@@ -39,6 +40,8 @@ export class Card {
     private statusEffects: StatusEffect[] = [];
 
     private status: "Alive" | "Dead" = "Alive";
+
+    private age: number = 0;
 
     public constructor(card: ICard, iid: string, owner: 1 | 2) {
         this.iid = iid;
@@ -119,10 +122,16 @@ export class Card {
         return this.rarity;
     }
 
+    public getAge(): number {
+        return this.age;
+    }
+
     // -- // --
 
     public heal(healthToGain: number): void {
         this.takeDamage(-healthToGain, 0, 0);
+
+        if (this.currentHealth > this.maxHealth) this.currentHealth = this.maxHealth;
     }
 
     public giveShield(shieldToGain: number): void {
@@ -138,9 +147,9 @@ export class Card {
     }
 
     public takeDamage(dmgToHealth: number, dmgToShield: number, dmgToOverguard: number): void {
-        this.currentHealth -= dmgToHealth;
-        this.currentShields -= dmgToShield;
-        this.overguard -= dmgToOverguard;
+        this.currentHealth -= Math.floor(dmgToHealth);
+        this.currentShields -= Math.floor(dmgToShield);
+        this.overguard -= Math.floor(dmgToOverguard);
 
         this.kill();
     }
@@ -195,6 +204,13 @@ export class Card {
     }
 
     public tick(player: Player, board: Board): void {
+        if (this.getAge() === 0) {
+            this.getActions()
+                .filter((x: CardActionData): boolean => x.action.getActionType() === ActionType.OnPlay)
+                .map((x: CardActionData): Action => x.action)
+                .forEach((action: Action): void => (this.canAct() ? action.act(this, player, board) : noop()));
+        }
+
         this.getActions().forEach((x: CardActionData): void =>
             x.action.getActionType() === ActionType.OnTurn && this.canAct()
                 ? x.action.act(this, player, board)
@@ -202,5 +218,7 @@ export class Card {
         );
 
         this.getStatusEffects().forEach((s: StatusEffect): void => s.tick(player, board));
+
+        this.age++;
     }
 }

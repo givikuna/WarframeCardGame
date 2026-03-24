@@ -13,6 +13,8 @@ export class Game {
 
     private turn: number = 0;
 
+    private priority: number = 1;
+
     // private iidCounter: number = 1;
 
     public constructor(player1SocketID: string, player2SocketID: string) {
@@ -37,15 +39,21 @@ export class Game {
         return this.turn;
     }
 
+    public getPriority(): number {
+        return this.priority;
+    }
+
     public nextTurn(): void {
         if (!this.initialized) return;
 
         this.turn++;
+        this.togglePriority();
 
-        // get cards that were played this turn and place them down
-        this.getBoard()!.tick();
+        this.getBoard()!.tick(this.getPriority(), this.creditsForTurn());
+    }
 
-        //
+    public creditsForTurn(): number {
+        return 100;
     }
 
     public playCard(player: 1 | 2, cardIID: string): void {
@@ -69,5 +77,9 @@ export class Game {
 
     protected endGame(): void {
         // TBA
+    }
+
+    protected togglePriority(): void {
+        this.priority = this.priority === 1 ? 2 : 1;
     }
 }

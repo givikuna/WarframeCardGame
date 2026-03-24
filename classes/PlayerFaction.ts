@@ -1,4 +1,5 @@
 import { Board } from "./Board";
+import { Player } from "./Player";
 import { FactionSyndicateEffect } from "./FactionSyndicateEffect";
 
 import { FactionSyndicate } from "../types/enums";
@@ -25,7 +26,7 @@ export class PlayerFaction {
         return this.effect;
     }
 
-    public syndicateEffect(board: Board, player: 1 | 2): void {
+    public applySyndicateEffect(board: Board, player: Player): void {
         this.getEffect().applyEffect(board, player);
     }
 }
