@@ -81,8 +81,11 @@ export class Player {
 
     public tick(board: Board): void {
         this.getCards().forEach((c: Card): void => c.tick(this, board));
+
         if (this.syndicateAbilityReady) {
             this.getDeck().getFaction().applySyndicateEffect(board, this);
         }
+
+        this.getDeck().drawCard();
     }
 }
