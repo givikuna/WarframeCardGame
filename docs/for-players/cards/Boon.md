@@ -1,7 +1,7 @@
 Boon:
 
 Health: 100
-Shield: 0
+Shield: 50
 Overguard: 0
 Class: Support
 Faction: Ventkids
@@ -11,4 +11,4 @@ Rarity: Common
 Actions:
 
 K-Drive Robbery (OnTurn):
-gives 5 credits per turn
+gives 20 credits per turn
