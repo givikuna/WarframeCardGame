@@ -13,6 +13,7 @@ import { CardActionData, TargetingFunction } from "../types/types";
 import { ActionType, CardClass, HealthClass, Rarity, StatusEffectType } from "../types/enums";
 import { Operator } from "./Operator";
 import { Action } from "./Action";
+import { togglePlayerNumber } from "../modules/togglePlayerNumber";
 
 export class Card {
     private name: string;
@@ -192,7 +193,7 @@ export class Card {
     }
 
     public chooseTarget(targetingFunction: TargetingFunction, player: Player, board: Board): Card | Operator {
-        const enemyPlayer: Player = board[`getPlayer${player.getPlayerNumber() === 1 ? 2 : 1}`]();
+        const enemyPlayer: Player = board[`getPlayer${togglePlayerNumber(player.getPlayerNumber())}`]();
         const enemyPlayerCards: ReadonlyArray<Card> = enemyPlayer.getCards();
         const enemyPlayerTauntingCards: ReadonlyArray<Card> = enemyPlayer.getTauntingCards();
 
