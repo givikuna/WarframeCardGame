@@ -50,13 +50,10 @@ Apnar:
 When a card is destroyed it deals 50 damage to the enemy Operator.
 
 Cordylon:
-You're granted 7 random cards in your hand at the beginning of the game
+You're granted 3 random cards in your hand at the beginning of the game
 
 Cy:
 Your first card played each turn has its cost reduced by 15%
-
-Daklo:
-All friendly cards deal 1.5x damage to Sentient and Narmer enemies
 
 Jordas:
 Whenever a card dies on your side, it has a 30% chance to summon a free Charger to your hand.
@@ -77,8 +74,5 @@ Sark:
 For every 500 damage dealt to the enemy in totality you gain 150 credits.
 For every 200 damage dealt to the enemy operator you gain 20 credits.
 
-Simaris:
-When an enemy card is destroyed it you get its variant of lowest rarity in your hand.
-
 Vull:
-Every time any card on the board dies your operator gains +10 health.
+Every time any card on the board dies your operator gains +15 health.

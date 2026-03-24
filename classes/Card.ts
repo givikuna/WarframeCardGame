@@ -185,9 +185,9 @@ export class Card {
             ? false
             : Math.random() * 100 >=
                   ramda.sum([
-                      this.numberOfStacksOf(StatusEffectType.Impact) * 5,
+                      this.numberOfStacksOf(StatusEffectType.Impact) * 3.5,
                       this.numberOfStacksOf(StatusEffectType.Cold) * 2.5,
-                      this.numberOfStacksOf(StatusEffectType.Heat) * 0.5,
+                      this.numberOfStacksOf(StatusEffectType.Heat) * 1,
                   ]);
     }
 
