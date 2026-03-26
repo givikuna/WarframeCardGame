@@ -88,4 +88,8 @@ export class Player {
 
         this.getDeck().drawCard();
     }
+
+    public playCard(card: Card): void {
+        this.getDeck().playCard(card);
+    }
 }

@@ -68,6 +68,7 @@ export enum StatusEffectType {
 }
 
 export enum Rarity {
+    Free = "Free",
     Common = "Common",
     Uncommon = "Uncommon",
     Rare = "Rare",

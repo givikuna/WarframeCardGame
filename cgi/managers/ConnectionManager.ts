@@ -22,6 +22,6 @@ export class ConnectionManager {
     }
 
     public getUIDFromSocket(socketID: string): Maybe<string> {
-        return this.socketToUID[socketID];
+        return Maybe.of(this.socketToUID.get(socketID) as string);
     }
 }

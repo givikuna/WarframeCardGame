@@ -54,4 +54,8 @@ export class Deck {
 
         this.hand.push(this.cards.pop()!);
     }
+
+    public playCard(card: Card): void {
+        this.cards.push(card);
+    }
 }

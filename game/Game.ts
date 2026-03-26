@@ -1,5 +1,6 @@
 import { Board } from "../classes/Board";
 import { Card } from "../classes/Card";
+import { togglePlayerNumber } from "../modules/togglePlayerNumber";
 
 import { FocusSchool } from "../types/enums";
 
@@ -13,7 +14,7 @@ export class Game {
 
     private turn: number = 0;
 
-    private priority: number = 1;
+    private priority: 1 | 2 = 1;
 
     // private iidCounter: number = 1;
 
@@ -59,11 +60,13 @@ export class Game {
     public playCard(player: 1 | 2, cardIID: string): void {
         if (!this.initialized) return;
 
-        this.getBoard()!
+        const cardToPlay: Card = this.getBoard()!
             [`getPlayer${player}`]()
             .getDeck()
             .getCards()
             .filter((card: Card): boolean => card.getIID() === cardIID)[0];
+
+        this.board![`getPlayer${player}`]().playCard(cardToPlay);
     }
 
     public createCardIID(__cardUID: string, __player: 1 | 2) {
@@ -80,6 +83,6 @@ export class Game {
     }
 
     protected togglePriority(): void {
-        this.priority = this.priority === 1 ? 2 : 1;
+        this.priority = togglePlayerNumber(this.priority);
     }
 }

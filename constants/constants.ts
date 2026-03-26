@@ -111,6 +111,7 @@ export const StatusEffectDurationTable: Record<StatusEffectType, number> = {
 };
 
 export const CreditCostPerRarity: Record<Rarity, number> = {
+    [Rarity.Free]: 0,
     [Rarity.Common]: 100,
     [Rarity.Uncommon]: 200,
     [Rarity.Rare]: 400,

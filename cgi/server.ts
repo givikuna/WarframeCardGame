@@ -10,7 +10,8 @@ const io: socket_io.Server = new socket_io.Server(httpServer, {});
 
 const PORT: number = 8080;
 
-const gameServer = new GameServer(io);
+const gameServer: GameServer = new GameServer(io);
+
 gameServer.startListening();
 
 httpServer.listen(PORT, (): void => {

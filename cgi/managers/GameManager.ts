@@ -33,9 +33,9 @@ export class GameManager {
 
         game.init(board);
 
-        this.activeMatches[matchID] = game;
-        this.playerToMatch[p1SocketID] = matchID;
-        this.playerToMatch[p2SocketID] = matchID;
+        this.activeMatches.set(matchID, game);
+        this.playerToMatch.set(p1SocketID, matchID);
+        this.playerToMatch.set(p2SocketID, matchID);
 
         return game;
     }

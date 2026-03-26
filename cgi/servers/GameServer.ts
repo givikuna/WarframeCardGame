@@ -32,11 +32,32 @@ export class GameServer {
                     any
                 >,
             ): void => {
+                const uid: string | undefined = socket.handshake.auth["uid"];
+
+                if (!uid) {
+                    console.error(`Rejected Connection: NO UID provided for Socket ${socket.id}`);
+                    socket.disconnect();
+                    return;
+                }
+
                 console.log(`Player connected as: ${socket.id}`);
+
+                this.getConnectionManager().registerSocket(socket.id, uid);
 
                 if (this.waitingPlayerSocketID === null) {
                     this.waitingPlayerSocketID = socket.id;
                 }
+
+                this.getLobbyManager().joinQueue(
+                    this.waitingPlayerSocketID,
+                    this.getGameManager(),
+                    this.getConnectionManager(),
+                );
+
+                socket.on("disconnect", (): void => {
+                    this.cm.removeSocket(socket.id);
+                    console.log(`Player ${uid} disconnected`);
+                });
             },
         );
     }
