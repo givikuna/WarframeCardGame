@@ -21,6 +21,18 @@ export class LobbyManager {
         this.checkForMatch(gm, cm);
     }
 
+    public removeFromQueue(socketID: string): void {
+        const currentQueue: string[] = this.queue.toArray();
+
+        if (currentQueue.includes(socketID)) {
+            this.queue = new Queue<string>();
+
+            currentQueue
+                .filter((id: string): boolean => id !== socketID)
+                .forEach((id: string): void => this.queue.enqueue(id));
+        }
+    }
+
     private checkForMatch(gm: GameManager, cm: ConnectionManager) {
         if (this.queue.size() >= 2) {
             const player1SocketID: string = this.queue.dequeue()!;

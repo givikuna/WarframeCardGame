@@ -54,9 +54,21 @@ export class GameServer {
                     this.getConnectionManager(),
                 );
 
+                this.waitingPlayerSocketID = null;
+
                 socket.on("disconnect", (): void => {
-                    this.cm.removeSocket(socket.id);
                     console.log(`Player ${uid} disconnected`);
+
+                    this.cm.removeSocket(socket.id);
+                    this.lm.removeFromQueue(socket.id);
+
+                    const opponentSocketID: string | undefined = this.gm.handleDisconnectAndCleanup(socket.id);
+
+                    if (opponentSocketID) {
+                        this.io.to(opponentSocketID).emit("opponentDisconnected", {
+                            message: "Your opponent has disconnected :(",
+                        });
+                    }
                 });
             },
         );

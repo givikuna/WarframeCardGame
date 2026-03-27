@@ -6,7 +6,7 @@ Selecting a Cephalon gives a modifier that will be applied for the entire game:
 
 The following are the cephalons and the effects associated with them:
 
-Apnar:
+Apnar (Implemented):
 When a card is destroyed it deals 35 damage to the enemy Operator.
 
 Cordylon:

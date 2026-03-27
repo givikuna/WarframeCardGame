@@ -50,7 +50,7 @@ export class GameManager {
         )
             return;
 
-        return this.activeMatches[socketID];
+        return this.activeMatches.get(socketID);
     }
 
     public getMatchByPlayer(playerID: string): Game | undefined {
@@ -69,6 +69,30 @@ export class GameManager {
             .filter(
                 (x: [string, Game]): boolean =>
                     x[1].getPlayerSocketID(1) === playerID || x[1].getPlayerSocketID(2) === playerID,
-            )[0][1];
+            )
+            .at(0)!
+            .at(1) as Game;
+    }
+
+    public handleDisconnectAndCleanup(socketID: string): string | undefined {
+        const matchID: string | undefined = this.playerToMatch.get(socketID);
+
+        if (!matchID) return undefined;
+
+        const match: Game | undefined = this.activeMatches.get(matchID);
+
+        if (!match) return undefined;
+
+        //
+
+        const p1Socket: string = match.getPlayerSocketID(1);
+        const p2Socket: string = match.getPlayerSocketID(2);
+        const opponentSocketID: string = p1Socket === socketID ? p2Socket : p1Socket;
+
+        this.activeMatches.delete(matchID);
+        this.playerToMatch.delete(p1Socket);
+        this.playerToMatch.delete(p2Socket);
+
+        return opponentSocketID;
     }
 }
