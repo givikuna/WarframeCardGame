@@ -4,6 +4,8 @@ import { Operator } from "../classes/Operator";
 import { Card } from "../classes/Card";
 import { Action } from "../classes/Action";
 
+import { GameEventPayload } from "../interfaces/GameEventPayload";
+
 import { ActionType } from "./enums";
 
 export type Nullable<T> = T | null;
@@ -38,3 +40,5 @@ export type DamageDistributionTable = {
     Tau?: number;
     True?: number;
 };
+
+export type GameEventType = keyof GameEventPayload;

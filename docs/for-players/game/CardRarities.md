@@ -2,6 +2,7 @@ Cards'll have different rarities
 The rarity of a card will affect how many credits a card costs
 
 The following rarities are to be considered:
+Free: 0
 Common: 100
 Uncommon: 200
 Rare: 400
