@@ -1,3 +1,5 @@
+import { EventManager } from "./events/EventManager";
+
 import { Board } from "../classes/Board";
 import { Card } from "../classes/Card";
 import { togglePlayerNumber } from "../modules/togglePlayerNumber";
@@ -16,12 +18,16 @@ export class Game {
 
     private priority: 1 | 2 = 1;
 
+    private em: EventManager;
+
     // private iidCounter: number = 1;
 
     public constructor(player1SocketID: string, player2SocketID: string) {
         this.player1SocketID = player1SocketID;
         this.player2SocketID = player2SocketID;
         this.initialized = false;
+
+        this.em = EventManager.init();
     }
 
     public getPlayerSocketID(playerNumber: 1 | 2): string {
@@ -42,6 +48,10 @@ export class Game {
 
     public getPriority(): number {
         return this.priority;
+    }
+
+    public getEventManager(): EventManager {
+        return this.em;
     }
 
     public nextTurn(): void {
