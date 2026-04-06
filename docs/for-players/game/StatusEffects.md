@@ -17,10 +17,18 @@ Radiation: gives +5% chance per stack to cause the card to attack its own side. 
 Viral: gives +8% damage to health per stack. Lasts 3 turns.
 Void: all damage dealt to anything on the enemy side is instead dealt to the card affected by this. If multiple cards are afflicted by void then the one to take damage is randomly chosen. Lasts 2 turns.
 Tau: increases status chance by +10% per stack. Lasts 2 turns.
+
 Welled: cards afflicted with this will die when any enemy card dies. Duration: Infinity
 Magnetized: Cards inflicted with this have +100% critical chance against them. Duration: 5 turns
 Mind Controlled: Cards inflicted with this will attack their own operator. They take 40 Toxin damage per turn until death. Lasts infinitely
 Spores: Cards afflicted with this will take 10 Corrosive Damage, 20% Critical Chance, 2.3x Critical Multiplier. Every turn, this has a 15% chance to be inflicted on any other card on the side of the afflicted card. Lasts 2 turns.
+Inked: When a card afflicted with Inked dies, every card on its opposing side will heal 10% of their max health back. Inked lasts for 10 turns.
+Roaring: Cards afflicted with this deal +30% more damage. Duration: 5 turns.
+Crystallized: Cards afflicted with this cannot do any actions and take +1x critical damage. Lasts for 3 turns.
+Webbed: Cards afflicted with this cannot attack and will take +1.5x critical damage. Lasts for 3 turns.
+Terrified: Cards will not target the card that cast this upon them. Cards afflicted with this will take 1.15x damage. Lasts 3 turns.
+Lantern: Cards afflicted with this will be unable to do any actions, all enemy cards will target them over any other card. If a card dies while afflicted by this , it'll deal 50 heat damage to all cards on its side. Lasts 5 turns.
+Haste: Cards afflicted with this do their OnTurn abilities twice. Lasts 2 turns.
 
 Flying: cards afflicted by this cannot be attacked by melee attacks.
 Invisible: cards afflicted by this cannot be targeted.
@@ -28,5 +36,9 @@ Invincible: cards afflicted by this cannot take damage.
 Taunting: cards afflicted by this will always be attacked over anything else unless the attack states otherwise. If a different card is affected by Void while a card is taunting the card afflicted by void will still take damage first.
 Disabled: cards afflicted with this cannot do any actions.
 Blinded: cards afflicted with this will attack any card at random
+Disarmed: Cards afflicted with this won'tbe able to deal ranged or ranged projectile damage. Lasts for 3 turns.
+Impaired: Cards afflicted with this will be unable to deal melee damage. Lasts for 3 turns.
+Lifted: Cards afflicted with this cannot do any actions and will take 1.5x melee damage. Lasts for 2 turns.
+Immune: Cards afflicted with this cannot have new status effects applied on them and will not take any damage from DoT sources
 
 Status effects stack infinitely.

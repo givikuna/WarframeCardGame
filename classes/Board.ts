@@ -1,12 +1,18 @@
+import { EventManager } from "../game/events/EventManager";
+
 import { Player } from "./Player";
 
 export class Board {
     private player1: Player;
     private player2: Player;
 
-    public constructor(player1: Player, player2: Player) {
+    private em: EventManager;
+
+    public constructor(player1: Player, player2: Player, em: EventManager) {
         this.player1 = player1;
         this.player2 = player2;
+
+        this.em = em;
     }
 
     public getPlayer1(): Player {
@@ -15,6 +21,10 @@ export class Board {
 
     public getPlayer2(): Player {
         return this.player2;
+    }
+
+    public getEventManager(): EventManager {
+        return this.em;
     }
 
     // -- // -- //

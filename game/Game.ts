@@ -1,3 +1,5 @@
+import { EventManager } from "./events/EventManager";
+
 import { Board } from "../classes/Board";
 import { Card } from "../classes/Card";
 import { togglePlayerNumber } from "../modules/togglePlayerNumber";
@@ -14,7 +16,9 @@ export class Game {
 
     private turn: number = 0;
 
-    private priority: 1 | 2 = 1;
+    private priority: 1 | 2 = 2;
+
+    private em: EventManager;
 
     // private iidCounter: number = 1;
 
@@ -22,6 +26,8 @@ export class Game {
         this.player1SocketID = player1SocketID;
         this.player2SocketID = player2SocketID;
         this.initialized = false;
+
+        this.em = EventManager.init();
     }
 
     public getPlayerSocketID(playerNumber: 1 | 2): string {
@@ -40,8 +46,12 @@ export class Game {
         return this.turn;
     }
 
-    public getPriority(): number {
+    public getPriority(): 1 | 2 {
         return this.priority;
+    }
+
+    public getEventManager(): EventManager {
+        return this.em;
     }
 
     public nextTurn(): void {
@@ -49,6 +59,8 @@ export class Game {
 
         this.turn++;
         this.togglePriority();
+
+        this.em.emit("TURN_STARTED", { turnNumber: this.getTurn(), priorityPlayer: this.getPriority() });
 
         this.getBoard()!.tick(this.getPriority(), this.creditsForTurn());
     }
@@ -67,6 +79,8 @@ export class Game {
             .filter((card: Card): boolean => card.getIID() === cardIID)[0];
 
         this.board![`getPlayer${player}`]().playCard(cardToPlay);
+
+        this.em.emit("CARD_PLAYED", { player: this.board![`getPlayer${player}`](), card: cardToPlay });
     }
 
     public createCardIID(__cardUID: string, __player: 1 | 2) {

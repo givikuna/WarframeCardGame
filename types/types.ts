@@ -8,8 +8,6 @@ import { GameEventPayload } from "../interfaces/GameEventPayload";
 
 import { ActionType } from "./enums";
 
-export type Nullable<T> = T | null;
-
 export type TargetingFunction = (card: Card, player: Player, board: Board) => Card | Operator | undefined;
 
 export type ActionFunction = (
@@ -42,3 +40,5 @@ export type DamageDistributionTable = {
 };
 
 export type GameEventType = keyof GameEventPayload;
+
+export type EventHandler<T> = (payload: T) => void;
