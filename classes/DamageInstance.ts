@@ -1,10 +1,12 @@
+import * as ramda from "ramda";
+
 import { Board } from "./Board";
 import { Player } from "./Player";
 import { Operator } from "./Operator";
 import { Card } from "./Card";
 import { StatusEffect } from "./StatusEffect";
 
-import * as ramda from "ramda";
+import { ICephalonMechanic } from "./mechanics/ICephalonMechanic";
 
 import { StatusEffectFactory } from "../factories/StatusEffectFactory";
 
@@ -17,10 +19,11 @@ import { Cephalon, DamageType, StatusEffectType } from "../types/enums";
 import { HealthClassDamageMultipliers } from "../constants/constants";
 
 import { noop } from "underscore";
+import { IFactionSyndicateEffectMechanic } from "./mechanics/IFactionSyndicateEffectMechanic";
 
 export class DamageInstance {
     private appliedTo: Card | Operator;
-    private appliedBy: Card | Effect;
+    private appliedBy: Card | Effect | ICephalonMechanic | IFactionSyndicateEffectMechanic;
 
     private ddd: DamageDistributionTable;
     private statusChance: number;
@@ -29,7 +32,7 @@ export class DamageInstance {
 
     public constructor(
         appliedTo: Card | Operator,
-        appliedBy: Card | Effect,
+        appliedBy: Card | Effect | ICephalonMechanic | IFactionSyndicateEffectMechanic,
         ddd: DamageDistributionTable,
         statusChance: number,
         criticalChance: number,
@@ -46,7 +49,7 @@ export class DamageInstance {
 
     public static init(
         appliedTo: Card | Operator,
-        appliedBy: Card | Effect,
+        appliedBy: Card | Effect | ICephalonMechanic | IFactionSyndicateEffectMechanic,
         ddd: DamageDistributionTable,
         statusChance: number,
         criticalChance: number,
@@ -72,7 +75,7 @@ export class DamageInstance {
         return this.appliedTo;
     }
 
-    public getAppliedBy(): Card | Effect {
+    public getAppliedBy(): Card | Effect | ICephalonMechanic | IFactionSyndicateEffectMechanic {
         return this.appliedBy;
     }
 
@@ -156,7 +159,7 @@ export class DamageInstance {
             this.getAppliedToCard().applyStatusEffect(
                 StatusEffectFactory.manufacture(
                     this.getAppliedToCard(),
-                    this.getAppliedBy(),
+                    this.getAppliedBy() as Card,
                     StatusEffectType.Electricity,
                 ),
             );
@@ -175,6 +178,12 @@ export class DamageInstance {
                         : noop(),
                 );
         }
+
+        board.getEventManager().emit("DAMAGE_DEALT", {
+            source: this.appliedBy,
+            target: this.appliedTo,
+            damage: { health: dmgToHealth, shields: dmgToShields, overguard: dmgToOverguard },
+        });
     }
 
     private applyStatusEffects(): void {
@@ -201,7 +210,7 @@ export class DamageInstance {
                         this.getAppliedToCard().applyStatusEffect(
                             StatusEffectFactory.manufacture(
                                 this.getAppliedToCard(),
-                                this.getAppliedBy(),
+                                this.getAppliedBy() as Card,
                                 StatusEffectType[x],
                             ),
                         );

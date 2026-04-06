@@ -1,5 +1,7 @@
 import * as ramda from "ramda";
 
+import { EventManager } from "../game/events/EventManager";
+
 import { Player } from "./Player";
 import { Board } from "./Board";
 import { StatusEffect } from "./StatusEffect";
@@ -20,7 +22,7 @@ export class Card {
     private uid: string;
     private iid: string;
 
-    private owner: 1 | 2;
+    private owner: Player;
 
     private maxHealth: number;
     private maxShields: number;
@@ -44,7 +46,9 @@ export class Card {
 
     private age: number = 0;
 
-    public constructor(card: ICard, iid: string, owner: 1 | 2) {
+    private em: EventManager;
+
+    public constructor(card: ICard, iid: string, owner: Player, em: EventManager) {
         this.iid = iid;
 
         [this.name, this.uid, this.maxHealth, this.maxShields, this.maxHealth, this.maxShields] = Object.keys(card)
@@ -68,6 +72,8 @@ export class Card {
         this.actions = card.actions;
 
         this.owner = owner;
+
+        this.em = em;
     }
 
     public getName(): string {
@@ -82,7 +88,7 @@ export class Card {
         return this.iid;
     }
 
-    public getOwner(): 1 | 2 {
+    public getOwner(): Player {
         return this.owner;
     }
 
@@ -116,6 +122,10 @@ export class Card {
 
     public getStatusEffects(): ReadonlyArray<StatusEffect> {
         return [...this.statusEffects];
+    }
+
+    public getEventManager(): EventManager {
+        return this.em;
     }
 
     public getCardClass(): CardClass {
@@ -161,6 +171,8 @@ export class Card {
     public kill() {
         if (this.currentHealth === 0) {
             this.status = "Dead";
+
+            this.em.emit("CARD_DIED", { player: this.getOwner(), card: this });
         }
     }
 

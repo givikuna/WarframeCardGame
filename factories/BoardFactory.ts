@@ -8,6 +8,7 @@ export class BoardFactory {
         return new Board(
             PlayerFactory.manufacture(player1, 1, 1, game),
             PlayerFactory.manufacture(player2, 2, 1, game),
+            game.getEventManager(),
         );
     }
 }

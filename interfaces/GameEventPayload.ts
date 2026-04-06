@@ -2,7 +2,10 @@ import { Player } from "../classes/Player";
 import { Operator } from "../classes/Operator";
 import { Card } from "../classes/Card";
 
+import { ICephalonMechanic } from "../classes/mechanics/ICephalonMechanic";
+
 import { Effect } from "./Effect";
+import { DamageTaken } from "./DamageTaken";
 
 import { FactionSyndicate, FocusSchool } from "../types/enums";
 
@@ -13,9 +16,18 @@ export interface GameEventPayload {
     CARD_PLAYED: { player: Player; card: Card };
     CARD_DIED: { player: Player; card: Card };
 
-    DAMAGE_DEALT: {
-        source: Card | Effect;
+    BEFORE_CARD_ACTS: { player: Player; card: Card; actionToTake: number };
+
+    BEFORE_DAMAGE_DEALT: {
+        source: Card | Effect | ICephalonMechanic;
         target: Card | Operator;
+        damageModifiers: { multiplier: number };
+    };
+
+    DAMAGE_DEALT: {
+        source: Card | Effect | ICephalonMechanic;
+        target: Card | Operator;
+        damage: DamageTaken;
     };
 
     SYNDICATE_METER_FILLED: { player: Player; factionSyndicate: FactionSyndicate };

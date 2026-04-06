@@ -15,6 +15,7 @@ export class EventManager {
         if (!this.listeners[event]) {
             this.listeners[event] = [];
         }
+
         this.listeners[event]!.push(handler);
     }
 
