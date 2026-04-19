@@ -100,14 +100,31 @@ export const StatusEffectDurationTable: Record<StatusEffectType, number> = {
     [StatusEffectType.Magnetic]: 3,
     [StatusEffectType.Radiation]: 2,
     [StatusEffectType.Viral]: 3,
-    [StatusEffectType.Void]: 3,
+    [StatusEffectType.Void]: 2,
     [StatusEffectType.Tau]: 2,
+
+    [StatusEffectType.Welled]: Infinity,
+    [StatusEffectType.Magnetized]: 5,
+    [StatusEffectType.MindControlled]: Infinity,
+    [StatusEffectType.Spores]: 2,
+    [StatusEffectType.Inked]: 10,
+    [StatusEffectType.Roaring]: 5,
+    [StatusEffectType.Crystallized]: 3,
+    [StatusEffectType.Webbed]: 3,
+    [StatusEffectType.Terrified]: 3,
+    [StatusEffectType.Lantern]: 5,
+    [StatusEffectType.Haste]: 2,
+
     [StatusEffectType.Flying]: Infinity,
     [StatusEffectType.Invisible]: Infinity,
     [StatusEffectType.Invincible]: Infinity,
     [StatusEffectType.Taunting]: Infinity,
-    [StatusEffectType.Blinded]: Infinity,
     [StatusEffectType.Disabled]: Infinity,
+    [StatusEffectType.Blinded]: Infinity,
+    [StatusEffectType.Disarmed]: 3,
+    [StatusEffectType.Impaired]: 3,
+    [StatusEffectType.Lifted]: 2,
+    [StatusEffectType.Immune]: Infinity,
 };
 
 export const CreditCostPerRarity: Record<Rarity, number> = {

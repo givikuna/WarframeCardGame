@@ -60,17 +60,28 @@ export enum StatusEffectType {
     Void = "Void",
     Tau = "Tau",
 
-    Terrified = "Terrified",
-    Roaring = "Roaring",
+    Welled = "Welled",
     Magnetized = "Magnetized",
     MindControlled = "MindControlled",
+    Spores = "Spores",
+    Inked = "Inked",
+    Roaring = "Roaring",
+    Crystallized = "Crystallized",
+    Webbed = "Webbed",
+    Terrified = "Terrified",
+    Lantern = "Lantern",
+    Haste = "Haste",
 
     Flying = "Flying",
     Invisible = "Invisible",
     Invincible = "Invincible",
     Taunting = "Taunting",
-    Blinded = "Blinded",
     Disabled = "Disabled",
+    Blinded = "Blinded",
+    Disarmed = "Disarmed",
+    Impaired = "Impaired",
+    Lifted = "Lifted",
+    Immune = "Immune",
 }
 
 export enum Rarity {
