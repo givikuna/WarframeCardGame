@@ -20,6 +20,8 @@ export class Player {
 
     private syndicateAbilityReady: boolean = false;
 
+    private totalDamageMultiplier: number = 1;
+
     public constructor(playerName: string, playerNumber: 1 | 2, uid: string, operator: Operator, deck: Deck) {
         this.playerName = playerName;
         this.playerNumber = playerNumber;
@@ -91,5 +93,13 @@ export class Player {
 
     public playCard(card: Card): void {
         this.getDeck().playCard(card);
+    }
+
+    public getTotalDamageMultiplier(): number {
+        return this.totalDamageMultiplier;
+    }
+
+    public setTotalDamageMultiplier(n: number): void {
+        this.totalDamageMultiplier = n;
     }
 }

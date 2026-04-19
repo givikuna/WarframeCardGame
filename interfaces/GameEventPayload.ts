@@ -21,7 +21,6 @@ export interface GameEventPayload {
     BEFORE_DAMAGE_DEALT: {
         source: Card | Effect | ICephalonMechanic;
         target: Card | Operator;
-        damageModifiers: { multiplier: number };
     };
 
     DAMAGE_DEALT: {
