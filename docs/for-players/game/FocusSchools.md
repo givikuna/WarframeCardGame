@@ -17,7 +17,7 @@ Madurai:
 Phoenix Talons (600 credits): for the next 2 turns +30% damage.
 
 Naramon:
-Strategic Strike (1000 credits): all OnTurn cards'll repeat twice for this turn.
+Strategic Strike (1000 credits): all OnTurn cards'll have haste applied to them.
 
 Unairu:
-Caustic Strike (1000 credits): instantly strips all shields from enemies
+Caustic Strike (1000 credits): instantly strips all shields from enemies.
