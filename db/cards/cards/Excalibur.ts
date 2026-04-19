@@ -48,7 +48,7 @@ export const Excalibur: ICard = {
                         27,
                         13,
                         1.5,
-                    ).apply(player);
+                    ).apply(player, board);
                 },
             ),
         },

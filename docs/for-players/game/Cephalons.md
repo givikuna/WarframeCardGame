@@ -13,7 +13,7 @@ Cordylon:
 You're granted 3 random cards in your hand at the beginning of the game
 
 Cy:
-Your first card played each turn has its cost reduced by 15%
+Your first card played each turn has its cost reduced by one rank.
 
 Jordas:
 Whenever a card dies on your side, it has a 30% chance to summon a free Charger to your hand.

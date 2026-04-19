@@ -42,6 +42,7 @@ export const Charger: ICard = {
                 ): void => {
                     DamageInstance.init(card.chooseTarget(tf, player, board), card, { True: 10 }, 0, 0, 1.5).apply(
                         player,
+                        board,
                     );
                 },
                 targetOperator,
