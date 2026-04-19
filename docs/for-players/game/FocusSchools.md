@@ -8,7 +8,7 @@ Each of these 5 have an ability associated with them that costs credits to use:
 
 
 Zenurik:
-Wellspring (500 credits): for the next 5 turns you'll get 175 extra credits
+Wellspring (500 credits): give as many credits as the card with the highest max health, in exchange the card with the highest max health dies.
 
 Vazarin:
 Mending Soul (500 credits): instantly restores 100 health and gives 50 overguard to all friendly cards.

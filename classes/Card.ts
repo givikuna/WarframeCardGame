@@ -165,10 +165,18 @@ export class Card {
         this.currentShields -= Math.floor(dmgToShield);
         this.overguard -= Math.floor(dmgToOverguard);
 
-        this.kill();
+        this.killIfDead();
     }
 
     public kill() {
+        this.overguard = 0;
+        this.currentShields = 0;
+        this.currentHealth = 0;
+
+        this.killIfDead();
+    }
+
+    public killIfDead() {
         if (this.currentHealth === 0) {
             this.status = "Dead";
 
