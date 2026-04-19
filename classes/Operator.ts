@@ -37,6 +37,10 @@ export class Operator {
         this.takeDamage(-x, DamageType.Toxin);
     }
 
+    public stripShields(): void {
+        this.restoreShields(-this.shield);
+    }
+
     public restoreShields(x: number): void {
         this.shield += x;
     }

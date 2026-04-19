@@ -103,7 +103,7 @@ export class StatusEffect {
                         );
                     });
                 break;
-            default: // Impact, Puncture Corrosive, Magnetic, Radiation, Viral, Void, Tau
+            default: // Impact, Puncture Corrosive, Magnetic, Radiation, Viral, Void, Tau and whatever the fuck else
                 break;
         }
     }

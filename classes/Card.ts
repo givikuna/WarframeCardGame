@@ -212,6 +212,10 @@ export class Card {
                   ]);
     }
 
+    public stripShields(): void {
+        this.takeDamage(0, this.currentShields, 0);
+    }
+
     public chooseTarget(targetingFunction: TargetingFunction, player: Player, board: Board): Card | Operator {
         const enemyPlayer: Player = board[`getPlayer${togglePlayerNumber(player.getPlayerNumber())}`]();
         const enemyPlayerCards: ReadonlyArray<Card> = enemyPlayer.getCards();
