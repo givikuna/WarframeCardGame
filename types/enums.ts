@@ -160,7 +160,7 @@ export enum FactionSyndicate {
 }
 
 export enum FocusSchool {
-    Madura = "Madurai",
+    Madurai = "Madurai",
     Vazarin = "Vazarin",
     Naramon = "Naramon",
     Unairu = "Unairu",

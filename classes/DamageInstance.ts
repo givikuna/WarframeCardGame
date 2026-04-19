@@ -165,10 +165,15 @@ export class DamageInstance {
             );
         }
 
+        dmgToHealth *= attackingPlayer.getTotalDamageMultiplier();
+        dmgToShields *= attackingPlayer.getTotalDamageMultiplier();
+        dmgToOverguard *= attackingPlayer.getTotalDamageMultiplier();
+
         this.getAppliedToCard().takeDamage(dmgToHealth, dmgToShields, dmgToOverguard);
 
         attackingPlayer.dealtDamage(ramda.sum([dmgToHealth, dmgToShields, dmgToOverguard]));
 
+        /*
         if (this.getAppliedToCard().isDead()) {
             [1, 2]
                 .map((n: number): Player => board[`getPlayer${n}`]())
@@ -178,6 +183,7 @@ export class DamageInstance {
                         : noop(),
                 );
         }
+                */
 
         board.getEventManager().emit("DAMAGE_DEALT", {
             source: this.appliedBy,
