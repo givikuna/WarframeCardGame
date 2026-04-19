@@ -10,12 +10,12 @@ import { Effect } from "../interfaces/Effect";
 import { StatusEffectType } from "../types/enums";
 
 export class StatusEffect {
-    private appliedTo: Card;
-    private appliedBy: Card | Effect;
+    protected appliedTo: Card;
+    protected appliedBy: Card | Effect;
 
-    private statusEffectType: StatusEffectType;
+    protected statusEffectType: StatusEffectType;
 
-    private duration: number;
+    protected duration: number;
 
     public constructor(
         appliedTo: Card,
