@@ -1,6 +1,7 @@
 import {
     DamageType,
     FactionSyndicate,
+    FocusSchool,
     HealthClass,
     Rarity,
     StatusEffectType,
@@ -156,4 +157,12 @@ export const DamageTypePerSyndicateEffect: Record<SyndicateEffect, DamageType> =
     [SyndicateEffect.Sequence]: DamageType.Radiation,
     [SyndicateEffect.Blight]: DamageType.Viral,
     [SyndicateEffect.Purity]: DamageType.Corrosive,
+};
+
+export const FocusSchoolAbilities: Record<FocusSchool, string> = {
+    [FocusSchool.Zenurik]: "Wellspring",
+    [FocusSchool.Vazarin]: "Mending Soul",
+    [FocusSchool.Madurai]: "Phoenix Talons",
+    [FocusSchool.Naramon]: "Strategic Strike",
+    [FocusSchool.Unairu]: "Caustic Strike",
 };
