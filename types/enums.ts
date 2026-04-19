@@ -59,6 +59,12 @@ export enum StatusEffectType {
     Viral = "Viral",
     Void = "Void",
     Tau = "Tau",
+
+    Terrified = "Terrified",
+    Roaring = "Roaring",
+    Magnetized = "Magnetized",
+    MindControlled = "MindControlled",
+
     Flying = "Flying",
     Invisible = "Invisible",
     Invincible = "Invincible",

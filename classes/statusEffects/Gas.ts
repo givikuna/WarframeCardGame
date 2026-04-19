@@ -5,19 +5,21 @@ import { StatusEffect } from "../StatusEffect";
 import { DamageInstance } from "../DamageInstance";
 
 import { Effect } from "../../interfaces/Effect";
-
 import { StatusEffectType } from "../../types/enums";
 
-export class Heat extends StatusEffect {
+export class Gas extends StatusEffect {
     public constructor(appliedTo: Card, appliedBy: Card | Effect, duration: number) {
-        super(appliedTo, appliedBy, StatusEffectType.Heat, duration);
+        super(appliedTo, appliedBy, StatusEffectType.Gas, duration);
     }
 
     public override tick(player: Player, board: Board): void {
         this.duration--;
-        new DamageInstance(this.getAppliedTo(), this.getAppliedBy(), { Heat: 8 }, 10, 10, 1.7).apply(
-            player,
-            board,
-        );
+        const ownerPlayerNumber = this.getAppliedTo().getOwner().getPlayerNumber();
+
+        board[`getPlayer${ownerPlayerNumber}`]()
+            .getCards()
+            .forEach((card: Card): void => {
+                new DamageInstance(card, this.getAppliedBy(), { Gas: 5 }, 7, 15, 1.85).apply(player, board);
+            });
     }
 }
