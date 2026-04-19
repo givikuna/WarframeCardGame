@@ -9,7 +9,9 @@ import { IFocusSchoolAbility } from "../IFocusSchoolAbility";
 export class Vazarin implements IFocusSchoolAbility {
     public static register(em: EventManager): void {
         em.subscribe("FOCUS_ABILITY_ACTIVATED", (payload: GameEventPayload["FOCUS_ABILITY_ACTIVATED"]) => {
-            if (payload.focusSchool !== FocusSchool.Vazarin) return;
+            if (payload.focusSchool !== FocusSchool.Vazarin) {
+                return;
+            }
 
             payload.player.getCards().forEach((card: Card) => {
                 card.heal(100);

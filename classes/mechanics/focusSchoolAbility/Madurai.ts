@@ -2,7 +2,6 @@ import { EventManager } from "../../../game/events/EventManager";
 import { GameEventPayload } from "../../../interfaces/GameEventPayload";
 import { FocusSchool } from "../../../types/enums";
 import { EventHandler } from "../../../types/types";
-import { Player } from "../../Player";
 import { IFocusSchoolAbility } from "../IFocusSchoolAbility";
 
 export class Madurai implements IFocusSchoolAbility {
