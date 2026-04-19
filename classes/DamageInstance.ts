@@ -14,11 +14,10 @@ import { Effect } from "../interfaces/Effect";
 
 import { DamageDistributionTable } from "../types/types";
 
-import { Cephalon, DamageType, StatusEffectType } from "../types/enums";
+import { DamageType, StatusEffectType } from "../types/enums";
 
 import { HealthClassDamageMultipliers } from "../constants/constants";
 
-import { noop } from "underscore";
 import { IFactionSyndicateEffectMechanic } from "./mechanics/IFactionSyndicateEffectMechanic";
 
 export class DamageInstance {
