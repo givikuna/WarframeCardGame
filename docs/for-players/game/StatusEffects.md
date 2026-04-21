@@ -42,3 +42,28 @@ Lifted: Cards afflicted with this cannot do any actions and will take 1.5x melee
 Immune: Cards afflicted with this cannot have new status effects applied on them and will not take any damage from DoT sources
 
 Status effects stack infinitely.
+
+To-do:
+Magnetic (make electric procs be through an event rather than hard-coded)
+Radiation
+Void
+Welled
+Magnetized
+Mind Controlled
+Spores
+Inked
+Roaring
+Crystallized
+Webbed
+Terrified
+Lantern
+Haste
+Flying
+Invisible
+Invincible
+Taunting
+Disabled
+Blinded
+Disarmed
+Impaired
+Lifted
