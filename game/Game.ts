@@ -5,6 +5,7 @@ import { Card } from "../classes/Card";
 import { togglePlayerNumber } from "../modules/togglePlayerNumber";
 
 import { FocusSchool } from "../types/enums";
+import { Player } from "../classes/Player";
 
 export class Game {
     private board: Board | null = null;
@@ -88,8 +89,9 @@ export class Game {
         return "";
     }
 
-    public focusAbility(_player: 1 | 2, _focusSchool: FocusSchool, _ability: 1 | 2 | 3): void {
-        // TBA
+    public focusAbility(_player: 1 | 2, _focusSchool: FocusSchool): void {
+        const p: Player = this.board![`getPlayer${_player}`]();
+        this.em.emit("FOCUS_ABILITY_ACTIVATED", { player: p, focusSchool: p.getDeck().getFocusSchool() });
     }
 
     protected endGame(): void {
