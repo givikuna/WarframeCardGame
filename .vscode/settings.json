@@ -19,6 +19,7 @@
         "Daklo",
         "Dedicant",
         "Detron",
+        "direnv",
         "Doma",
         "Drahk",
         "Drekar",
@@ -58,6 +59,7 @@
         "Lavos",
         "Lephantis",
         "Loid",
+        "mailutils",
         "Manker",
         "Melica",
         "Mitosid",
@@ -70,6 +72,7 @@
         "Necraloid",
         "Nekros",
         "Nightwave",
+        "Ordis",
         "Orokin",
         "Ostron",
         "Otak",
@@ -77,6 +80,7 @@
         "Overshields",
         "Overtaker",
         "Oxium",
+        "pkgs",
         "Plasmor",
         "Powerfist",
         "procs",
@@ -134,7 +138,7 @@
         "Zuud"
     ],
     "editor.inlineSuggest.enabled": false,
-        "github.copilot.enable": {
+    "github.copilot.enable": {
         "*": false
     }
 }
